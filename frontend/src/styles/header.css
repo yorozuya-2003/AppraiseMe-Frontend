@@ -16,26 +16,45 @@
 .header_div button{
     background-color: #FFFFFF;
     color: #4A4A4A;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
     border: none;
-    border-radius: 20px; /* Adjust the value to control the roundness */
-    padding: 5px 10px; /* Add padding to make the button look better */
+    border-radius: 20px;
+    padding: 5px 10px;
     cursor: pointer;
 }
 
 .header_div h2{
     color: #3818FD;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
     margin: 0;
     margin-right: 15px;
-    
 }
+
 #Signup{
     background-color: #3818FD;
     color: #FFFFFF;
-    padding: 5px 20px
+    border-radius: 32px;
+    display: flex;
+    padding: 12px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
 }
 
 #searchInput{
-
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
     border-color: text inactive;
     border-radius:20px;
     padding: 7px ;

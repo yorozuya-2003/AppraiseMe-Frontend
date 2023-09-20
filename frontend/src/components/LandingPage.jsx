@@ -1,10 +1,9 @@
-// components/Sunny.js
 import React from 'react';
-import Header from './header';
-import '../styles/Landing_page.css';
+import Header from './Header';
+import '../styles/landing_page.css';
 import { Link } from 'react-router-dom';
 
-function Landing_page() {
+function LandingPage() {
   return (
     <div>
       <header>
@@ -14,7 +13,7 @@ function Landing_page() {
         <h1>Welcome To AppraiseMe</h1>
         <h3>The easiest way to measure soft skills</h3>
         <Link to="/start">
-          <button>Get Started</button>
+          <button className='getStartedButton'>Get Started</button>
         </Link>
 
         <p>Trusted by</p>
@@ -28,4 +27,4 @@ function Landing_page() {
   );
 }
 
-export default Landing_page;
+export default LandingPage;

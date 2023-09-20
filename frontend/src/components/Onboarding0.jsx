@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from './header';
-import '../styles/Onboarding.css';
+import Header from './Header';
+import '../styles/onboarding_0.css';
 
 function Onboarding() {
   return (
@@ -21,7 +21,7 @@ function Onboarding() {
                 </div>
                 
                 <div className='candidate_button'>
-                    <label>I am a candidate, looking to opportunity.</label>
+                    <label>I am a candidate, looking for opportunity.</label>
                     <input type="radio" ></input>
                 </div>
             </div>

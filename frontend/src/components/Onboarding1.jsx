@@ -1,6 +1,5 @@
 import React from 'react';
-import Header from './header';
-import '../styles/Onboarding_newuser0.css';
+import '../styles/onboarding_1.css';
 
 function SignIn() {
   return (

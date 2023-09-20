@@ -1,16 +1,16 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Landing_page from './components/Landing_page';
-import Onboarding from './components/Onboarding';
-import Onboarding_newuser0 from './components/Onboarding_newuser0';
+import LandingPage from './components/LandingPage';
+import Onboarding from './components/Onboarding0';
+import SignIn from './components/Onboarding1';
 
 function App() {
   return (
     <Router>
       <Routes>
         
-        <Route path="/" element={<Landing_page />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/start" element={<Onboarding />} />
-        <Route path="/signin" element={<Onboarding_newuser0 />} />
+        <Route path="/signin" element={<SignIn />} />
         
       </Routes>
     </Router>
