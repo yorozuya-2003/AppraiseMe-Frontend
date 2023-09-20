@@ -1,0 +1,131 @@
+body{
+    display: flex;
+    flex-direction: column;
+
+}
+.Joining_div{
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    display: flex;
+    line-height: normal;
+    flex-direction: column;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: flex-start; /* Align to the left side */
+    height: 90vh; /* Set the height to 100% of the viewport height */
+    margin: 0; /* Remove default margin */
+    margin-left: 36vh;
+    background-color: #FFFFFF;
+}
+.Joining_div h1{
+    color: #000;
+    font-size: 48px;
+    width: 70vh;
+    margin-bottom: 60px;
+}
+
+.button_class{
+    padding: 32px;
+    border-radius: 17px;
+    border: 1px solid #F3F3F3;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+} 
+.joining_buttons {
+    display: inline-flex;
+    display: flex;
+    padding: 32px;
+    padding-left: 0;
+    flex-direction: wrap;
+    align-items: flex-start;
+    border: none;
+}
+.recruiter_button{
+    height: 170px;
+    display: inline-flex;
+    padding: 32px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 17px;
+    border: 1px solid #F3F3F3;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    >label{
+        width: 199px;
+        color: #4A4A4A;
+        font-family: Inter;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    >input{
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        stroke-width: 2px;
+        stroke: #929292;
+        margin-top: auto;
+    }
+    margin-right: 40px;
+}
+.candidate_button{
+    height: 170px;
+    display: inline-flex;
+    padding: 32px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 17px;
+    border: 1px solid #F3F3F3;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    >label{
+        width: 199px;
+        color: #4A4A4A;
+        font-family: Inter;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    >input{
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        stroke-width: 2px;
+        stroke: #929292;
+        margin-top: auto;
+    }
+}
+
+.continue_part{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    #continue_button{
+        margin-right: 10px;
+        display: flex;
+        padding: 16px 32px;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        border-radius: 32px;
+        color: #FFFFFF;
+        background: #3818FD;
+    }
+    >h4{
+        margin-top: 9px;
+        color: #4A4A4A;
+        font-family: Inter;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+
+}
