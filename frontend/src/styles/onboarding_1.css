@@ -3,7 +3,6 @@ body{
 }
 
 .SignIn_div{
-
     height: 70%;
     font-family: Inter;
     font-style: normal;
@@ -19,7 +18,7 @@ body{
     background-color: #FFFFFF;
 }
 
-h1{
+.heading {
     width: 597px;
     color: #000;
     font-family: Inter;
@@ -29,7 +28,7 @@ h1{
     line-height: normal;
 }
 
-form{
+.signup-form {
     text-align: center;
     display: flex;
     padding: 32px 40px;
