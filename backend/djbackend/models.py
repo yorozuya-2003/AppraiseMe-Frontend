@@ -6,6 +6,12 @@ from datetime import datetime
 
 #     def __str__(self):
 #         return f"people: {self.email}"
+
+class OTP(models.Model):
+    email = models.EmailField()
+    otp = models.CharField(max_length=6)
+    created_at = models.DateTimeField(auto_now_add=True)
+
     
 class work_exp(models.Model):
     emp_type_choice = (
