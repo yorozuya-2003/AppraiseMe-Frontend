@@ -32,28 +32,33 @@ def user_login(request):
         password = request.data['password']
 
         if email and password:
-            username = User.objects.get(email=email).username
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
-            else:
-                return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
-        return Response({'message': 'Email and password not found / provided.'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['GET'])
-def check_authentication(request):
-    print(request.user)
-    if request.user.is_authenticated:
-        return Response({'authenticated': True}, status=status.HTTP_200_OK)
-    return Response({'authenticated': False}, status=status.HTTP_401_UNAUTHORIZED)
+            try:
+                user = User.objects.get(email=email)
+                username = user.username
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    data = {'username': username, 'email': email}
+                    return Response(data, status=status.HTTP_200_OK)
+                else:
+                    return Response({'message': 'Invalid password'}, status=status.HTTP_401_UNAUTHORIZED)
+            except User.DoesNotExist:
+                return Response({'message': 'Email is not registered'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Email and password not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
 def send_otp(request):
     if request.method == 'POST':
         email = request.data['email']
+
+        if not email:
+            return Response({'message': 'Email not provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = User.objects.filter(email=email)
+        if user:
+            return Response({'message': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
         if email:
             try:
                 otp_instance = OTP.objects.get(email=email)
@@ -62,6 +67,7 @@ def send_otp(request):
                 pass
             
             otp = get_random_string(length=6, allowed_chars='1234567890')
+            print(otp)
             otp_instance, created = OTP.objects.get_or_create(email=email, otp=otp)
             otp_instance.save()
 
@@ -108,13 +114,18 @@ def register_user(request):
 
         if email and password:
             try:
-                validate_password(password, user=User)
+                # validate_password(password, user=User)
                 username = f"{datetime.now().strftime('%Y%m%d%H%M%S')}"
                 user = User.objects.create_user(username=username, email=email, password=password)
                 user.save()
                 serializer = UserSerializer(user)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+                data = {'username': username, 'email': email}
+                return Response(data, status=status.HTTP_201_CREATED)
             except ValidationError as e:
+                # error_string = ''
+                # for each in e:
+                #     error_string += each
+                #     error_string += '\n'
                 return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response({'message': 'Email and password not found / provided.'}, status=status.HTTP_400_BAD_REQUEST)
