@@ -29,4 +29,3 @@ class work_exp(models.Model):
     currently_working=models.BooleanField(default=True)
     start_time=models.DateField(default=datetime.now())
     end_time=models.DateField(default=datetime.now())
-

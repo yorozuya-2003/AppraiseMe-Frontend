@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from djbackend.api.views import user_login, send_otp, verify_otp, register_user, addwork_exp
+from main.api.views import user_login, send_otp, verify_otp, register_user, addwork_exp
 
 urlpatterns = [
     path('admin/', admin.site.urls),

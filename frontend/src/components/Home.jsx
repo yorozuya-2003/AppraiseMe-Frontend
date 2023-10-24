@@ -13,8 +13,8 @@ function HomePage() {
   }, []);
 
   return (
-    <>
-      {user ? (
+    // <>
+    //   {user ? (
         <div>
           <header>
             <Header></Header>
@@ -34,10 +34,10 @@ function HomePage() {
             </div>
           </div>
         </div>
-      ) : (
-        <Navigate to="/signin" />
-      )}
-    </>
+    //   ) : (
+    //     <Navigate to="/signin" />
+    //   )}
+    // </>
   );
 }
 

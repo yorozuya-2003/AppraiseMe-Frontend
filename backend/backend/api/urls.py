@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from djbackend.api.urls import user_router
+from main.api.urls import user_router
 from django.urls import path, include
 
 router = DefaultRouter()
