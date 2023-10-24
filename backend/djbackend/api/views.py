@@ -17,14 +17,6 @@ from backend.settings import EMAIL_HOST_USER
 from datetime import datetime
 
 
-class userviewset(ModelViewSet):
-    queryset=User.objects.all()
-    serializer_class=UserSerializer
-
-class work_exp_viewset(ModelViewSet):
-    queryset=work_exp.objects.all()
-    serializer_class=work_exp_Serializer
-
 @api_view(['POST'])
 def user_login(request):
     if request.method == 'POST':
@@ -128,23 +120,13 @@ def register_user(request):
                 #     error_string += '\n'
                 return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
         
-        return Response({'message': 'Email and password not found / provided.'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Email and password not found / provided.'}, status=status.HTTP_400_BAD_REQUEST)    
 
 
-@api_view(['POST'])
-def create_user(request):
-    if request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            email = serializer.validated_data['email']
-            password = serializer.validated_data['password']
-            username = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{email}"
-            
-            user = User(email=email, password=password, username=username)
-            user.save()
-            return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+class work_exp_viewset(ModelViewSet):
+    queryset=work_exp.objects.all()
+    serializer_class=work_exp_Serializer
 
 @api_view(['POST'])
 def addwork_exp(request):

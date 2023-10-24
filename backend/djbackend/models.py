@@ -1,18 +1,15 @@
 from django.db import models
 from datetime import datetime
-# class people(models.Model):
-#     email =models.CharField(max_length=30)
-#     password=models.CharField(max_length=20)
-
-#     def __str__(self):
-#         return f"people: {self.email}"
 
 class OTP(models.Model):
     email = models.EmailField()
     otp = models.CharField(max_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    
+    def __str__(self):
+        return f'{self.email}'
+
+
 class work_exp(models.Model):
     emp_type_choice = (
         ('F', 'Full-time'),
