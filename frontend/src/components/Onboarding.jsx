@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
-import '../styles/onboarding_0.css';
+import '../styles/onboarding.css';
 
 function Onboarding() {
   return (
@@ -9,7 +9,7 @@ function Onboarding() {
       <header>
         <Header></Header>
       </header>
-      <div className='Joining_div'>
+      <div className='joining-div'>
         <h1>Join as a Candidate or a Recruiter</h1>
 
         <div className='button_class'>

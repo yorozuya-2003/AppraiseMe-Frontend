@@ -1,63 +1,70 @@
- 
-.header_div {
-    width: 100%;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    gap: 15px;
-    padding-top: 5px;
-    padding-bottom: 4px;
-    border-bottom: solid #D9D9D9;
-    stroke-width: 1px;
+.header-div {
+  width: 100%;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 15px;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  border-bottom: solid #d9d9d9;
+  stroke-width: 1px;
 }
 
-.header_div button{
-    background-color: #FFFFFF;
-    color: #4A4A4A;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    border: none;
-    border-radius: 20px;
-    padding: 5px 10px;
-    cursor: pointer;
+.header-div button {
+  background-color: #ffffff;
+  color: #4a4a4a;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
-.header_div h2{
-    color: #3818FD;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    margin: 0;
-    margin-right: 15px;
+.header-div h2 {
+  color: #3818fd;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0;
+  margin-right: 15px;
 }
 
-#Signup{
-    background-color: #3818FD;
-    color: #FFFFFF;
-    border-radius: 32px;
-    display: flex;
-    padding: 12px 32px;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
+#signup {
+  background-color: #3818fd;
+  border-radius: 32px;
+  display: flex;
+  padding: 12px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+#signup a {
+  color: #ffffff;
+  text-decoration: none;
 }
 
-#searchInput{
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    border-color: text inactive;
-    border-radius:20px;
-    padding: 7px ;
-    padding-left: 18px;
-    margin-left: 28px;
+#signin a {
+  color: #3818fd;
+  text-decoration: none;
+}
+
+#search-input {
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border-color: text inactive;
+  border-radius: 20px;
+  padding: 7px;
+  padding-left: 18px;
+  margin-left: 28px;
 }

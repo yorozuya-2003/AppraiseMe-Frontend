@@ -1,57 +1,55 @@
-body{
-    display: flex;
-    flex-direction: column;
-
-}
-.Welcome_div{
-    font-family: Inter;
-    font-style: normal;
-    font-weight: 400;
-    display: flex;
-    line-height: normal;
-    flex-direction: column;
-    flex-direction: column;
-    justify-content: center; /* Center vertically */
-    align-items: flex-start; /* Align to the left side */
-    height: 90vh; /* Set the height to 100% of the viewport height */
-    margin: 0; /* Remove default margin */
-    margin-left: 36vh;
-    background-color: #FFFFFF;
-}
-.Welcome_div h1{
-    color: #000;
-    font-size: 48px;
-    padding-bottom: 1px;
-    width: 60vh;
+body {
+  display: flex;
+  flex-direction: column;
 }
 
-.Welcome_div h3{
-    color: #4A4A4A;
-    font-size: 24px;
-    margin-bottom: 35px;
+.welcome-div {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  display: flex;
+  line-height: normal;
+  flex-direction: column;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 90vh;
+  margin: 0;
+  margin-left: 36vh;
+  background-color: #ffffff;
 }
-.Welcome_div button{
-    display: inline-flex;
-    padding: 16px 32px;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    border-radius: 32px;
-    background: #3818FD;
-    color: #FFF;
-    margin-bottom: 70px;
+.welcome-div h1 {
+  color: #000;
+  font-size: 48px;
+  padding-bottom: 1px;
+  width: 60vh;
 }
-.Welcome_div p{
-    color: #4A4A4A;
-    font-size: 16px;
-    padding-left: 3px;
+.welcome-div h3 {
+  color: #4a4a4a;
+  font-size: 24px;
+  margin-bottom: 35px;
+}
+.welcome-div button {
+  display: inline-flex;
+  padding: 16px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  border-radius: 32px;
+  background: #3818fd;
+  color: #fff;
+  margin-bottom: 70px;
+}
+.welcome-div p {
+  color: #4a4a4a;
+  font-size: 16px;
+  padding-left: 3px;
+}
+.welcome-div img {
+  width: 80px;
+  height: 30px;
 }
 
-.Welcome_div img{
-    width: 80px;
-    height: 30px;
-}
-
-.getStartedButton {
-    border-width: 0px;
+.get-started-btn {
+  border-width: 0px;
 }

@@ -1,7 +1,7 @@
-import React from 'react';
-import Header from './Header';
-import '../styles/landing_page.css';
-import { Link } from 'react-router-dom';
+import React from "react";
+import Header from "./Header";
+import "../styles/landing_page.css";
+import { Link } from "react-router-dom";
 
 function LandingPage() {
   return (
@@ -9,11 +9,11 @@ function LandingPage() {
       <header>
         <Header></Header>
       </header>
-      <div className='Welcome_div'>
+      <div className="welcome-div">
         <h1>Welcome To AppraiseMe</h1>
         <h3>The easiest way to measure soft skills</h3>
         <Link to="/start">
-          <button className='getStartedButton'>Get Started</button>
+          <button className="get-started-btn">Get Started</button>
         </Link>
 
         <p>Trusted by</p>

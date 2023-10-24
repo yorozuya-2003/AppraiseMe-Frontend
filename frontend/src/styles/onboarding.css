@@ -3,7 +3,8 @@ body{
     flex-direction: column;
 
 }
-.Joining_div{
+
+.joining-div{
     font-family: Inter;
     font-style: normal;
     font-weight: 400;
@@ -11,14 +12,14 @@ body{
     line-height: normal;
     flex-direction: column;
     flex-direction: column;
-    justify-content: center; /* Center vertically */
-    align-items: flex-start; /* Align to the left side */
-    height: 90vh; /* Set the height to 100% of the viewport height */
-    margin: 0; /* Remove default margin */
+    justify-content: center;
+    align-items: flex-start;
+    height: 90vh;
+    margin: 0;
     margin-left: 36vh;
     background-color: #FFFFFF;
 }
-.Joining_div h1{
+.joining-div h1{
     color: #000;
     font-size: 48px;
     width: 70vh;
@@ -41,6 +42,7 @@ body{
     align-items: flex-start;
     border: none;
 }
+
 .recruiter_button{
     height: 170px;
     display: inline-flex;
@@ -71,6 +73,7 @@ body{
     }
     margin-right: 40px;
 }
+
 .candidate_button{
     height: 170px;
     display: inline-flex;
@@ -107,7 +110,6 @@ body{
     align-items: center;
     gap: 10px;
 }
-
 .continue_part #continue_button {
     margin-right: 10px;
     display: flex;
@@ -121,7 +123,6 @@ body{
     border-width: 0px;
     text-decoration: none;
 }
-
 .continue_part h4 {
     margin-top: 9px;
     color: #4A4A4A;
