@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from main.api.views import user_login, send_otp, verify_otp, register_user, addwork_exp
-
+from main.api.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('backend.api.urls')),
@@ -12,4 +11,6 @@ urlpatterns = [
     path('verify_otp/', verify_otp, name='verify_otp'),
     path('register_user/', register_user, name='register_user'),
     path('user_login/', user_login, name='user_login'),
+
+    path('user/<str:username>/', user_profile, name='user_profile'),
 ]

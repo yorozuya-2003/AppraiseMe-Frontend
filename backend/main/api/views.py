@@ -123,6 +123,18 @@ def register_user(request):
         return Response({'message': 'Email and password not found / provided.'}, status=status.HTTP_400_BAD_REQUEST)    
 
 
+@api_view(['GET'])
+def user_profile(request, username):
+    try:
+        user = User.objects.get(username=username)
+        user_data = {
+            'username': user.username,
+            'email': user.email,
+        }
+        return Response(user_data, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
 
 class work_exp_viewset(ModelViewSet):
     queryset=work_exp.objects.all()

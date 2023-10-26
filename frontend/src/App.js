@@ -7,6 +7,8 @@ import Details from "./components/Details";
 import Employment from "./components/Employment";
 import HomePage from "./components/Home";
 
+import UserProfile from "./components/UserProfile";
+
 function App() {
   return (
     <Router>
@@ -18,6 +20,8 @@ function App() {
         <Route path="/details" element={<Details />} />
         <Route path="/employment" element={<Employment />} />
         <Route path="/home" element={<HomePage />} />
+
+        <Route path="/user/:username" element={<UserProfile/ >} />
       </Routes>
     </Router>
   );

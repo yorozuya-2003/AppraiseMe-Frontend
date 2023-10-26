@@ -1,5 +1,5 @@
 import { useState, useEffect, React } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Header from "./Header";
 import "../styles/landing_page.css";
 
@@ -21,7 +21,7 @@ function HomePage() {
           </header>
           <div className="welcome-div">
             <h1>HOMEPAGE</h1>
-            {user && <p>Logged in as: {user.username}</p>}
+            {user && <p>Logged in as: {user.username} {user.email}</p>}
             <Link to="/start">
               <button className="get-started-btn">Get Started</button>
             </Link>
