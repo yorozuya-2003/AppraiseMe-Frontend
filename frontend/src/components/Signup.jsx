@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
-import API_BASE_URL from "./ApiConfig";
+import API_BASE_URL from "./ApiConfig"
 import "../styles/signin.css";
 
 function SignUp() {
@@ -139,7 +139,7 @@ function SignUp() {
   return (
     <div>
       {user ? (
-        <Navigate to="/home" />
+        <Navigate to="/details" />
       ) : (
         <>
           {registrationStep === 1 && (

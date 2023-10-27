@@ -10,8 +10,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 
-from ..models import OTP, work_exp
-from .serializers import UserSerializer, OTPSerializer, work_exp_Serializer
+from ..models import OTP,Profiles,work_exp
+from .serializers import UserSerializer, OTPSerializer,ProfileSerializer,work_exp_Serializer
 from backend.settings import EMAIL_HOST_USER
 
 from datetime import datetime
@@ -136,9 +136,34 @@ def user_profile(request, username):
         return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
+class Profiles_viewset(ModelViewSet):
+    queryset=Profiles.objects.all()
+    serializer_class=ProfileSerializer
+    
+
+def create_user(request):
+    if request.method == 'POST':
+        serializer = ProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            profile = Profiles(
+                First_name=serializer.validated_data['First_name'],
+                Second_name=serializer.validated_data['Second_name'],
+                DOB=serializer.validated_data['DOB'],
+                Gender=serializer.validated_data['Gender'],
+                Pronouns=serializer.validated_data['Pronouns'],
+                Email=serializer.validated_data['Email'],
+            )
+            profile.save()
+            return Response({'message': 'Profile Added successfully'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class work_exp_viewset(ModelViewSet):
     queryset=work_exp.objects.all()
     serializer_class=work_exp_Serializer
+
+    def get_queryset(self):
+        target_email = self.request.query_params.get('email')
+        return work_exp.objects.filter(email=target_email)
 
 @api_view(['POST'])
 def addwork_exp(request):
@@ -146,11 +171,15 @@ def addwork_exp(request):
         serializer = work_exp_Serializer(data=request.data)
         if serializer.is_valid():
             work = work_exp(
+                email=serializer.validated_data['email'],
                 title=serializer.validated_data['title'],
                 company=serializer.validated_data['company'],
                 location=serializer.validated_data['location'],
                 location_type=serializer.validated_data['location_type'],
                 currently_working=serializer.validated_data['currently_working'],
+                emp_type=serializer.validated_data['emp_type'],
+                start_time=serializer.validated_data['start_time'],
+                end_time=serializer.validated_data['end_time'],
             )
             work.save()
             return Response({'message': 'Work Added successfully'}, status=status.HTTP_201_CREATED)

@@ -6,6 +6,7 @@ import SignIn from "./components/SignIn";
 import Details from "./components/Details";
 import Employment from "./components/Employment";
 import HomePage from "./components/Home";
+import Addexp from "./components/Addexp";
 
 import UserProfile from "./components/UserProfile";
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/details" element={<Details />} />
         <Route path="/employment" element={<Employment />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/addexp" element={<Addexp />} />
 
         <Route path="/user/:username" element={<UserProfile/ >} />
       </Routes>
