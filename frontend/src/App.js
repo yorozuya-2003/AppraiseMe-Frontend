@@ -7,6 +7,7 @@ import Details from "./components/Details";
 import Employment from "./components/Employment";
 import HomePage from "./components/Home";
 import Addexp from "./components/Addexp";
+import AddReview from "./components/AddReview";
 
 import UserProfile from "./components/UserProfile";
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/addexp" element={<Addexp />} />
 
         <Route path="/user/:username" element={<UserProfile/ >} />
+        <Route path="/addreview/:username" element={<AddReview />} />
       </Routes>
     </Router>
   );

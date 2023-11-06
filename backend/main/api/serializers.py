@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from ..models import OTP,Profiles, work_exp
+from ..models import *
 from django.contrib.auth.models import User
 
 
@@ -26,3 +26,24 @@ class work_exp_Serializer(ModelSerializer):
         fields=('email','title','company','location','location_type','emp_type','currently_working','start_time','end_time')
 
 
+class ReviewSerializer(ModelSerializer):
+    class Meta:
+        model = Review
+        fields = [
+            'to_user',
+            'from_user',
+            'acquaintance',
+            'acquaintance_time',
+            'relation',
+            'team_size',
+            'slider1',
+            'slider2',
+            'slider3',
+            'slider4',
+            'slider5',
+            'slider6',
+            'slider7',
+            'slider8',
+            'slider9',
+            'sentence',
+        ]

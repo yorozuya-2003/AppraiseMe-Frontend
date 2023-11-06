@@ -52,3 +52,56 @@ class work_exp(models.Model):
     currently_working=models.BooleanField(default=1)
     start_time=models.DateField()
     end_time=models.DateField()
+
+
+class Review(models.Model):
+    to_user = models.CharField(max_length=100)
+    from_user = models.CharField(max_length=100)
+
+    AcquintanceChoices = [
+        ('Work', 'Work'),
+        ('Personal', 'Personal'),
+        ('Other', 'Other')
+    ]
+    acquaintance = models.CharField(max_length=20, default='H', choices=AcquintanceChoices)
+
+    AcquintanceTimeChoices = [
+        ('Less than 1 year', 'Less than 1 year'),
+        ('1 to 3 years', '1 to 3 years'),
+        ('More than 3 years', 'More than 3 years')
+    ]
+    acquaintance_time = models.CharField(max_length=20, default='L', choices=AcquintanceTimeChoices)
+
+    RelationChoices = [
+        ('Boss', 'Boss'),
+        ('Employee', 'Employee'),
+        ('Colleague', 'Colleague'),
+        ('Client', 'Client'),
+        ('Friend', 'Friend'),
+        ('Family or Relative', 'Family or Relative'),
+        ('Other', 'Other')
+    ]
+    relation = models.CharField(max_length=20, default='B', choices=RelationChoices)
+
+    TeamSizeChoices = [
+        ('Less than 5', 'Less than 5'),
+        ('5 to 20', '5 to 20'),
+        ('More than 20', 'More than 20'),
+        ('None', 'None')
+    ]
+    team_size = models.CharField(max_length=20, default='N', choices=TeamSizeChoices)
+
+    slider1 = models.IntegerField(default=0)
+    slider2 = models.IntegerField(default=0)
+    slider3 = models.IntegerField(default=0)
+    slider4 = models.IntegerField(default=0)
+    slider5 = models.IntegerField(default=0)
+    slider6 = models.IntegerField(default=0)
+    slider7 = models.IntegerField(default=0)
+    slider8 = models.IntegerField(default=0)
+    slider9 = models.IntegerField(default=0)
+
+    sentence = models.TextField(max_length=500, default='')
+
+    def __str__(self):
+        return f'{self.from_user} => {self.to_user}'

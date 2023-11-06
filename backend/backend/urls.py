@@ -11,6 +11,7 @@ urlpatterns = [
     path('verify_otp/', verify_otp, name='verify_otp'),
     path('register_user/', register_user, name='register_user'),
     path('user_login/', user_login, name='user_login'),
-    path('create_user/', create_user, name='create_user'),
+    # path('create_user/', create_user, name='create_user'),
     path('user/<str:username>/', user_profile, name='user_profile'),
+    # path('get-user-email/<str:username>', get_user_email, name="get_user_email")
 ]

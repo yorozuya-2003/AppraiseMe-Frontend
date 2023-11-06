@@ -1,0 +1,122 @@
+.user-profile {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 40px;
+}
+
+.user-profile-name {
+    width: 270px;
+}
+
+.user-profile .user-profile-name {
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.user-profile .user-profile-name h2 {
+    color: #000;
+    font-family: Inter;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.user-profile #user-profile-image {
+    width: 112px;
+height: 112px;
+border-radius: 112px;
+background: lightgray 0px 0px / 100% 100% no-repeat;
+}
+
+.review-box {
+    display: inline-flex;
+padding: 32px;
+flex-direction: column;
+align-items: flex-start;
+gap: 32px;
+border-radius: 16px;
+border: 1px solid var(--Card-Inactive, #F3F3F3);
+background: #FFF;
+box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+#tell-us {
+    color: #000;
+font-family: Inter;
+font-size: 20px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+letter-spacing: 1px;
+}
+
+.review-dropdowns {
+    display: flex;
+align-items: flex-start;
+gap: 252px;
+}
+
+.dropdown-section {
+    display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 16px;
+}
+
+.dropdown-subsection {
+    display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 23px;
+}
+
+.review-dropdowns .dropdown-section .dropdown-question {
+    color: #000;
+font-family: Inter;
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 1px;
+}
+
+.review-box .continue-btn {
+    display: flex;
+padding: 16px 32px;
+justify-content: center;
+align-items: center;
+gap: 16px;
+border-radius: 32px;
+background: #3818FD;
+color: #FFF;
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+border-width: 0px;
+}
+
+.custom-slider {
+    width: 600px;
+    height: 20px;
+    background: url('slider-track.png') no-repeat center;
+    background-size: 100% 100%;
+
+    appearance: none;
+}
+
+.custom-slider::-webkit-slider-thumb {
+    appearance: none;
+    height: 36px;
+    width: 9px;
+    background: url('slider-thumb.png') no-repeat center;
+    background-size: 100% 100%;
+    cursor: pointer;
+}

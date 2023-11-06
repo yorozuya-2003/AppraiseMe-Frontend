@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.http import JsonResponse
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -11,7 +12,7 @@ from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 
 from ..models import OTP,Profiles,work_exp
-from .serializers import UserSerializer, OTPSerializer,ProfileSerializer,work_exp_Serializer
+from .serializers import *
 from backend.settings import EMAIL_HOST_USER
 
 from datetime import datetime
@@ -184,3 +185,15 @@ def addwork_exp(request):
             work.save()
             return Response({'message': 'Work Added successfully'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ReviewViewSet(ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = ReviewSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse({'message': 'Review added successfully.'}, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
