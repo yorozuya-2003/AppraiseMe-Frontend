@@ -1,7 +1,0 @@
-EMAIL_HOST_USER = 'talenthunt.verify@gmail.com'
-EMAIL_HOST_PASSWORD = 'pdudtjsobpkzgwhp'
-
-DATABASE_URL = 'postgres://review_db_kyb1_user:JgZmgy24kYYoqeslrutYp848OAXTjn2h@dpg-cj1qjfl9aq02d7mr12og-a.singapore-postgres.render.com/review_db_kyb1'
-CLOUDINARY_CLOUD_NAME = 'df3xmepgu'
-CLOUDINARY_API_KEY = '172816954588542'
-CLOUDINARY_API_SECRET = 'eskprKr9X53GBsrnCCTyH781lHU'

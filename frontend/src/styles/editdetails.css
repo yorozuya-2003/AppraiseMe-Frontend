@@ -1,0 +1,131 @@
+.editdetails {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    gap: 64px;
+    flex-direction: column;
+}
+  
+.editdetails h1 {
+    width: 497px;
+    color: #000;
+    font-family: Inter;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.editdetails-form {
+    display: flex;
+    padding: 32px 40px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 32px;
+    border-radius: 16px;
+    border: 1px solid #f3f3f3;
+    background: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.editdetails-form .editdetails-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+  
+  .editdetails-form .editdetails-box .names {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .editdetails-form .editdetails-box .preferred-pronouns input {
+    display: flex;
+    width: 240px;
+    height: 56px;
+    padding: 16px;
+    align-items: flex-start;
+    gap: 10px;
+  
+    border-radius: 16px;
+    border: 1px solid #d9d9d9;
+  }
+  
+  .editdetails-form .editdetails-box .names input {
+    display: flex;
+    width: 320px;
+    height: 56px;
+    padding: 16px;
+    align-items: flex-start;
+    gap: 10px;
+  
+    border-radius: 16px;
+    border: 1px solid #d9d9d9;
+  }
+  
+  .editdetails-form .editdetails-box .dob-gender {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .editdetails-form .editdetails-box .dob-gender input {
+    display: flex;
+    width: 320px;
+    height: 56px;
+    padding: 16px;
+    align-items: flex-start;
+    gap: 10px;
+  
+    border-radius: 16px;
+    border: 1px solid #d9d9d9;
+  }
+  
+  .editdetails-form .editdetails-box .continue {
+    display: flex;
+    padding: 8px;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .editdetails-form .editdetails-box .continue .continue-btn {
+    display: flex;
+    padding: 16px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+  
+    border-radius: 32px;
+    background: #3818fd;
+  
+    border-width: 0px;
+  
+    color: #fff;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  
+  .editdetails-form .editdetails-box .continue h4 {
+    color: #4a4a4a;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  
+  .editdetails-form .editdetails-box .continue .faq-div {
+    display: flex;
+    padding: 16px 0px;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  

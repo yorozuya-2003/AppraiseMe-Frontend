@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, {useEffect, useState } from 'react';
 import "../styles/addexp.css";
+import API_BASE_URL from "./ApiConfig"
 
 function Addexp() {
 
@@ -81,6 +82,23 @@ function Addexp() {
 
     const buttonLabel = isAddDivVisible ? 'Not Needed' : 'Add Work';
 
+    const handleDelete = (index) => {
+        const itemToDelete = models[index];
+
+        console.log(itemToDelete.email)
+        
+        axios.get(`${API_BASE_URL}/deletework/`, { itemToDelete })
+
+        .then(response => {
+            const updatedModels = [...models];
+            updatedModels.splice(index, 1);
+            setModels(updatedModels);
+        })
+        .catch(error => {
+            console.error('Error deleting item:', error);
+        });
+    };
+
   return (
     <div className="addexp">
       <h1>👔 Add any previous employment history</h1>
@@ -94,7 +112,7 @@ function Addexp() {
                 <p>Location: <br /> {model.location}</p>
                 <p>Location type: <br /> {model.location_type}</p>
                 <button>Edit</button>
-                <button>Delete</button>
+                <button onClick={() => handleDelete(index)}>Delete</button>
             </div>
       ))}
       
