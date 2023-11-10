@@ -1,15 +1,16 @@
 .user-profile {
     display: inline-flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: flex-start;
     gap: 40px;
+    margin-left: 160px;
+    margin-top: 60px;
+    height: auto;
+    width: 100%;
+    margin-bottom: 80px;
 }
 
-.user-profile-name {
-    width: 270px;
-}
-
-.user-profile .user-profile-name {
+.user_profile_name {
     color: #000;
     font-family: Inter;
     font-size: 20px;
@@ -18,75 +19,95 @@
     line-height: normal;
 }
 
-.user-profile .user-profile-name h2 {
-    color: #000;
-    font-family: Inter;
-    font-size: 48px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-}
 
 .user-profile #user-profile-image {
+margin-top: 0px;
     width: 112px;
-height: 112px;
-border-radius: 112px;
-background: lightgray 0px 0px / 100% 100% no-repeat;
+    height: 112px;
+    border-radius: 112px;
+    background: lightgray 0px 0px / 100% 100% no-repeat;
+}
+
+.review_form{
+    margin-left: 230px;
+    margin-right: 160px;
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 1px;
+    width: 1050px;
+    margin-bottom: 70px;
 }
 
 .review-box {
     display: inline-flex;
-padding: 32px;
-flex-direction: column;
-align-items: flex-start;
-gap: 32px;
-border-radius: 16px;
-border: 1px solid var(--Card-Inactive, #F3F3F3);
-background: #FFF;
-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 32px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--Card-Inactive, #F3F3F3);
+    background: #FFF;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+    color: #000;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
 }
 
 #tell-us {
     color: #000;
-font-family: Inter;
-font-size: 20px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-letter-spacing: 1px;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 1px;
 }
 
 .review-dropdowns {
     display: flex;
-align-items: flex-start;
-gap: 252px;
+    align-items: flex-start;
+    gap: 252px;
 }
 
 .dropdown-section {
     display: flex;
-flex-direction: column;
-align-items: flex-start;
-gap: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
 }
 
 .dropdown-subsection {
     display: flex;
-flex-direction: column;
-align-items: flex-start;
-gap: 23px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 23px;
 }
 
 .review-dropdowns .dropdown-section .dropdown-question {
     color: #000;
-font-family: Inter;
-font-size: 20px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-letter-spacing: 1px;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 1px;
 }
 
-.review-box .continue-btn {
+.sentence-box{
+    border-radius: 17px;
+    width: 100%;
+    min-height: 120px;
+}
+.sentence-section .continue-btn {
     display: flex;
 padding: 16px 32px;
 justify-content: center;
@@ -119,4 +140,47 @@ border-width: 0px;
     background: url('slider-thumb.png') no-repeat center;
     background-size: 100% 100%;
     cursor: pointer;
+}
+
+.select {
+    font-family: Inter;
+    width: 339px;
+    height: 56px;
+    padding: 16px;
+    border-radius: 20px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+
+}
+
+.slider-section {
+    display: flex;
+    padding: 32px;
+    flex-direction: column;
+    align-items: flex-start;
+    /* gap: 72px; */
+    border-radius: 16px;
+    border: 1px solid var(--Card-Inactive, #F3F3F3);
+    background: #FFF;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+    margin-bottom: 20px;
+}
+
+.sentence-section {
+    display: flex;
+    padding: 32px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+    border-radius: 16px;
+    border: 1px solid var(--Card-Inactive, #F3F3F3);
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-bottom: 20px;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 1px;
 }

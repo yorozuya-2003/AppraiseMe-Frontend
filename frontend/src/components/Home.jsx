@@ -1,16 +1,30 @@
 import { useState, useEffect, React } from "react";
 import axios from 'axios';
-import { Link } from "react-router-dom";
 import Header from "./Header";
 import "../styles/home.css";
+import useCheckUserProfileCompletion from "./checkUserProfileCompletion";
+import API_BASE_URL from "./ApiConfig";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
-  const loggedInUser = localStorage.getItem("user");
-  const loggedInUserObject = 'tt@gmail.com'
+  useCheckUserProfileCompletion();
+  let loggedInUser = JSON.parse(localStorage.getItem("user"));
+  let loggedInUserObject = null;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loggedInUser) {
+      navigate('/');
+    }
+    else {
+      loggedInUserObject = loggedInUser.email;  
+    }
+  }, []);
+  
   const [models, setModels] = useState([]);
 
   const fetchData = () => {
-    axios.get(`http://127.0.0.1:8000/api/addwork/?email=${loggedInUserObject}`)
+    axios.get(`${API_BASE_URL}/api/addwork/?email=${loggedInUserObject}`)
         .then(response => {
         setModels(response.data);
         // console.log(response.data);
@@ -23,7 +37,7 @@ function HomePage() {
   const [models2, setModels2] = useState([]);
 
   const fetchData2 = () => {
-    axios.get(`http://127.0.0.1:8000/api/addprofile/?Email=${loggedInUserObject}`)
+    axios.get(`${API_BASE_URL}/api/addprofile/?Email=${loggedInUserObject}`)
         .then(response => {
         setModels2(response.data);
         // console.log(response.data);
@@ -36,7 +50,7 @@ function HomePage() {
   const [models3, setModels3] = useState([]);
 
   // const fetchData3 = () => {
-  //   axios.get(`http://127.0.0.1:8000/api/add-review/?to_user=${loggedInUserObject}`)
+  //   axios.get(`{$API _API_BASE_URL}/api/add-review/?to_user=${loggedInUserObject}`)
   //       .then(response => {
   //       setModels3(response.data);
   //       console.log('reviews', response.data);
@@ -50,7 +64,7 @@ function HomePage() {
   // const [reviewDetails, setReviewDetails] = useState([]);
 
   const fetchReviewDetails = () => {
-    axios.get(`http://127.0.0.1:8000/get_reviews/${loggedInUserObject}`)
+    axios.get(`${API_BASE_URL}/get_reviews/${loggedInUserObject}`)
         .then(response => {
         setModels3(response.data.reviews);
         console.log(response.data.reviews);
@@ -92,7 +106,7 @@ function HomePage() {
   // console.log(userEmails)
   userEmails.map(Email => {
     console.log(Email);
-    // axios.get(`http://127.0.0.1:8000/api/addprofile/?Email=${Email}`)
+    // axios.get(`{$API _API_BASE_URL}/api/addprofile/?Email=${Email}`)
     //   .then(response => {
     //     setUserProfiles(prevProfiles => [...prevProfiles, response.data]);
     //   })

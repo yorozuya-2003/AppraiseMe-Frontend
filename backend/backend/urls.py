@@ -16,4 +16,7 @@ urlpatterns = [
     # path('get-user-email/<str:username>', get_user_email, name="get_user_email")
 
     path('get_reviews/<str:to_user_email>/', get_reviews_for_user, name='get_reviews_for_user'),
+    path('get_profile/<str:email>/', get_profile, name='get_profile'),
+    path('check_profile/<str:email>/', check_profile_completion, name='check_profile'),
+    path('search-suggestions/', search_suggestions, name='search_suggestions'),
 ]

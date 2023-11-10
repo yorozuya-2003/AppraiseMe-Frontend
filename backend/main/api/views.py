@@ -5,6 +5,7 @@ from django.utils.crypto import get_random_string
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
+from django.db.models import Q
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -248,3 +249,41 @@ def get_reviews_for_user(request, to_user_email):
 
     except Profiles.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
+
+
+@api_view(['GET'])
+def get_profile(request, email):
+    try:
+        profile = Profiles.objects.get(Email=email)
+        serializer = ProfileSerializer(profile)
+        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+    except Profiles.DoesNotExist:
+        return JsonResponse({'message': 'Profile not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def check_profile_completion(request, email):
+    try:
+        profile = Profiles.objects.get(Email=email)
+        serializer = ProfileSerializer(profile)
+        return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+    except Profiles.DoesNotExist:
+        return JsonResponse({'Email': None}, status=status.HTTP_200_OK)
+    
+@api_view(['GET'])
+def search_suggestions(request):
+    query = request.GET.get('q', '')
+    profiles = Profiles.objects.filter(Q(First_name__icontains=query) | Q(Second_name__icontains=query))
+    suggestions = []
+
+    for profile in profiles:
+        try:
+            user = User.objects.get(email=profile.Email)
+            suggestions.append({
+                'first_name': profile.First_name,
+                'last_name': profile.Second_name,
+                'username': user.username,
+            })
+        except User.DoesNotExist:
+            pass
+
+    return JsonResponse(suggestions, safe=False)

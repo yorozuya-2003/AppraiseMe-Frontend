@@ -69,3 +69,35 @@
   padding-left: 18px;
   margin-left: 28px;
 }
+
+.search-container {
+  position: relative;
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+  list-style: none;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+}
+
+.suggestions li {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.suggestions li:hover {
+  background-color: #f0f0f0;
+}
+
+#search-button {
+  margin-left: 10px;
+  padding: 8px;
+  cursor: pointer;
+}

@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/details.css';
 import axios from 'axios';
 import API_BASE_URL from './ApiConfig';
-import { Link, useHistory } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 function Details() {
+  const navigate = useNavigate();
   const loggedInUser = localStorage.getItem("user");
   const loggedInUserObject = JSON.parse(loggedInUser);
+  
   const [formData, setFormData] = useState({
-    Email:loggedInUserObject.email,
+    Email:null,
     First_name: '',
     Second_name: '',
     DOB:'',
     Gender:'Male',
     Pronouns:'His/Him',
   });
+  
+  useEffect(() => {
+    if (!loggedInUserObject){
+      navigate('/');
+    }
+    else {
+      formData.Email = loggedInUserObject.email;
+    }
+  }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,7 +46,7 @@ function Details() {
       }
 
       try {
-          const response = await axios.post(`http://127.0.0.1:8000/api/addprofile/`, formData);
+          const response = await axios.post(`${API_BASE_URL}/api/addprofile/`, formData);
           console.log('Details added:', response.data);
           setFormData({
               Email:loggedInUserObject.email,
