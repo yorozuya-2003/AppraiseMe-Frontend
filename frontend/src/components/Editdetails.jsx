@@ -7,11 +7,11 @@ import { Link, useHistory } from 'react-router-dom';
 function Details() {
 
     const loggedInUser = localStorage.getItem("user");
-    const loggedInUserObject = 'loggedInUser@email.com'
+    const loggedInUserObject = 'tt@gmail.com'
     const [models, setModels] = useState([]);
 
     const fetchData = () => {
-        axios.get(`http://127.0.0.1:8000/api/addprofile/?email=${loggedInUserObject}`)
+        axios.get(`http://127.0.0.1:8000/api/addprofile/?Email=${loggedInUserObject}`)
             .then(response => {
             setModels(response.data);
             const data = response.data; // Assuming the response is an object with the profile data
@@ -77,10 +77,16 @@ function Details() {
             console.error('Error Adding Details:', error);
         }
     };
+    const currentDate = new Date();
+    currentDate.setFullYear(currentDate.getFullYear() - 3);
+
+    console.log(currentDate)
+
+    const maxDateValue = currentDate.toISOString().split('T')[0];
 
     return (
         <div className='editdetails'>
-            <h1> <img src="" alt=""/> Edit your Experience<br/></h1>
+            <h1> <img src="" alt=""/> Edit your Details<br/></h1>
             <form onSubmit={handleSubmit} className='editdetails-form' action="">            
                 <div className='editdetails-box'>
                 <div className='preferred-pronouns'>
@@ -101,7 +107,7 @@ function Details() {
 
                 <div className='dob-gender'>
 
-                    <input type="date" name='DOB' value={formData.DOB} onChange={handleChange}/>
+                    <input type="date" name='DOB' max={maxDateValue} value={formData.DOB} onChange={handleChange}/>
 
                     <select name='Gender' value={formData.Gender} onChange={handleChange}>
                     <option value="Male">Male</option>

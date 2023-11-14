@@ -48,9 +48,11 @@ export default function Header() {
   return (
     <header className="header-div">
       <h2>AppraiseMe</h2>
-      <button>Find Talent</button>
-      <button>Show Skills</button>
       <button>Why AppraiseMe</button>
+      <button>Show Skills</button>
+      <Link to='/editdetails'>
+        <button>Edit Profile</button>
+      </Link>
 
       <div className="search-container">
         <input
@@ -75,9 +77,11 @@ export default function Header() {
       
       
       {user ? (
-        <button id="signup" onClick={handleLogout}>
-          Log Out
-        </button>
+        <Link style={{textDecoration: 'none'}} to='/'>
+          <button id="signup" onClick={handleLogout}>
+            Log Out
+          </button>
+        </Link>
       ) : (
         <>
           <button id="signin">

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import "../styles/employment.css";
+import { Link } from "react-router-dom";
 
 function Employment() {
   const loggedInUser = localStorage.getItem("user");
@@ -8,11 +9,11 @@ function Employment() {
 
   const [formData, setFormData] = useState({
     email:loggedInUserObject.email,
-    title: '',
     company: '',
+    title: '',
     location:'',
-    emp_type:'',
-    location_type:'',
+    emp_type:'Full-time',
+    location_type:'OnSite',
     currently_working:1,
     start_time:'',
     end_time:'',
@@ -30,25 +31,37 @@ function Employment() {
       const isAnyFieldEmpty = Object.values(formData).some(field => field === '');
 
       if (isAnyFieldEmpty) {
-        
+        const errorMessageElement = document.getElementById('error-message');
+        errorMessageElement.innerText = '!All fields must be filled';
+        errorMessageElement.style.color = 'red';
+
+        setTimeout(() => {
+            errorMessageElement.innerText = '';
+        }, 5000); 
+
         console.error('Error: All fields must be filled');
         return;
       }
 
       try {
-          const response = await axios.post(`http://127.0.0.1:8000/api/addwork/`, formData);
-          console.log('Details added:', response.data);
-          setFormData({
-              email:loggedInUserObject.email,
-              company: '',
-              title: '',
-              location:'',
-              emp_type:'',
-              location_type:'',
-              currently_working:1,
-              start_time:'',
-              end_time:'',
-          });
+          axios.post(`http://127.0.0.1:8000/api/addwork/`, formData)
+          .then(response => {
+            console.log('Experience added successfully:', response.data);
+            setFormData({
+                email:loggedInUserObject,
+                company: '',
+                title: '',
+                location:'',
+                emp_type:'',
+                location_type:'',
+                currently_working:1,
+                start_time:'',
+                end_time:'',
+            });
+          })
+          .catch(error => {
+              console.log('Error adding Work:', error);
+          })
       } catch (error) {
           console.error('Error Adding Details:', error);
       }
@@ -62,7 +75,7 @@ function Employment() {
       </h1>
       <div className="employment-box">
         <div className="employment-box-contents">
-          <h4 id="work-experience">Work Experience-1</h4>
+          <h4 id="work-experience">Work Experience</h4>
           <form onSubmit={handleSubmit} className="employment-form" action="">
 
             <div className="title">
@@ -105,14 +118,21 @@ function Employment() {
 
             <input type="date" name='end_time' value={formData.end_time} onChange={handleChange}/>
 
-            <div className="continue">
-              <button className="continue-btn" type="submit">
-                Continue
-              </button>
+            <div style={{marginTop:'10px'}} className="continue">
+              <Link style={{textDecoration: 'none'}} to='/addexp'>
+                <button className="continue-btn" type="submit">
+                  Continue
+                </button>
+              </Link>
               <div className="faq-div">
-                <h4>Don't have any prior experience? Skip</h4>
+                <h4>Don't have any prior experience? 
+                  <Link to="/home">
+                    <button style={{background:'white',color:'blue',fontSize:'18px'}} className="get-started-btn">Skip</button>
+                  </Link>
+                </h4>
               </div>
             </div>
+            <div style={{marginTop:'2px',fontSize:'20px'}} id="error-message"></div>
           </form>
         </div>
       </div>

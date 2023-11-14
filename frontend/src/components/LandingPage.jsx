@@ -12,7 +12,7 @@ function LandingPage() {
       <div className="welcome-div">
         <h1>Welcome To AppraiseMe</h1>
         <h3>The easiest way to measure soft skills</h3>
-        <Link to="/start">
+        <Link to="/signin">
           <button className="get-started-btn">Get Started</button>
         </Link>
 

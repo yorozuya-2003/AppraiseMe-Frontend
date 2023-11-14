@@ -6,6 +6,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.db.models import Q
+from django.http import HttpResponse
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -168,26 +169,49 @@ class work_exp_viewset(ModelViewSet):
     def get_queryset(self):
         target_email = self.request.query_params.get('email')
         return work_exp.objects.filter(email=target_email)
+        
+    def delete(self, request, *args, **kwargs):
+        print(request.data)
+        print("hi")
+        try:
+            target_email = request.data.get('email')
+            title_to_delete = request.data.get('title')
+            emp_type_to_delete = request.data.get('emp_type')
+            company_to_delete = request.data.get('company')
+            location_to_delete = request.data.get('location')
+            location_type_to_delete = request.data.get('location_type')
+            currently_working_to_delete = request.data.get('currently_working')
+            start_time_to_delete = request.data.get('start_time')
+            end_time_to_delete = request.data.get('end_time')
 
-@api_view(['POST'])
-def addwork_exp(request):
-    if request.method == 'POST':
+            item_to_delete = work_exp.objects.filter(
+                email=target_email,
+                title=title_to_delete,
+                emp_type=emp_type_to_delete,
+                company=company_to_delete,
+                location=location_to_delete,
+                location_type=location_type_to_delete,
+                currently_working=currently_working_to_delete,
+                start_time=start_time_to_delete,
+                end_time=end_time_to_delete
+            ).first()
+
+            if item_to_delete:
+                self.perform_destroy(item_to_delete)
+                return Response("Item deleted successfully", status=200)
+            else:
+                return Response("Item not found", status=404)
+        except work_exp.DoesNotExist:
+            return Response("Item not found", status=404)
+
+
+    def create(request):
+        print('hi')
         serializer = work_exp_Serializer(data=request.data)
         if serializer.is_valid():
-            work = work_exp(
-                email=serializer.validated_data['email'],
-                title=serializer.validated_data['title'],
-                company=serializer.validated_data['company'],
-                location=serializer.validated_data['location'],
-                location_type=serializer.validated_data['location_type'],
-                currently_working=serializer.validated_data['currently_working'],
-                emp_type=serializer.validated_data['emp_type'],
-                start_time=serializer.validated_data['start_time'],
-                end_time=serializer.validated_data['end_time'],
-            )
-            work.save()
-            return Response({'message': 'Work Added successfully'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            serializer.save()
+            return JsonResponse({'message': 'Experience added successfully.'}, status=status.HTTP_201_CREATED)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ReviewViewSet(ModelViewSet):

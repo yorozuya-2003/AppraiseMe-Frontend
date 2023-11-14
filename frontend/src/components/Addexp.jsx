@@ -2,18 +2,32 @@ import axios from 'axios';
 import React, {useEffect, useState } from 'react';
 import "../styles/addexp.css";
 import API_BASE_URL from "./ApiConfig"
+import { useNavigate } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 function Addexp() {
 
-    const loggedInUser = localStorage.getItem("user");
-    const loggedInUserObject = 'tt@gmail.com'
+    let loggedInUser = JSON.parse(localStorage.getItem("user"));
+    let loggedInUserObject = null;
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!loggedInUser) {
+        navigate('/');
+        }
+        else {
+        loggedInUserObject = loggedInUser.email;  
+        }
+    }, []);
+
+
     const [models, setModels] = useState([]);
 
     const fetchData = () => {
         axios.get(`http://127.0.0.1:8000/api/addwork/?email=${loggedInUserObject}`)
             .then(response => {
             setModels(response.data);
-            console.log(response.data);
+            // console.log(response.data);
         })
             .catch(error => {
             console.error(error);
@@ -38,7 +52,7 @@ function Addexp() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(formData);
+        // console.log(formData);
         setFormData({...formData, [name]: value });
     };
 
@@ -54,25 +68,32 @@ function Addexp() {
         }
 
         try {
-            const response = await axios.post(`http://127.0.0.1:8000/api/addwork/`, formData);
-            console.log('Details added:', response.data);
-            setFormData({
-                email:loggedInUserObject,
-                company: '',
-                title: '',
-                location:'',
-                emp_type:'',
-                location_type:'',
-                currently_working:1,
-                start_time:'',
-                end_time:'',
-            });
-            fetchData();
+            console.log(formData)
+            axios.post(`http://127.0.0.1:8000/api/addwork/`, formData)
+            .then(response => {
+                console.log('Experience added successfully:', response.data);
+                setFormData({
+                    email:loggedInUserObject,
+                    company: '',
+                    title: '',
+                    location:'',
+                    emp_type:'',
+                    location_type:'',
+                    currently_working:1,
+                    start_time:'',
+                    end_time:'',
+                });
+                fetchData();
+            })
+            .catch(error => {
+                console.log('Error adding Work:', error);
+            })
         } catch (error) {
-            console.error('Error Adding Details:', error);
+            console.error('Error Adding Work:', error);
         }
     };
 
+    
 
     const [isAddDivVisible, setIsAddDivVisible] = useState(false);
 
@@ -80,22 +101,21 @@ function Addexp() {
         setIsAddDivVisible(!isAddDivVisible);
     };
 
-    const buttonLabel = isAddDivVisible ? 'Not Needed' : 'Add Work';
+    const buttonLabel = isAddDivVisible ? 'Not Needed' : 'Add more work Experience ';
 
     const handleDelete = (index) => {
-        const itemToDelete = models[index];
-
-        console.log(itemToDelete.email)
-        
-        axios.get(`${API_BASE_URL}/deletework/`, { itemToDelete })
-
+        console.log(models[index]);
+        axios.delete('http://127.0.0.1:8000/api/addwork/', { data: models[index] })
         .then(response => {
-            const updatedModels = [...models];
-            updatedModels.splice(index, 1);
-            setModels(updatedModels);
+            if (response.status === 200) {
+                // Update your local state to reflect the deletion
+                const updatedModels = [...models];
+                updatedModels.splice(index, 1);
+                setModels(updatedModels);
+            }
         })
         .catch(error => {
-            console.error('Error deleting item:', error);
+            console.error('Error deleting item', error);
         });
     };
 
@@ -168,7 +188,12 @@ function Addexp() {
           </form>
         </div>
       </div>
-      <button onClick={toggleAddDiv} id="addbutton">{buttonLabel}</button>
+      <button onClick={toggleAddDiv} className='addbutton' id="addbutton">{buttonLabel}</button>
+      <Link style={{textDecoration: 'none'}} to='/home'>
+      <button className="continue-btn" type="submit">
+        Continue
+      </button>
+      </Link>
     </div>
   );
 }

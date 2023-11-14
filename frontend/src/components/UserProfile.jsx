@@ -41,7 +41,7 @@ function UserProfil() {
           </header>
           <div className="welcome-div">
             <h1>USERPAGE</h1>
-            <p>
+            <p style={{textTransform:'capitalize'}}>
               {userData.username} {userData.email}
             </p>
 
@@ -210,7 +210,7 @@ function UserProfile() {
           
             <img src="microsoft.png" alt="" />
             {models2.map((model, index) =>(
-              <p>{model.First_name} {model.Second_name}</p>
+              <p style={{textTransform:'capitalize'}}>{model.First_name} {model.Second_name}</p>
             ))}
           
           </div>
@@ -236,12 +236,23 @@ function UserProfile() {
 
             <div className="about">
               
-              <p style={{
-                fontFamily:'Inter',
-                fontSize: '22px',
-                fontWeight: 500,
-                marginBottom:'9px'
-              }}>Senior Interaction Designer</p>
+              <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between', alignItems:'center',marginBottom:'12px'}}>
+                <p style={{
+                  fontFamily:'Inter',
+                  fontSize: '22px',
+                  marginTop:'10px',
+                  marginBottom:'10px',
+                  fontWeight: 500,
+                  justifyContent:'center'
+                }}>Senior Interaction Designer</p>
+
+                <Link style={{textDecoration: 'none'}} to={`/addreview/${userData.username}`}>
+                  <button style={{padding:'15px 20px', marginTop:'0px',marginBottom:'10px'}} 
+                  className="continue-btn" type="submit">
+                    Review
+                  </button>
+                </Link>
+              </div>
               
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim ea minima accusamus unde debitis reprehenderit ad, dicta qui temporibus vitae fuga, vero error quia quisquam, necessitatibus dolorem fugit! Repudiandae error dolorum rem consequatur illo? Deleniti nesciunt natus dolor, deserunt ipsam sunt quibusdam quos sed unde. Deserunt numquam ducimus illum atque nobis eligendi necessitatibus explicabo non dicta ipsum eum eaque incidunt fuga velit corrupti ipsam quas omnis perferendis, quaerat impedit expedita saepe quos officia natus? Iure consequuntur accusantium quae adipisci officiis at repellat harum sapiente. Hic laboriosam, commodi maiores facere repellat earum voluptatibus dolores voluptas fugiat, corporis delectus molestiae aliquid at!</p>
               
@@ -371,6 +382,7 @@ function UserProfile() {
                         {fontSize: '18px',
                         fontWeight: 500,
                         marginBottom:'11px',
+                        textTransform:'capitalize'
                       }}>{model.from_user_first_name} {model.from_user_last_name}</p>
                     </div>
                     <p style={{marginBottom:'20px',}}>{model.sentence}</p>

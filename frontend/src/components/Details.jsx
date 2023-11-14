@@ -59,7 +59,15 @@ function Details() {
       } catch (error) {
           console.error('Error Adding Details:', error);
       }
-  };
+    };
+
+    const [minDate, setMinDate] = useState('');
+    const currentDate = new Date();
+    currentDate.setFullYear(currentDate.getFullYear() - 3);
+
+    console.log(currentDate)
+
+    const maxDateValue = currentDate.toISOString().split('T')[0];
 
   return (
     <div className='details'>
@@ -84,14 +92,13 @@ function Details() {
 
               <div className='dob-gender'>
 
-                <input type="date" name='DOB' value={formData.DOB} onChange={handleChange}/>
+                <input type="date" name='DOB' max={maxDateValue} value={formData.DOB} onChange={handleChange}/>
 
                 <select name='Gender' value={formData.Gender} onChange={handleChange}>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                   <option value="other">Other</option>
                 </select>
-              
               </div>
 
               <div className='continue'>

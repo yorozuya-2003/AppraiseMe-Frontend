@@ -140,7 +140,7 @@ function HomePage() {
           
             <img src="microsoft.png" alt="" />
             {models2.map((model, index) =>(
-              <p>{model.First_name} {model.Second_name}</p>
+              <p style={{textTransform:'capitalize'}}>{model.First_name} {model.Second_name}</p>
             ))}
           
           </div>

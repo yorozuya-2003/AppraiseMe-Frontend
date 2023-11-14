@@ -3,18 +3,19 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    gap: 64px;
+    gap: 50px;
     flex-direction: column;
 }
   
 .editdetails h1 {
     width: 497px;
     color: #000;
-    font-family: Inter;
+    font-family:Arial, Helvetica, sans-serif;
     font-size: 48px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin-bottom: 10px;
 }
 
 .editdetails-form {
@@ -28,6 +29,7 @@
     border: 1px solid #f3f3f3;
     background: #fff;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    margin-bottom: 20px;
 }
 
 .editdetails-form .editdetails-box {
