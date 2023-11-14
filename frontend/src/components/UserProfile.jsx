@@ -1,190 +1,60 @@
 import { React, useState, useEffect } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
 import axios from "axios";
-import useCheckUserProfileCompletion from "./checkUserProfileCompletion";
+import useCheckProfileCompletion from "./checkProfileCompletion";
 import API_BASE_URL from "./ApiConfig";
-import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import "../styles/landing_page.css";
 
-function UserProfil() {
-  const { username } = useParams();
-  const [userData, setUserData] = useState(null);
-
-  useEffect(() => {
-    axios
-      .get(`${API_BASE_URL}/user/${username}/`)
-      .then((response) => {
-        setUserData(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [username]);
-
-  if (!userData) {
-    // return <Navigate to="/" />
-    return <div>Loading...</div>;
-  }
-
-  const localStorageUser = JSON.parse(localStorage.getItem("user"));
-  const isCurrentUserProfile = userData.username === localStorageUser.username;
-
-  return (
-    <>
-      {isCurrentUserProfile ? (
-        <Navigate to="/home" />
-      ) : (
-        <>
-          <header>
-            <Header></Header>
-          </header>
-          <div className="welcome-div">
-            <h1>USERPAGE</h1>
-            <p style={{textTransform:'capitalize'}}>
-              {userData.username} {userData.email}
-            </p>
-
-            <Link to="/start">
-              <button className="get-started-btn">Get Started</button>
-            </Link>
-
-            <p>Trusted by</p>
-
-            <div>
-              <img src="microsoft.png" alt="" />
-              <img src="airbnb.png" alt="" />
-            </div>
-          </div>
-        </>
-      )}
-    </>
-  );
-}
-
-// export default UserProfile;
-
 function UserProfile() {
-  // useCheckUserProfileCompletion();
-  let loggedInUser = JSON.parse(localStorage.getItem("user"));
-  
+  useCheckProfileCompletion();
   const { username } = useParams();
   const [userData, setUserData] = useState(null);
-  const [userEmail, setUserEmail] = useState(null);
 
-  const [models, setModels] = useState([]);
-  const [models2, setModels2] = useState([]);
-  const [models3, setModels3] = useState([]);
+  const [workModel, setWorkModel] = useState([]);
+  const [profileModel, setProfileModel] = useState([]);
+  const [reviewModel, setReviewModel] = useState([]);
 
   const [isAddDivVisible, setIsAddDivVisible] = useState(false);
 
-  const navigate = useNavigate();
-
-
-
-  // useEffect(() => {
-  //   if (!loggedInUser) {
-    //     navigate('/');
-    //   }
-  //   else {
-  //     userEmail = loggedInUser.email;  
-  //   }
-  // }, []);
-  
-  
-  
-  const fetchData = () => {
-    axios.get(`${API_BASE_URL}/api/addwork/?email=${userEmail}`)
-        .then(response => {
-        setModels(response.data);
-        // console.log(response.data);
-    })
-        .catch(error => {
-        console.error(error);
-    });
-  };
-
-
-  const fetchData2 = () => {
-    axios.get(`${API_BASE_URL}/api/addprofile/?Email=${userEmail}`)
-        .then(response => {
-        setModels2(response.data);
-        // console.log(response.data);
-    })
-        .catch(error => {
-        console.error(error);
-    });
-  };
-
-
-  // const fetchData3 = () => {
-  //   axios.get(`{$API _API_BASE_URL}/api/add-review/?to_user=${userEmail}`)
-  //       .then(response => {
-  //       setModels3(response.data);
-  //       console.log('reviews', response.data);
-  //   })
-  //       .catch(error => {
-  //       console.error(error);
-  //   });
-  // };
-
-  
-  // const [reviewDetails, setReviewDetails] = useState([]);
-
-  const fetchReviewDetails = () => {
-    axios.get(`${API_BASE_URL}/get_reviews/${userEmail}`)
-        .then(response => {
-        setModels3(response.data.reviews);
-        console.log(response.data.reviews);
-    })
-        .catch(error => {
-        console.error(error);
-    });
-  };
-
   useEffect(() => {
-    axios
-      .get(`${API_BASE_URL}/user/${username}/`)
-      .then((response) => {
-        setUserData(response.data);
-        console.log(userData)
-        setUserEmail(response.data.email);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-      fetchReviewDetails();
-  }, [username]);
-
+    const fetchData = async () => {
+      try {
+        const userResponse = await axios.get(`${API_BASE_URL}/user/${username}/`);
+        setUserData(userResponse.data);
   
-  useEffect(() => {
+        const [workModelResponse, profileModelResponse, reviewModelResponse] = await Promise.all([
+          axios.get(`${API_BASE_URL}/api/addwork/?email=${userResponse.data.email}`),
+          axios.get(`${API_BASE_URL}/api/addprofile/?Email=${userResponse.data.email}`),
+          axios.get(`${API_BASE_URL}/get_reviews/${userResponse.data.email}`)
+        ]);
+  
+        setWorkModel(workModelResponse.data);
+        setProfileModel(profileModelResponse.data);
+        setReviewModel(reviewModelResponse.data.reviews);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
     fetchData();
-  }, [userEmail]);
-  
-  useEffect(() => {
-    fetchData2();
-  }, [userEmail]);
+  }, [username]);
   
 
-  // useEffect(() => {
-  //   fetchReviewDetails();
-  // }, []);
-  
   if (!userData) {
     // return <Navigate to="/" />
-    return <div>Loading...</div>;
+    return <div>Loading...</div>; 
   }
 
-  const averageSlider1 = models3.reduce((total, model) => total + model.slider1, 0) / models3.length;
-  const averageSlider2 = models3.reduce((total, model) => total + model.slider2, 0) / models3.length;
-  const averageSlider3 = models3.reduce((total, model) => total + model.slider3, 0) / models3.length;
-  const averageSlider4 = models3.reduce((total, model) => total + model.slider4, 0) / models3.length;
-  const averageSlider5 = models3.reduce((total, model) => total + model.slider5, 0) / models3.length;
-  const averageSlider6 = models3.reduce((total, model) => total + model.slider6, 0) / models3.length;
-  const averageSlider7 = models3.reduce((total, model) => total + model.slider7, 0) / models3.length;
-  const averageSlider8 = models3.reduce((total, model) => total + model.slider8, 0) / models3.length;
-  const averageSlider9 = models3.reduce((total, model) => total + model.slider9, 0) / models3.length;
+  const averageSlider1 = reviewModel.reduce((total, model) => total + model.slider1, 0) / reviewModel.length;
+  const averageSlider2 = reviewModel.reduce((total, model) => total + model.slider2, 0) / reviewModel.length;
+  const averageSlider3 = reviewModel.reduce((total, model) => total + model.slider3, 0) / reviewModel.length;
+  const averageSlider4 = reviewModel.reduce((total, model) => total + model.slider4, 0) / reviewModel.length;
+  const averageSlider5 = reviewModel.reduce((total, model) => total + model.slider5, 0) / reviewModel.length;
+  const averageSlider6 = reviewModel.reduce((total, model) => total + model.slider6, 0) / reviewModel.length;
+  const averageSlider7 = reviewModel.reduce((total, model) => total + model.slider7, 0) / reviewModel.length;
+  const averageSlider8 = reviewModel.reduce((total, model) => total + model.slider8, 0) / reviewModel.length;
+  const averageSlider9 = reviewModel.reduce((total, model) => total + model.slider9, 0) / reviewModel.length;
   
   const toggleAddDiv = () => {
       setIsAddDivVisible(!isAddDivVisible);
@@ -192,8 +62,11 @@ function UserProfile() {
 
   const buttonLabel = isAddDivVisible ? 'Show Less' : 'Show More';
 
+  let isCurrentUserProfile = false;
   const localStorageUser = JSON.parse(localStorage.getItem("user"));
-  const isCurrentUserProfile = userData.username === localStorageUser.username;
+  if (localStorageUser) {
+    isCurrentUserProfile = userData.username === localStorageUser.username;
+  }
 
   return (
     <>
@@ -209,7 +82,7 @@ function UserProfile() {
           <div className="homediv1">
           
             <img src="microsoft.png" alt="" />
-            {models2.map((model, index) =>(
+            {profileModel.map((model, index) =>(
               <p style={{textTransform:'capitalize'}}>{model.First_name} {model.Second_name}</p>
             ))}
           
@@ -226,7 +99,7 @@ function UserProfile() {
               marginBottom:'40px',
             }}>Previous Experiences</p>
 
-            {models.map((model, index) => (
+            {workModel.map((model, index) => (
                 <div style={{}} className="">
                     <p style={{marginBottom:'1px'}}>{model.title}</p>
                     <p style={{fontSize: '16px',fontWeight: 300, color: '#4A4A4A', marginBottom:'20px'}}>{model.company}, {model.location}, {model.location_type} </p>
@@ -373,7 +246,7 @@ function UserProfile() {
                   color: '#4A4A4A'
                 }}>What other users say about Vinay</p>
 
-                {models3.map((model, index) =>(
+                {reviewModel.map((model, index) =>(
                   
                   <div>
                     <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>

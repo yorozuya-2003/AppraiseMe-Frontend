@@ -3,8 +3,10 @@ import '../styles/details.css';
 import axios from 'axios';
 import API_BASE_URL from './ApiConfig';
 import { useNavigate } from 'react-router-dom';
+import useCheckProfileCompletion from './checkProfileCompletion';
 
 function Details() {
+  useCheckProfileCompletion();
   const navigate = useNavigate();
   const loggedInUser = localStorage.getItem("user");
   const loggedInUserObject = JSON.parse(loggedInUser);

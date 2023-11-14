@@ -2,103 +2,57 @@ import { useState, useEffect, React } from "react";
 import axios from 'axios';
 import Header from "./Header";
 import "../styles/home.css";
-import useCheckUserProfileCompletion from "./checkUserProfileCompletion";
+import useCheckProfileCompletion from "./checkProfileCompletion";
 import API_BASE_URL from "./ApiConfig";
 import { useNavigate } from "react-router-dom";
 
 function HomePage() {
-  useCheckUserProfileCompletion();
+  useCheckProfileCompletion();
   let loggedInUser = JSON.parse(localStorage.getItem("user"));
-  let loggedInUserObject = null;
+  let userEmail = null;
   const navigate = useNavigate();
+  
+  const [workModel, setWorkModel] = useState([]);
+  const [profileModel, setProfileModel] = useState([]);
+  const [reviewModel, setReviewModel] = useState([]);
+
+  if (!loggedInUser) {
+    navigate('/');
+  }
+  else {
+    userEmail = loggedInUser.email;  
+  }
 
   useEffect(() => {
-    if (!loggedInUser) {
-      navigate('/');
-    }
-    else {
-      loggedInUserObject = loggedInUser.email;  
-    }
-  }, []);
+    const fetchData = async () => {
+      try {
+        const [workModelResponse, profileModelResponse, reviewModelResponse] = await Promise.all([
+          axios.get(`${API_BASE_URL}/api/addwork/?email=${userEmail}`),
+          axios.get(`${API_BASE_URL}/api/addprofile/?Email=${userEmail}`),
+          axios.get(`${API_BASE_URL}/get_reviews/${userEmail}`)
+        ]);
   
-  const [models, setModels] = useState([]);
-
-  const fetchData = () => {
-    axios.get(`${API_BASE_URL}/api/addwork/?email=${loggedInUserObject}`)
-        .then(response => {
-        setModels(response.data);
-        // console.log(response.data);
-    })
-        .catch(error => {
+        setWorkModel(workModelResponse.data);
+        setProfileModel(profileModelResponse.data);
+        setReviewModel(reviewModelResponse.data.reviews);
+      
+      } catch (error) {
         console.error(error);
-    });
-  };
+      }
+    };
 
-  const [models2, setModels2] = useState([]);
-
-  const fetchData2 = () => {
-    axios.get(`${API_BASE_URL}/api/addprofile/?Email=${loggedInUserObject}`)
-        .then(response => {
-        setModels2(response.data);
-        // console.log(response.data);
-    })
-        .catch(error => {
-        console.error(error);
-    });
-  };
-
-  const [models3, setModels3] = useState([]);
-
-  // const fetchData3 = () => {
-  //   axios.get(`{$API _API_BASE_URL}/api/add-review/?to_user=${loggedInUserObject}`)
-  //       .then(response => {
-  //       setModels3(response.data);
-  //       console.log('reviews', response.data);
-  //   })
-  //       .catch(error => {
-  //       console.error(error);
-  //   });
-  // };
-
-  
-  // const [reviewDetails, setReviewDetails] = useState([]);
-
-  const fetchReviewDetails = () => {
-    axios.get(`${API_BASE_URL}/get_reviews/${loggedInUserObject}`)
-        .then(response => {
-        setModels3(response.data.reviews);
-        console.log(response.data.reviews);
-    })
-        .catch(error => {
-        console.error(error);
-    });
-  };
-  
-  useEffect(() => {
     fetchData();
-  }, [loggedInUserObject]);
-  
-  useEffect(() => {
-    fetchData2();
-  }, [loggedInUserObject]);
-  
-  // useEffect(() => {
-  //   fetchData3();
-  // }, [loggedInUserObject]);
-
-  useEffect(() => {
-    fetchReviewDetails();
   }, []);
   
-  const averageSlider1 = models3.reduce((total, model) => total + model.slider1, 0) / models3.length;
-  const averageSlider2 = models3.reduce((total, model) => total + model.slider2, 0) / models3.length;
-  const averageSlider3 = models3.reduce((total, model) => total + model.slider3, 0) / models3.length;
-  const averageSlider4 = models3.reduce((total, model) => total + model.slider4, 0) / models3.length;
-  const averageSlider5 = models3.reduce((total, model) => total + model.slider5, 0) / models3.length;
-  const averageSlider6 = models3.reduce((total, model) => total + model.slider6, 0) / models3.length;
-  const averageSlider7 = models3.reduce((total, model) => total + model.slider7, 0) / models3.length;
-  const averageSlider8 = models3.reduce((total, model) => total + model.slider8, 0) / models3.length;
-  const averageSlider9 = models3.reduce((total, model) => total + model.slider9, 0) / models3.length;
+  const averageSlider1 = reviewModel.reduce((total, model) => total + model.slider1, 0) / reviewModel.length;
+  const averageSlider2 = reviewModel.reduce((total, model) => total + model.slider2, 0) / reviewModel.length;
+  const averageSlider3 = reviewModel.reduce((total, model) => total + model.slider3, 0) / reviewModel.length;
+  const averageSlider4 = reviewModel.reduce((total, model) => total + model.slider4, 0) / reviewModel.length;
+  const averageSlider5 = reviewModel.reduce((total, model) => total + model.slider5, 0) / reviewModel.length;
+  const averageSlider6 = reviewModel.reduce((total, model) => total + model.slider6, 0) / reviewModel.length;
+  const averageSlider7 = reviewModel.reduce((total, model) => total + model.slider7, 0) / reviewModel.length;
+  const averageSlider8 = reviewModel.reduce((total, model) => total + model.slider8, 0) / reviewModel.length;
+  const averageSlider9 = reviewModel.reduce((total, model) => total + model.slider9, 0) / reviewModel.length;
   
   const [userProfiles, setUserProfiles] = useState([]);
   
@@ -117,10 +71,10 @@ function HomePage() {
   };
 
   useEffect(() => {
-    const userEmails = models3.map(model => model.from_user);
+    const userEmails = reviewModel.map(model => model.from_user);
     // console.log(userEmails)
     fetchUserProfiles(userEmails);
-  }, [models3]);
+  }, [reviewModel]);
   
   const [isAddDivVisible, setIsAddDivVisible] = useState(false);
   
@@ -139,7 +93,7 @@ function HomePage() {
           <div className="homediv1">
           
             <img src="microsoft.png" alt="" />
-            {models2.map((model, index) =>(
+            {profileModel.map((model, index) =>(
               <p style={{textTransform:'capitalize'}}>{model.First_name} {model.Second_name}</p>
             ))}
           
@@ -156,7 +110,7 @@ function HomePage() {
               marginBottom:'40px',
             }}>Previous Experiences</p>
 
-            {models.map((model, index) => (
+            {workModel.map((model, index) => (
                 <div style={{}} className="">
                     <p style={{marginBottom:'1px'}}>{model.title}</p>
                     <p style={{fontSize: '16px',fontWeight: 300, color: '#4A4A4A', marginBottom:'20px'}}>{model.company}, {model.location}, {model.location_type} </p>
@@ -292,7 +246,7 @@ function HomePage() {
                   color: '#4A4A4A'
                 }}>What other users say about Vinay</p>
 
-                {models3.map((model, index) =>(
+                {reviewModel.map((model, index) =>(
                   
                   <div>
                     <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>
