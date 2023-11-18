@@ -16,7 +16,7 @@ function Addexp() {
         navigate('/');
         }
         else {
-        loggedInUserObject = loggedInUser.email;  
+            loggedInUserObject = loggedInUser.email;  
         }
     }, []);
 
@@ -41,10 +41,10 @@ function Addexp() {
     const [formData, setFormData] = useState({
         email:loggedInUserObject,
         title: '',
+        emp_type:'Full-time',
         company: '',
         location:'',
-        emp_type:'',
-        location_type:'',
+        location_type:'OnSite',
         currently_working:1,
         start_time:'',
         end_time:'',
@@ -74,11 +74,11 @@ function Addexp() {
                 console.log('Experience added successfully:', response.data);
                 setFormData({
                     email:loggedInUserObject,
-                    company: '',
                     title: '',
+                    emp_type:'Full-time',
+                    company: '',
                     location:'',
-                    emp_type:'',
-                    location_type:'',
+                    location_type:'OnSite',
                     currently_working:1,
                     start_time:'',
                     end_time:'',

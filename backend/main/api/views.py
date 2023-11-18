@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.db.models import Q
 from django.http import HttpResponse
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
@@ -142,6 +142,17 @@ def user_profile(request, username):
 class Profiles_viewset(ModelViewSet):
     queryset=Profiles.objects.all()
     serializer_class=ProfileSerializer
+
+    @action(detail=True, methods=['patch'])
+    def update_bio(self, request, *args, **kwargs):
+        print(request)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def get_queryset(self):
         target_email = self.request.query_params.get('Email')
         return Profiles.objects.filter(Email=target_email)
@@ -205,13 +216,16 @@ class work_exp_viewset(ModelViewSet):
             return Response("Item not found", status=404)
 
 
-    def create(request):
-        print('hi')
+    def create(self, request, *args, **kwargs):
         serializer = work_exp_Serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse({'message': 'Experience added successfully.'}, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
 
 
 class ReviewViewSet(ModelViewSet):
@@ -311,3 +325,21 @@ def search_suggestions(request):
             pass
 
     return JsonResponse(suggestions, safe=False)
+
+
+@api_view(['POST'])
+def update_bio(request, email):
+    if request.method == 'POST':
+        print(request.data)
+        # user_email = request.data.get('email')
+        new_bio = request.data.get('bio')
+
+        try:
+            profile = Profiles.objects.get(Email=email)
+            profile.Bio = new_bio
+            profile.save()
+            return Response({'message': 'Bio updated successfully'}, status=status.HTTP_200_OK)
+        except Profiles.DoesNotExist:
+            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    return Response({'error': 'Invalid request method'}, status=status.HTTP_400_BAD_REQUEST)

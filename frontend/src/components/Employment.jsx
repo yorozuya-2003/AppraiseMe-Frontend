@@ -1,19 +1,20 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import "../styles/employment.css";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 
 function Employment() {
-  const loggedInUser = localStorage.getItem("user");
-  const loggedInUserObject = JSON.parse(loggedInUser);
+  const navigate=useNavigate();
+  let loggedInUser = JSON.parse(localStorage.getItem("user"));
+  let loggedInUserObject =loggedInUser.email;
 
   const [formData, setFormData] = useState({
-    email:loggedInUserObject.email,
-    company: '',
+    email:loggedInUserObject,
     title: '',
-    location:'',
     emp_type:'Full-time',
-    location_type:'OnSite',
+    company: '',
+    location:'',
+    location_type:'Onsite',
     currently_working:1,
     start_time:'',
     end_time:'',
@@ -21,7 +22,7 @@ function Employment() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(formData);
+    // console.log(formData);
     setFormData({...formData, [name]: value });
   };
 
@@ -44,24 +45,26 @@ function Employment() {
       }
 
       try {
-          axios.post(`http://127.0.0.1:8000/api/addwork/`, formData)
-          .then(response => {
+          console.log(formData);
+          const response = await axios.post(`http://127.0.0.1:8000/api/addwork/`, formData)
+          // .then(response => {
             console.log('Experience added successfully:', response.data);
             setFormData({
                 email:loggedInUserObject,
-                company: '',
                 title: '',
+                emp_type:'Full-time',
+                company: '',
                 location:'',
-                emp_type:'',
-                location_type:'',
+                location_type:'Onsite',
                 currently_working:1,
                 start_time:'',
                 end_time:'',
             });
-          })
-          .catch(error => {
-              console.log('Error adding Work:', error);
-          })
+            navigate('/addexp');
+          // })
+          // .catch(error => {
+          //     console.log('Error adding Work:', error);
+          // })
       } catch (error) {
           console.error('Error Adding Details:', error);
       }
@@ -119,11 +122,9 @@ function Employment() {
             <input type="date" name='end_time' value={formData.end_time} onChange={handleChange}/>
 
             <div style={{marginTop:'10px'}} className="continue">
-              <Link style={{textDecoration: 'none'}} to='/addexp'>
-                <button className="continue-btn" type="submit">
-                  Continue
-                </button>
-              </Link>
+              <button className="continue-btn" type="submit">
+                Continue
+              </button>
               <div className="faq-div">
                 <h4>Don't have any prior experience? 
                   <Link to="/home">

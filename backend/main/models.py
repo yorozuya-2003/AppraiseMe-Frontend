@@ -22,12 +22,14 @@ class Profiles(models.Model):
         ('Other','Other'),        
     )
 
-    Email=models.EmailField(max_length=30,default='vv@gmail.com')
-    First_name=models.CharField(max_length=30)
-    Second_name=models.CharField(max_length=30)
-    DOB=models.DateField()
-    Gender=models.CharField(max_length=20,choices=Gender_choice)
-    Pronouns=models.CharField(max_length=20,choices=Pronouns_choice)
+    Email = models.EmailField(max_length=30, default='vv@gmail.com')
+    First_name = models.CharField(max_length=30)
+    Second_name = models.CharField(max_length=30)
+    DOB = models.DateField()
+    Gender = models.CharField(max_length=20, choices=Gender_choice)
+    Pronouns = models.CharField(max_length=20, choices=Pronouns_choice)
+    Image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    Bio = models.CharField(max_length=500, blank=True, null=True)
 
     def __str__(self):
         return f'{self.Email}'

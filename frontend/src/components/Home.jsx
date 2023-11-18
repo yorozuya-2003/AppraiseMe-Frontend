@@ -20,7 +20,7 @@ function HomePage() {
     navigate('/');
   }
   else {
-    userEmail = loggedInUser.email;  
+    userEmail = loggedInUser.email;
   }
 
   useEffect(() => {
@@ -77,12 +77,39 @@ function HomePage() {
   }, [reviewModel]);
   
   const [isAddDivVisible, setIsAddDivVisible] = useState(false);
-  
+  const [bioInput, setBioInput] = useState(profileModel.Bio);
+
   const toggleAddDiv = () => {
-      setIsAddDivVisible(!isAddDivVisible);
+    setIsAddDivVisible(!isAddDivVisible);
   };
 
-  const buttonLabel = isAddDivVisible ? 'Show Less' : 'Show More';
+  const handleInputChange = (e) => {
+    setBioInput(e.target.value);
+  };
+
+  const handleSaveBio = async () => {
+    try {
+      console.log(bioInput)
+      await axios.post(`${API_BASE_URL}/update_bio/${userEmail}/`, {
+        bio: bioInput,
+      });
+
+      setProfileModel(prevProfileModel => {
+        return prevProfileModel.map(profile => {
+            if (profile.Email === userEmail) {
+                return { ...profile, Bio: bioInput };
+            }
+            return profile;
+        });
+      });
+      
+      setIsAddDivVisible(false);
+    } catch (error) {
+      console.error('Error updating Bio:', error);
+    }
+  };
+
+  const buttonLabel = isAddDivVisible ? 'Save Bio' : 'Edit Bio';
 
   return (
         <div className="home">
@@ -120,14 +147,38 @@ function HomePage() {
 
             <div className="about">
               
-              <p style={{
-                fontFamily:'Inter',
-                fontSize: '22px',
-                fontWeight: 500,
-                marginBottom:'9px'
-              }}>Senior Interaction Designer</p>
-              
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim ea minima accusamus unde debitis reprehenderit ad, dicta qui temporibus vitae fuga, vero error quia quisquam, necessitatibus dolorem fugit! Repudiandae error dolorum rem consequatur illo? Deleniti nesciunt natus dolor, deserunt ipsam sunt quibusdam quos sed unde. Deserunt numquam ducimus illum atque nobis eligendi necessitatibus explicabo non dicta ipsum eum eaque incidunt fuga velit corrupti ipsam quas omnis perferendis, quaerat impedit expedita saepe quos officia natus? Iure consequuntur accusantium quae adipisci officiis at repellat harum sapiente. Hic laboriosam, commodi maiores facere repellat earum voluptatibus dolores voluptas fugiat, corporis delectus molestiae aliquid at!</p>
+            <div style={{ display: !isAddDivVisible ? 'flex' : 'none', flexDirection: 'column' }}>
+                <p
+                  style={{
+                    fontFamily: 'Inter',
+                    fontSize: '22px',
+                    marginTop: '10px',
+                    marginBottom: '10px',
+                    fontWeight: 500,
+                    justifyContent: 'center',
+                  }}
+                >
+                  Senior Interaction Designer
+                </p>
+
+                {profileModel.map((model, index) =>(
+                  <p style={{textTransform:'capitalize'}}>{model.Bio} </p>
+                ))}
+              </div>
+
+              <div style={{ display: isAddDivVisible ? 'flex' : 'none', flexDirection: 'column' }}>
+                <input type="text" value={bioInput} onChange={handleInputChange} />
+              </div>
+
+              <button
+                onClick={isAddDivVisible ? handleSaveBio : toggleAddDiv}
+                id="addbutton"
+                style={{ padding: '15px 20px', marginTop: '0px', marginBottom: '10px' }}
+                className="continue-btn"
+                type="button" // Set type to "button" to prevent form submission
+              >
+                {buttonLabel}
+              </button>
               
               <div className="attributes">
 

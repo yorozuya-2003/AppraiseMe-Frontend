@@ -12,12 +12,14 @@ function Details() {
   const loggedInUserObject = JSON.parse(loggedInUser);
   
   const [formData, setFormData] = useState({
-    Email:null,
+    Email:loggedInUserObject.email,
     First_name: '',
     Second_name: '',
     DOB:'',
     Gender:'Male',
     Pronouns:'His/Him',
+    Image:null,
+    Bio:null,
   });
   
   useEffect(() => {
@@ -37,39 +39,43 @@ function Details() {
   };
 
   const handleSubmit = async (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      const isAnyFieldEmpty = Object.values(formData).some(field => field === '');
+    const isAnyFieldEmpty = Object.values(formData).some(field => field === '');
 
-      if (isAnyFieldEmpty) {
-        
-        console.error('Error: All fields must be filled');
-        return;
-      }
+    if (isAnyFieldEmpty) {
+      
+      console.error('Error: All fields must be filled');
+      return;
+    }
 
-      try {
-          const response = await axios.post(`${API_BASE_URL}/api/addprofile/`, formData);
-          console.log('Details added:', response.data);
-          setFormData({
-              Email:loggedInUserObject.email,
-              First_name: '',
-              Second_name: '',
-              DOB:'',
-              Gender:'Male',
-              Pronouns:'His/Him',
-          });
-      } catch (error) {
-          console.error('Error Adding Details:', error);
-      }
-    };
+    try {
+        const response = await axios.post(`${API_BASE_URL}/api/addprofile/`, formData);
+        console.log('Details added:', response.data);
+        setFormData({
+            Email:loggedInUserObject.email,
+            First_name: '',
+            Second_name: '',
+            DOB:'',
+            Gender:'Male',
+            Pronouns:'His/Him',
+            Image:null,
+            Bio:null,
+        });
+        navigate('/employment');
+    } catch (error) {
+        console.error('Error Adding Details:', error);
+    }
 
-    const [minDate, setMinDate] = useState('');
-    const currentDate = new Date();
-    currentDate.setFullYear(currentDate.getFullYear() - 3);
+  };
 
-    console.log(currentDate)
+  const [minDate, setMinDate] = useState('');
+  const currentDate = new Date();
+  currentDate.setFullYear(currentDate.getFullYear() - 3);
 
-    const maxDateValue = currentDate.toISOString().split('T')[0];
+  console.log(currentDate)
+
+  const maxDateValue = currentDate.toISOString().split('T')[0];
 
   return (
     <div className='details'>

@@ -19,4 +19,6 @@ urlpatterns = [
     path('get_profile/<str:email>/', get_profile, name='get_profile'),
     path('check_profile/<str:email>/', check_profile_completion, name='check_profile'),
     path('search-suggestions/', search_suggestions, name='search_suggestions'),
+
+    path('update_bio/<str:email>/', update_bio, name='update_bio'),
 ]

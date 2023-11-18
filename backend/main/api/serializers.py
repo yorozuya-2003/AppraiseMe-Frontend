@@ -18,7 +18,7 @@ class OTPSerializer(ModelSerializer):
 class ProfileSerializer(ModelSerializer):
     class Meta:
         model=Profiles
-        fields=('First_name','Second_name','DOB','Gender','Pronouns','Email')
+        fields=('First_name','Second_name','DOB','Gender','Pronouns','Email','Image','Bio')
 
 class work_exp_Serializer(ModelSerializer):
     class Meta:
