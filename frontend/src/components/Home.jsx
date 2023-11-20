@@ -4,7 +4,7 @@ import Header from "./Header";
 import "../styles/home.css";
 import useCheckProfileCompletion from "./checkProfileCompletion";
 import API_BASE_URL from "./ApiConfig";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 function HomePage() {
   useCheckProfileCompletion();
@@ -78,15 +78,15 @@ function HomePage() {
   
   const [isAddDivVisible, setIsAddDivVisible] = useState(false);
   const [bioInput, setBioInput] = useState(profileModel.Bio);
-
+  
   const toggleAddDiv = () => {
     setIsAddDivVisible(!isAddDivVisible);
   };
-
+  
   const handleInputChange = (e) => {
     setBioInput(e.target.value);
   };
-
+  
   const handleSaveBio = async () => {
     try {
       console.log(bioInput)
@@ -96,10 +96,10 @@ function HomePage() {
 
       setProfileModel(prevProfileModel => {
         return prevProfileModel.map(profile => {
-            if (profile.Email === userEmail) {
-                return { ...profile, Bio: bioInput };
-            }
-            return profile;
+          if (profile.Email === userEmail) {
+            return { ...profile, Bio: bioInput };
+          }
+          return profile;
         });
       });
       
@@ -108,8 +108,45 @@ function HomePage() {
       console.error('Error updating Bio:', error);
     }
   };
-
+  
   const buttonLabel = isAddDivVisible ? 'Save Bio' : 'Edit Bio';
+  
+  const [isAddDivVisible2, setIsAddDivVisible2] = useState(false);
+  
+  const toggleAddDiv2 = () => {
+    setIsAddDivVisible2(!isAddDivVisible2);
+  };
+  
+  const buttonLabel2 = isAddDivVisible2 ? 'Show Less' : 'Show More';
+  const [imageinput, setImageInput] = useState(null);
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append('image', file);
+
+        const response = await axios.post(`${API_BASE_URL}/update_image/${userEmail}/`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        // Assuming the API returns the updated model with the new image path
+        const updatedModel = response.data;
+
+        setProfileModel(prevProfileModel => {
+          return prevProfileModel.map(profile => (profile.Email === userEmail ? updatedModel : profile));
+        });
+
+        window.location.reload();
+      } catch (error) {
+        console.error('Error updating Image:', error);
+      }
+    }
+  };
 
   return (
         <div className="home">
@@ -117,26 +154,58 @@ function HomePage() {
             <Header></Header>
           </header>
           
-          <div className="homediv1">
-          
-            <img src="microsoft.png" alt="" />
-            {profileModel.map((model, index) =>(
-              <p style={{textTransform:'capitalize'}}>{model.First_name} {model.Second_name}</p>
-            ))}
-          
+          <div className="homediv1" style={{marginBottom:'160px',marginTop:'10px'}}>
+
+            {profileModel.map((model, index) =>{
+              console.log("Image Path:", model.Image);
+              return(
+
+                <div style={{display:'flex',flexDirection:'row'}}>
+
+                  <div style={{display:'flex',flexDirection:'column', marginRight:'25px'}}>
+                  <img
+                    src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/profile_icon.png`}
+                    alt=""
+                    style={{ width: '150px', height: '150px', borderRadius: '75px', marginRight: '35px' }}
+                  />
+                  <label className="continue-btn" style={{ marginTop: '15px', padding: '5px', fontSize: '15px', backgroundColor: 'ButtonShadow', color: 'black' }}>
+                    Change Image
+                    <input type="file" name="imageinput" id="imageinput" style={{ display: 'none' }} onChange={handleImageChange} />
+                  </label>
+                  </div>
+                  <p style={{textTransform:'capitalize'}}>{model.First_name} {model.Second_name}</p>
+                </div>
+              );
+            })}
+
           </div>
 
           <div className="homediv3">
 
             <div className="experiences">
             
-            <p style={{
-              fontFamily: 'Inter',
-              fontSize: '20px',
-              fontWeight: 500,
-              marginBottom:'40px',
-            }}>Previous Experiences</p>
+            <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
 
+              <p style={{
+                fontFamily: 'Inter',
+                fontSize: '20px',
+                fontWeight: 500,
+                marginBottom:'40px',
+              }}>Previous Experiences</p>
+
+              <Link style={{textDecoration: 'none'}} to={'/addexp'}>
+                <button
+                    id="addbutton"
+                    style={{ padding: '0px 20px',fontSize:'13px',height:'30px' }}
+                    className="continue-btn"
+                    type="button" // Set type to "button" to prevent form submission
+                  >
+                    Add +
+                </button>
+              </Link>
+
+            </div>
+            
             {workModel.map((model, index) => (
                 <div style={{}} className="">
                     <p style={{marginBottom:'1px'}}>{model.title}</p>
@@ -145,40 +214,41 @@ function HomePage() {
               ))}
             </div>
 
+
             <div className="about">
-              
-            <div style={{ display: !isAddDivVisible ? 'flex' : 'none', flexDirection: 'column' }}>
-                <p
-                  style={{
-                    fontFamily: 'Inter',
-                    fontSize: '22px',
-                    marginTop: '10px',
-                    marginBottom: '10px',
-                    fontWeight: 500,
-                    justifyContent: 'center',
-                  }}
-                >
-                  Senior Interaction Designer
-                </p>
 
-                {profileModel.map((model, index) =>(
-                  <p style={{textTransform:'capitalize'}}>{model.Bio} </p>
-                ))}
-              </div>
+            <div style={{justifyContent:'space-between',display:'flex',flexDirection:'row'}}>
 
-              <div style={{ display: isAddDivVisible ? 'flex' : 'none', flexDirection: 'column' }}>
-                <input type="text" value={bioInput} onChange={handleInputChange} />
-              </div>
+              {profileModel.map((model, index) =>(
+                <p style={{
+                  fontSize: '23px',
+                  fontWeight: 500,
+                  marginBottom: '15px',
+                }}>About {model.First_name} </p>
+              ))}
 
               <button
                 onClick={isAddDivVisible ? handleSaveBio : toggleAddDiv}
                 id="addbutton"
-                style={{ padding: '15px 20px', marginTop: '0px', marginBottom: '10px' }}
+                style={{ padding: '7px 13px', marginTop: '0px', marginBottom: '10px',fontSize:'14px' }}
                 className="continue-btn"
                 type="button" // Set type to "button" to prevent form submission
               >
                 {buttonLabel}
               </button>
+            </div>
+              
+            <div style={{ display: !isAddDivVisible ? 'flex' : 'none', flexDirection: 'column' }}>
+                
+                {profileModel.map((model, index) =>(
+                  <p style={{fontSize:'17px',marginBottom:'20px',marginLeft:'7px'}}>{model.Bio} </p>
+                ))}
+              </div>
+
+              <div style={{ display: isAddDivVisible ? 'flex' : 'none', flexDirection: 'column', marginBottom:'10px',padding:'7px',borderRadius:'5px' }}>
+                <input style={{padding:'7px',borderRadius:'9px'}} type="text" value={bioInput} onChange={handleInputChange} />
+              </div>
+
               
               <div className="attributes">
 
@@ -223,7 +293,7 @@ function HomePage() {
                     </div>
                   </div>
                   
-                  <div style={{marginBottom:'50px',display: isAddDivVisible ? 'block' : 'none'}}>
+                  <div style={{marginBottom:'50px',display: isAddDivVisible2 ? 'block' : 'none'}}>
                     <p style={{marginBottom:'10px',fontSize:'20px',fontWeight:400}} className="slider-question">Communication</p>
                     <input style={{marginBottom:'0px',marginLeft:'15px'}} type="range" min="0" max="10" name="slider1" value={averageSlider4}  className="custom-slider"/>
                     <div style={{marginTop:'0px',padding:'0px',fontWeight:100,fontSize:'12px'}}>
@@ -232,7 +302,7 @@ function HomePage() {
                     </div>
                   </div>
 
-                  <div style={{marginBottom:'50px',display: isAddDivVisible ? 'block' : 'none'}}>
+                  <div style={{marginBottom:'50px',display: isAddDivVisible2 ? 'block' : 'none'}}>
                     <p style={{marginBottom:'10px',fontSize:'20px',fontWeight:400}} className="slider-question">Communication</p>
                     <input style={{marginBottom:'0px',marginLeft:'15px'}} type="range" min="0" max="10" name="slider1" value={averageSlider5}  className="custom-slider"/>
                     <div style={{marginTop:'0px',padding:'0px',fontWeight:100,fontSize:'12px'}}>
@@ -241,7 +311,7 @@ function HomePage() {
                     </div>
                   </div>
 
-                  <div style={{marginBottom:'50px',display: isAddDivVisible ? 'block' : 'none'}}>
+                  <div style={{marginBottom:'50px',display: isAddDivVisible2 ? 'block' : 'none'}}>
                     <p style={{marginBottom:'10px',fontSize:'20px',fontWeight:400}} className="slider-question">Communication</p>
                     <input style={{marginBottom:'0px',marginLeft:'15px'}} type="range" min="0" max="10" name="slider1" value={averageSlider6}  className="custom-slider"/>
                     <div style={{marginTop:'0px',padding:'0px',fontWeight:100,fontSize:'12px'}}>
@@ -250,7 +320,7 @@ function HomePage() {
                     </div>
                   </div>
 
-                  <div style={{marginBottom:'50px',display: isAddDivVisible ? 'block' : 'none'}}>
+                  <div style={{marginBottom:'50px',display: isAddDivVisible2 ? 'block' : 'none'}}>
                     <p style={{marginBottom:'10px',fontSize:'20px',fontWeight:400}} className="slider-question">Communication</p>
                     <input style={{marginBottom:'0px',marginLeft:'15px'}} type="range" min="0" max="10" name="slider1" value={averageSlider7}  className="custom-slider"/>
                     <div style={{marginTop:'0px',padding:'0px',fontWeight:100,fontSize:'12px'}}>
@@ -259,7 +329,7 @@ function HomePage() {
                     </div>
                   </div>
 
-                  <div style={{marginBottom:'50px',display: isAddDivVisible ? 'block' : 'none'}}>
+                  <div style={{marginBottom:'50px',display: isAddDivVisible2 ? 'block' : 'none'}}>
                     <p style={{marginBottom:'10px',fontSize:'20px',fontWeight:400}} className="slider-question">Communication</p>
                     <input style={{marginBottom:'0px',marginLeft:'15px'}} type="range" min="0" max="10" name="slider1" value={averageSlider8}  className="custom-slider"/>
                     <div style={{marginTop:'0px',padding:'0px',fontWeight:100,fontSize:'12px'}}>
@@ -268,7 +338,7 @@ function HomePage() {
                     </div>
                   </div>
 
-                  <div style={{marginBottom:'50px',display: isAddDivVisible ? 'block' : 'none'}}>
+                  <div style={{marginBottom:'50px',display: isAddDivVisible2 ? 'block' : 'none'}}>
                     <p style={{marginBottom:'10px',fontSize:'20px',fontWeight:400}} className="slider-question">Communication</p>
                     <input style={{marginBottom:'0px',marginLeft:'15px'}} type="range" min="0" max="10" name="slider1" value={averageSlider9}  className="custom-slider"/>
                     <div style={{marginTop:'0px',padding:'0px',fontWeight:100,fontSize:'12px'}}>
@@ -277,7 +347,7 @@ function HomePage() {
                     </div>
                   </div>
                   
-                  <button onClick={toggleAddDiv} style={{boxSizing:'19px', backgroundColor:'white',color:'blue',border:'none',paddingBottom:'20px',fontSize:'16px'}}>{buttonLabel}</button>
+                  <button onClick={toggleAddDiv2} style={{boxSizing:'19px', backgroundColor:'white',color:'blue',border:'none',paddingBottom:'20px',fontSize:'16px'}}>{buttonLabel2}</button>
                 
               </div>
 

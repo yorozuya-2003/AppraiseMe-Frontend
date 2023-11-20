@@ -8,17 +8,7 @@ import { Link } from 'react-router-dom';
 function Addexp() {
 
     let loggedInUser = JSON.parse(localStorage.getItem("user"));
-    let loggedInUserObject = null;
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!loggedInUser) {
-        navigate('/');
-        }
-        else {
-            loggedInUserObject = loggedInUser.email;  
-        }
-    }, []);
+    let loggedInUserObject =loggedInUser.email;
 
 
     const [models, setModels] = useState([]);
@@ -44,7 +34,7 @@ function Addexp() {
         emp_type:'Full-time',
         company: '',
         location:'',
-        location_type:'OnSite',
+        location_type:'Onsite',
         currently_working:1,
         start_time:'',
         end_time:'',
@@ -78,7 +68,7 @@ function Addexp() {
                     emp_type:'Full-time',
                     company: '',
                     location:'',
-                    location_type:'OnSite',
+                    location_type:'Onsite',
                     currently_working:1,
                     start_time:'',
                     end_time:'',
@@ -164,7 +154,7 @@ function Addexp() {
             <div className='location_type'>
 
                 <select name='location_type' value={formData.location_type} onChange={handleChange}>
-                    <option value="Onsite">OnSite</option>
+                    <option value="Onsite">Onsite</option>
                     <option value="Hybrid">Hybrid</option>
                     <option value="Remote">Remote</option>
                 </select>

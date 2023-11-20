@@ -143,16 +143,6 @@ class Profiles_viewset(ModelViewSet):
     queryset=Profiles.objects.all()
     serializer_class=ProfileSerializer
 
-    @action(detail=True, methods=['patch'])
-    def update_bio(self, request, *args, **kwargs):
-        print(request)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     def get_queryset(self):
         target_email = self.request.query_params.get('Email')
         return Profiles.objects.filter(Email=target_email)
@@ -339,6 +329,21 @@ def update_bio(request, email):
             profile.Bio = new_bio
             profile.save()
             return Response({'message': 'Bio updated successfully'}, status=status.HTTP_200_OK)
+        except Profiles.DoesNotExist:
+            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    return Response({'error': 'Invalid request method'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def update_image(request, email):
+    if request.method == 'POST':
+        new_img = request.data.get('image')
+
+        try:
+            profile = Profiles.objects.get(Email=email)
+            profile.Image = new_img
+            profile.save()
+            return Response({'message': 'Image updated successfully'}, status=status.HTTP_200_OK)
         except Profiles.DoesNotExist:
             return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
 

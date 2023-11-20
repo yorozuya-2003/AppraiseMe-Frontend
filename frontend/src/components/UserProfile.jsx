@@ -79,11 +79,17 @@ function UserProfile() {
             <Header></Header>
           </header>
           
-          <div className="homediv1">
+          <div className="homediv1" style={{marginBottom:'160px',marginTop:'10px'}}>
           
-            <img src="microsoft.png" alt="" />
             {profileModel.map((model, index) =>(
-              <p style={{textTransform:'capitalize'}}>{model.First_name} {model.Second_name}</p>
+              <div style={{display:'flex',flexDirection:'row'}}>
+              <img
+                src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/profile_icon.png`}
+                alt=""
+                style={{ width: '150px', height: '150px', borderRadius: '75px', marginRight: '35px' }}
+              />
+                <p style={{textTransform:'capitalize'}}>{model.First_name} {model.Second_name}</p>
+              </div>
             ))}
           
           </div>
@@ -110,25 +116,25 @@ function UserProfile() {
             <div className="about">
               
               <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between', alignItems:'center',marginBottom:'12px'}}>
-                <p style={{
-                  fontFamily:'Inter',
-                  fontSize: '22px',
-                  marginTop:'10px',
-                  marginBottom:'10px',
-                  fontWeight: 500,
-                  justifyContent:'center'
-                }}>Senior Interaction Designer</p>
+                {profileModel.map((model, index) =>(
+                  <p style={{
+                    fontSize: '23px',
+                    fontWeight: 500,
+                  }}>About {model.First_name} </p>
+                ))}
 
                 <Link style={{textDecoration: 'none'}} to={`/addreview/${userData.username}`}>
-                  <button style={{padding:'15px 20px', marginTop:'0px',marginBottom:'10px'}} 
+                  <button style={{padding:'15px 20px', marginTop:'0px'}} 
                   className="continue-btn" type="submit">
                     Review
                   </button>
                 </Link>
               </div>
               
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim ea minima accusamus unde debitis reprehenderit ad, dicta qui temporibus vitae fuga, vero error quia quisquam, necessitatibus dolorem fugit! Repudiandae error dolorum rem consequatur illo? Deleniti nesciunt natus dolor, deserunt ipsam sunt quibusdam quos sed unde. Deserunt numquam ducimus illum atque nobis eligendi necessitatibus explicabo non dicta ipsum eum eaque incidunt fuga velit corrupti ipsam quas omnis perferendis, quaerat impedit expedita saepe quos officia natus? Iure consequuntur accusantium quae adipisci officiis at repellat harum sapiente. Hic laboriosam, commodi maiores facere repellat earum voluptatibus dolores voluptas fugiat, corporis delectus molestiae aliquid at!</p>
-              
+              {profileModel.map((model, index) =>(
+                <p style={{fontSize:'17px',marginBottom:'20px'}}>{model.Bio} </p>
+              ))}
+
               <div className="attributes">
 
                 <p style={{

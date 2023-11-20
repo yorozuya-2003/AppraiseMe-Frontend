@@ -8,6 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+
 SECRET_KEY = 'django-insecure-b+09k+bp5*^j8c2ic4%jgttci=q2(my^q$7hq3^q)kyqsug)$$'
 
 DEBUG = True
