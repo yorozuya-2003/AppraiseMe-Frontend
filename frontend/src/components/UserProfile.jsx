@@ -84,7 +84,7 @@ function UserProfile() {
             {profileModel.map((model, index) =>(
               <div style={{display:'flex',flexDirection:'row'}}>
               <img
-                src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/profile_icon.png`}
+                src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`}
                 alt=""
                 style={{ width: '150px', height: '150px', borderRadius: '75px', marginRight: '35px' }}
               />

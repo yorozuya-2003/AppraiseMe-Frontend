@@ -164,7 +164,7 @@ function HomePage() {
 
                   <div style={{display:'flex',flexDirection:'column', marginRight:'25px'}}>
                   <img
-                    src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/profile_icon.png`}
+                    src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`}
                     alt=""
                     style={{ width: '150px', height: '150px', borderRadius: '75px', marginRight: '35px' }}
                   />

@@ -19,17 +19,20 @@ const useCheckProfileCompletion = () => {
 
             try {
                 const response = await axios.get(`${API_URL}/check_profile/${userEmail}`);
-                console.log(`profile: ${response.data}`);
-                if (response.data['Email']){
+                console.log(`profile:`, response.data);
+                if (response.data['Email']) {
                     if (location.pathname === '/details') {
-                        navigate('/home');
+                        if (location.pathname !== '/home') {
+                            navigate('/home');
+                        }
+                    }
+                } else {
+                    if (location.pathname !== '/details') {
+                        navigate('/details');
                     }
                 }
-                else {
-                    navigate('/details');
-                }
             } catch (error) {
-                console.error(`error checking profile completion: ${error}`);
+                console.error(`error checking profile completion:`, error);
             }
         };
         

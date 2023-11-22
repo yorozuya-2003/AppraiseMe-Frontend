@@ -1,13 +1,36 @@
 import { React, useState, useEffect } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import axios from "axios";
-import API_URL from "./ApiConfig";
+import API_BASE_URL from "./ApiConfig";
 import Header from "./Header";
 import "../styles/add_review.css";
+import useCheckProfileCompletion from "./checkProfileCompletion";
 
 function AddReview() {
+  useCheckProfileCompletion();
   const { username } = useParams();
   const [userData, setUserData] = useState(null);
+
+  const [profileModel, setProfileModel] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userResponse = await axios.get(`${API_BASE_URL}/user/${username}/`);
+        setUserData(userResponse.data);
+  
+        const [profileModelResponse] = await Promise.all([
+          axios.get(`${API_BASE_URL}/api/addprofile/?Email=${userResponse.data.email}`),
+        ]);
+  
+        setProfileModel(profileModelResponse.data[0]);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    fetchData();
+  }, [username]);
 
   const loggedInUser = JSON.parse(localStorage.getItem("user"));
   const [formData, setFormData] = useState({
@@ -31,7 +54,7 @@ function AddReview() {
 
   useEffect(() => {
     axios
-      .get(`${API_URL}/user/${username}/`)
+      .get(`${API_BASE_URL}/user/${username}/`)
       .then((response) => {
         setUserData(response.data);
         setFormData({ ...formData, to_user: response.data.email });
@@ -58,7 +81,7 @@ function AddReview() {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    axios.post(`${API_URL}/api/add-review/`, formData)
+    axios.post(`${API_BASE_URL}/api/add-review/`, formData)
     .then(response => {
       console.log('Review added successfully:', response.data);
     })
@@ -80,22 +103,26 @@ function AddReview() {
             <div className="user-profile">
                 <div className="user_profile_name">
                     <p>You are now appraising</p>
-                    <p style={{fontSize:'48px'}}>Tanish Pagaria</p>
+                    <p style={{fontSize:'48px'}}>{profileModel.First_name} {profileModel.Second_name}</p>
                 </div>
 
                 <div className="user-profile-image">
-                    <img id="user-profile-image" src="microsoft.png" alt="user profile" />
+                <img
+                    src={profileModel.Image ? `${profileModel.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`}
+                    alt=""
+                    style={{ width: '150px', height: '150px', borderRadius: '75px', marginRight: '35px' }}
+                  />
                 </div>
             </div>
 
 
             <form onSubmit={handleSubmit} className="review_form">
               <div className="review-box">
-                <p style={{fontSize:'22px',marginBottom:'15px'}} id="tell-us">Tell us a little about your history with {userData.email}</p>
+                <p style={{fontSize:'22px',marginBottom:'15px'}} id="tell-us">Tell us a little about your history with {profileModel.First_name}</p>
                 <div className="review-dropdowns" style={{fontWeight:400}}>
                     <div className="dropdown-section">
                         <div className="dropdown-subsection">
-                            <p style={{marginBottom:0}} className="dropdown-question">Where do you know {userData.email} from?</p>
+                            <p style={{marginBottom:0}} className="dropdown-question">Where do you know {profileModel.First_name} from?</p>
                             <select name="acquaintance" value={formData.acquaintance} onChange={handleChange} className="select">
                                 <option value="Work">Work</option>
                                 <option value="Personal">Personal</option>
@@ -104,7 +131,7 @@ function AddReview() {
                           </div>
 
                         <div className="dropdown-section">
-                            <p style={{marginBottom:0}} className="dropdown-question">How many years have you known {userData.email} for?</p>
+                            <p style={{marginBottom:0}} className="dropdown-question">How many years have you known {profileModel.First_name} for?</p>
                             <select style={{marginBottom:0}} name="acquaintance_time" value={formData.acquaintance_time} onChange={handleChange} className="select">
                                 <option value="Less than 1 year">Less than 1 year</option>
                                 <option value="1 to 3 years">1 to 3 years</option>
@@ -116,7 +143,7 @@ function AddReview() {
 
                         <div className="dropdown-section">
                         <div className="dropdown-subsection">
-                            <p style={{marginBottom:0}} className="dropdown-question">What is your relation with {userData.email}?</p>
+                            <p style={{marginBottom:0}} className="dropdown-question">What is your relation with {profileModel.First_name}?</p>
                             <select name="relation" value={formData.relation} onChange={handleChange} className="select">
                                 <option value="Boss">Boss</option>
                                 <option value="Employee">Employee</option>
@@ -229,7 +256,7 @@ function AddReview() {
                 </div>
 
                 <div className="sentence-section">
-                    <p className="sentence-question">Lastly, please write a single, short sentence that best describes {userData.email}'s demeanoar</p>
+                    <p className="sentence-question">Lastly, please write a single, short sentence that best describes {profileModel.First_name}'s demeanoar</p>
                     <textarea placeholder="Short Description..." name="sentence" value={formData.sentence} onChange={handleChange} className="sentence-box" />
 
                 <button type="submit" className="continue-btn">
