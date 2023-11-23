@@ -4,11 +4,14 @@ import API_URL from "./ApiConfig";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const useCheckProfileCompletion = () => {
-    let user = JSON.parse(localStorage.getItem("user"));
-    const userEmail = user.email || '';
-
     const navigate = useNavigate();
     const location = useLocation();
+
+    let user = JSON.parse(localStorage.getItem("user"));
+    let userEmail = null;
+    if (user) {
+        userEmail = user.email;
+    }
 
     useEffect(() => {
         const checkUserProfileCompletion = async () => {

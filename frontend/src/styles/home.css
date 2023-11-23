@@ -33,7 +33,7 @@
     margin-top: 80px;
     margin-left:60px ;
     max-height: 7000px;
-    overflow:scroll;
+    /* overflow:scroll; */
 }
 
 .homediv3 .experiences{

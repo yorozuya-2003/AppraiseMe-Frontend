@@ -16,12 +16,16 @@ function HomePage() {
   const [profileModel, setProfileModel] = useState([]);
   const [reviewModel, setReviewModel] = useState([]);
 
-  if (!loggedInUser) {
-    navigate('/');
-  }
-  else {
-    userEmail = loggedInUser.email;
-  }
+  console.log(loggedInUser)
+
+  useEffect(() => {
+    if(loggedInUser){
+      userEmail = loggedInUser.email;
+    }
+    else {
+      navigate('/');
+    }
+  }, [loggedInUser]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -258,13 +262,15 @@ function HomePage() {
                   marginBottom: '0.5px',
                 }}>Key Attributes</p>
                 
+                {profileModel.map((model, index) =>(
                 <p style={
                   {fontSize: '12px',
                   fontWeight: 350,
                   marginTop:'0.5px',
                   color: '#4A4A4A',
                   marginBottom:'25px'
-                  }}>What best describes Vinay</p>
+                  }}>What best describes {model.First_name}</p>
+                ))}
 
                   <div style={{marginBottom:'50px'}}>
                     <p style={{marginBottom:'10px',fontSize:'20px',fontWeight:400}} className="slider-question">Communication</p>
@@ -359,13 +365,15 @@ function HomePage() {
                   marginBottom: '0.5px',
                   }}>User Reviews</p>
                 
+                {profileModel.map((model, index) => (
                 <p style={
                   {fontSize: '12px',
                   fontWeight: 350,
                   marginTop:'0.5px',
                   marginBottom:'25px',
                   color: '#4A4A4A'
-                }}>What other users say about Vinay</p>
+                }}>What other users say about {model.First_name}</p>
+                ))}
 
                 {reviewModel.map((model, index) =>(
                   

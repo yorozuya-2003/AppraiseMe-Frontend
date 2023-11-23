@@ -143,13 +143,15 @@ function UserProfile() {
                   marginBottom: '0.5px',
                 }}>Key Attributes</p>
                 
+                {profileModel.map((model, index) =>(
                 <p style={
                   {fontSize: '12px',
                   fontWeight: 350,
                   marginTop:'0.5px',
                   color: '#4A4A4A',
                   marginBottom:'25px'
-                  }}>What best describes Vinay</p>
+                  }}>What best describes {model.First_name}</p>
+                ))}
 
                   <div style={{marginBottom:'50px'}}>
                     <p style={{marginBottom:'10px',fontSize:'20px',fontWeight:400}} className="slider-question">Communication</p>
@@ -244,19 +246,21 @@ function UserProfile() {
                   marginBottom: '0.5px',
                   }}>User Reviews</p>
                 
+                {profileModel.map((model, index) =>(
                 <p style={
                   {fontSize: '12px',
                   fontWeight: 350,
                   marginTop:'0.5px',
                   marginBottom:'25px',
                   color: '#4A4A4A'
-                }}>What other users say about Vinay</p>
+                }}>What other users say about {model.First_name}</p>
+                ))}
 
                 {reviewModel.map((model, index) =>(
                   
                   <div>
                     <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>
-                      <img src="microsoft.png" alt="" />
+                      <img src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`} alt="" />
                       <p style={
                         {fontSize: '18px',
                         fontWeight: 500,

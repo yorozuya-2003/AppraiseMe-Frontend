@@ -1,11 +1,11 @@
 import axios from 'axios';
 import React, {useEffect, useState } from 'react';
-import "../styles/addexp.css";
+import "../styles/add_experience.css";
 import API_BASE_URL from "./ApiConfig"
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 
-function Addexp() {
+function AddExperience() {
 
     let loggedInUser = JSON.parse(localStorage.getItem("user"));
     let loggedInUserObject =loggedInUser.email;
@@ -188,4 +188,4 @@ function Addexp() {
   );
 }
 
-export default Addexp;
+export default AddExperience;
