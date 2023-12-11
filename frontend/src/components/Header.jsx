@@ -61,6 +61,7 @@ export default function Header() {
           placeholder="Search..."
           value={searchQuery}
           onChange={handleInputChange}
+          autoComplete="off"
         />
         {suggestions.length > 0 && (
           <ul className="suggestions">
