@@ -188,3 +188,11 @@ border-width: 0px;
     line-height: normal;
     letter-spacing: 1px;
 }
+
+.anonymous-checkbox input[type="checkbox"] {
+    accent-color: #3818FD;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    vertical-align: middle;
+}

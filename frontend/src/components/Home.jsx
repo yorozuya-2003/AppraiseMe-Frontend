@@ -384,7 +384,7 @@ function HomePage() {
                         {fontSize: '18px',
                         fontWeight: 500,
                         marginBottom:'11px',
-                      }}>{model.from_user_first_name} {model.from_user_last_name}</p>
+                      }}>{model.from_user_name}</p>
                     </div>
                     <p style={{marginBottom:'20px',}}>{model.sentence}</p>
                   </div>

@@ -46,4 +46,5 @@ class ReviewSerializer(ModelSerializer):
             'slider8',
             'slider9',
             'sentence',
+            'is_anonymous',
         ]

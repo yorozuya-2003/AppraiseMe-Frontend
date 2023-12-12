@@ -59,6 +59,7 @@ function AddReview() {
     slider8: 0,
     slider9: 0,
     sentence: "",
+    is_anonymous: false,
   });
 
   useEffect(() => {
@@ -82,8 +83,9 @@ function AddReview() {
   const isCurrentUserProfile = userData.username === localStorageUser.username;
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, type, checked } = e.target;
+    const newValue = type === 'checkbox' ? checked : value;
+    setFormData({ ...formData, [name]: newValue });
     // console.log(formData);
   };
 
@@ -99,6 +101,7 @@ function AddReview() {
       .catch((error) => {
         console.log("Error adding review:", error);
       });
+      // console.log(formData);
   };
 
   const handleContinue = () => {
@@ -193,7 +196,7 @@ function AddReview() {
           </div>
         </div>
         <button type="button" className="continue-btn" onClick={handleContinue}>
-            Continue
+            Continue to next step
           </button>
       </div>
     </>,
@@ -318,7 +321,7 @@ function AddReview() {
           </div>
         </div>
         <button type="button" className="continue-btn" onClick={handleContinue}>
-            Continue
+            Continue to next step
           </button>
       </div>
     </>,
@@ -443,7 +446,7 @@ function AddReview() {
           </div>
         </div>
         <button type="button" className="continue-btn" onClick={handleContinue}>
-            Continue
+            Continue to next step
           </button>
       </div>
     </>,
@@ -567,9 +570,9 @@ function AddReview() {
             </div>
           </div>
         </div>
-        <button className="continue-btn" onClick={handleContinue}>
-            Continue
-          </button>
+        <button type="button" className="continue-btn" onClick={handleContinue}>
+            Continue to next step
+        </button>
       </div>
     </>,
     <>
@@ -587,8 +590,19 @@ function AddReview() {
             className="sentence-box"
           />
 
+          <div className="anonymous-checkbox">
+            <input
+              type="checkbox"
+              id="anonymous"
+              name="is_anonymous"
+              checked={formData.is_anonymous}
+              onChange={handleChange}
+            />
+            <label>Review Anonymously</label>
+          </div>
+
           <button type="submit" className="continue-btn">
-            Submit Review
+            Finalize your review
           </button>
         </div>
       </div>

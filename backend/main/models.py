@@ -105,5 +105,53 @@ class Review(models.Model):
 
     sentence = models.TextField(max_length=500, default='')
 
+    is_anonymous = models.BooleanField(default=False)
+
+    upvotes = models.ManyToManyField(Profiles, related_name='upvoted_reviews', blank=True)
+    downvotes = models.ManyToManyField(Profiles, related_name='downvoted_reviews', blank=True)
+
+    class Meta:
+        unique_together = ('to_user', 'from_user')
+
+    def upvote(self, user_email):
+        if user_email not in self.upvotes.all():
+            self.upvotes.add(user_email)
+            if user_email in self.downvotes.all():
+                self.downvotes.remove(user_email)
+        elif user_email in self.upvotes.all():
+            self.upvotes.remove(user_email)
+
+    def downvote(self, user_email):
+        if user_email not in self.downvotes.all():
+            self.downvotes.add(user_email)
+            if user_email in self.upvotes.all():
+                self.upvotes.remove(user_email)
+
+        elif user_email in self.downvotes.all():
+            self.downvotes.remove(user_email)
+
+    def get_upvotes_count(self):
+        return self.upvotes.count()
+
+    def get_downvotes_count(self):
+        return self.downvotes.count()
+    
+    def review_giver(self):
+        if self.is_anonymous:
+            return f'Anonymous'
+        else:
+            FromUser = Profiles.objects.get(Email=self.from_user)
+            return f'{FromUser.First_name} {FromUser.Second_name}'
+        
+    def review_receiver(self):
+        ToUser = Profiles.objects.get(Email=self.to_user)
+        return f'{ToUser.First_name} {ToUser.Last_name}'
+    
+    def has_upvoted(self, user_email):
+        return user_email in self.upvotes.all()
+    
+    def has_downvoted(self, user_email):
+        return user_email in self.downvotes.all()
+
     def __str__(self):
         return f'{self.from_user} => {self.to_user}'

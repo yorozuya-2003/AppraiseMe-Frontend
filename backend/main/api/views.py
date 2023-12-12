@@ -231,31 +231,23 @@ class ReviewViewSet(ModelViewSet):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse({'message': 'Review added successfully.'}, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['GET'])
 def get_reviews_for_user(request, to_user_email):
     try:
-        # Retrieve the Profiles instance for the to_user
         to_user_profile = Profiles.objects.get(Email=to_user_email)
-
-        # Retrieve all reviews given to the to_user
         reviews = Review.objects.filter(to_user=to_user_email)
 
-        # Create a list to store the review details as dictionaries
         review_list = []
-
         for review in reviews:
-            # Retrieve the from_user's first name and last name
             from_user_profile = Profiles.objects.get(Email=review.from_user)
-            from_user_first_name = from_user_profile.First_name
-            from_user_last_name = from_user_profile.Second_name
 
-            # Create a dictionary with review details
             review_dict = {
                 "from_user": review.from_user,
-                "from_user_first_name": from_user_first_name,
-                "from_user_last_name": from_user_last_name,
+                "from_user_name": review.review_giver(),
                 "acquaintance": review.acquaintance,
                 "acquaintance_time": review.acquaintance_time,
                 "relation": review.relation,
@@ -270,6 +262,7 @@ def get_reviews_for_user(request, to_user_email):
                 "slider8": review.slider8,
                 "slider9": review.slider9,
                 "sentence": review.sentence,
+                "is_anonymous": review.is_anonymous,
             }
             review_list.append(review_dict)
 
