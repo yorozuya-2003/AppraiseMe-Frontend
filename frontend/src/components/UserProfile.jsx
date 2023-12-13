@@ -5,6 +5,9 @@ import useCheckProfileCompletion from "./checkProfileCompletion";
 import API_BASE_URL from "./ApiConfig";
 import Header from "./Header";
 import "../styles/landing_page.css";
+import "../styles/user_profile.css";
+import { ReactComponent as ReviewLogo } from './add_review.svg'
+import { ReactComponent as CopyURL } from './add_link.svg'
 
 function UserProfile() {
   useCheckProfileCompletion();
@@ -123,6 +126,12 @@ function UserProfile() {
     }
   }
 
+  const handleCopyURL = () => {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url);
+    alert("URL copied to clipboard");
+  }
+
   return (
     <>
       {isCurrentUserProfile ? (
@@ -178,12 +187,20 @@ function UserProfile() {
                   }}>About {model.First_name} </p>
                 ))}
 
-                <Link style={{textDecoration: 'none'}} to={`/addreview/${userData.username}`}>
-                  <button style={{padding:'15px 20px', marginTop:'0px'}} 
-                  className="continue-btn" type="submit">
-                    Review
-                  </button>
-                </Link>
+                <div className="buttons">
+                  <button 
+                    className="url-btn" type="button" onClick={handleCopyURL}>
+                      <CopyURL />
+                    </button>
+
+                  <Link style={{textDecoration: 'none'}} to={`/addreview/${userData.username}`}>
+                    <button style={{padding:'15px 20px', marginTop:'0px'}} 
+                    className="continue-btn review-btn" type="submit">
+                      <ReviewLogo />
+                      Review
+                    </button>
+                  </Link>
+                </div>
               </div>
               
               {profileModel.map((model, index) =>(

@@ -113,19 +113,19 @@ margin-top: 0px;
 }
 .sentence-section .continue-btn {
     display: flex;
-padding: 16px 32px;
-justify-content: center;
-align-items: center;
-gap: 16px;
-border-radius: 32px;
-background: #3818FD;
-color: #FFF;
-font-family: Inter;
-font-size: 16px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-border-width: 0px;
+    padding: 16px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    border-radius: 32px;
+    background: #3818FD;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border-width: 0px;
 }
 
 .custom-slider {

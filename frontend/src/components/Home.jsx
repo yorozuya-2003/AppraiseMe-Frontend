@@ -2,9 +2,11 @@ import { useState, useEffect, React } from "react";
 import axios from 'axios';
 import Header from "./Header";
 import "../styles/home.css";
+import "../styles/user_profile.css";
 import useCheckProfileCompletion from "./checkProfileCompletion";
 import API_BASE_URL from "./ApiConfig";
 import { useNavigate,Link } from "react-router-dom";
+import { ReactComponent as CopyURL } from './add_link.svg'
 
 function HomePage() {
   useCheckProfileCompletion();
@@ -152,6 +154,13 @@ function HomePage() {
     }
   };
 
+  const handleCopyURL = () => {
+    // const url = window.location.href;
+    const url = `http://localhost:3000/user/${loggedInUser.username}`
+    navigator.clipboard.writeText(url);
+    alert("URL copied to clipboard");
+  };
+
   return (
         <div className="home">
           <header>
@@ -231,15 +240,21 @@ function HomePage() {
                 }}>About {model.First_name} </p>
               ))}
 
-              <button
-                onClick={isAddDivVisible ? handleSaveBio : toggleAddDiv}
-                id="addbutton"
-                style={{ padding: '7px 13px', marginTop: '0px', marginBottom: '10px',fontSize:'14px' }}
-                className="continue-btn"
-                type="button" // Set type to "button" to prevent form submission
-              >
-                {buttonLabel}
-              </button>
+              <div className="buttons">
+                  <button 
+                    className="url-btn" type="button" onClick={handleCopyURL}>
+                      <CopyURL />
+                    </button>
+
+                <button
+                  onClick={isAddDivVisible ? handleSaveBio : toggleAddDiv}
+                  id="addbutton"
+                  className="review-btn"
+                  type="button"
+                >
+                  {buttonLabel}
+                </button>
+              </div>
             </div>
               
             <div style={{ display: !isAddDivVisible ? 'flex' : 'none', flexDirection: 'column' }}>
