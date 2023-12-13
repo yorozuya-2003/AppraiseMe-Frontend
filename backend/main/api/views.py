@@ -239,9 +239,45 @@ def get_reviews_for_user(request, to_user_email):
         current_user_email = request.GET.get('email')
         to_user_profile = Profiles.objects.get(Email=to_user_email)
         reviews = Review.objects.filter(to_user=to_user_email)
+        current_user_review = Review.objects.filter(from_user=current_user_email, to_user=to_user_email).first()
+        current_user_profile = Profiles.objects.get(Email=current_user_email)
+        current_user_name = current_user_profile.First_name + " " + current_user_profile.Second_name
+        if current_user_review is not None:
+            if current_user_review.is_anonymous:
+                current_user_name += " (Anonymous)"
 
         review_list = []
+
+        if current_user_email is not None:
+            review_list.append({
+                "id": current_user_review.id,
+                "from_user": current_user_review.from_user,
+                "from_user_name": current_user_name,
+                "acquaintance": current_user_review.acquaintance,
+                "acquaintance_time": current_user_review.acquaintance_time,
+                "relation": current_user_review.relation,
+                "team_size": current_user_review.team_size,
+                "slider1": current_user_review.slider1,
+                "slider2": current_user_review.slider2,
+                "slider3": current_user_review.slider3,
+                "slider4": current_user_review.slider4,
+                "slider5": current_user_review.slider5,
+                "slider6": current_user_review.slider6,
+                "slider7": current_user_review.slider7,
+                "slider8": current_user_review.slider8,
+                "slider9": current_user_review.slider9,
+                "sentence": current_user_review.sentence,
+                "is_anonymous": current_user_review.is_anonymous,
+                "upvotes_count": current_user_review.get_upvotes_count(),
+                "downvotes_count": current_user_review.get_downvotes_count(),
+                "has_upvoted": current_user_review.has_upvoted(current_user_email),
+                "has_downvoted": current_user_review.has_downvoted(current_user_email),
+                "can_delete": True,
+            })
+
         for review in reviews:
+            if review.from_user == current_user_email:
+                continue
             review_dict = {
                 "id": review.id,
                 "from_user": review.from_user,
@@ -265,6 +301,7 @@ def get_reviews_for_user(request, to_user_email):
                 "downvotes_count": review.get_downvotes_count(),
                 "has_upvoted": review.has_upvoted(current_user_email),
                 "has_downvoted": review.has_downvoted(current_user_email),
+                "can delete": False,
             }
             review_list.append(review_dict)
 
@@ -369,6 +406,19 @@ def downvote_review(request, review_id):
             review.save()
             return JsonResponse({'success': True, 'upvotes_count': review.get_upvotes_count(), 'downvotes_count': review.get_downvotes_count(),
                 'has_upvoted': review.has_upvoted(user_email), 'has_downvoted': review.has_downvoted(user_email)})
+        except Review.DoesNotExist:
+            return JsonResponse({'error': 'Review not found'}, status=404)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+@api_view(['DELETE'])
+def delete_review(request, review_id):
+    if request.method == 'DELETE':
+        try:
+            review = Review.objects.get(id=review_id)
+            review.delete()
+            return JsonResponse({'success': True})
         except Review.DoesNotExist:
             return JsonResponse({'error': 'Review not found'}, status=404)
 

@@ -28,7 +28,8 @@ urlpatterns = [
 
     path('upvote_review/<int:review_id>', upvote_review, name='upvote_review'),
     path('downvote_review/<int:review_id>', downvote_review, name='downvote_review'),
-    
+
+    path('delete_review/<int:review_id>', delete_review, name='delete_review'),
 ]
 
 if settings.DEBUG:

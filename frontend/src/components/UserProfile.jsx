@@ -8,6 +8,7 @@ import "../styles/landing_page.css";
 import "../styles/user_profile.css";
 import { ReactComponent as ReviewLogo } from './add_review.svg'
 import { ReactComponent as CopyURL } from './add_link.svg'
+import { ReactComponent as Delete } from './delete.svg'
 
 function UserProfile() {
   useCheckProfileCompletion();
@@ -19,6 +20,9 @@ function UserProfile() {
   const [reviewModel, setReviewModel] = useState([]);
 
   const [isAddDivVisible, setIsAddDivVisible] = useState(false);
+
+  const [reviewToDelete, setReviewToDelete] = useState(null);
+  const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -130,6 +134,20 @@ function UserProfile() {
     const url = window.location.href;
     navigator.clipboard.writeText(url);
     alert("URL copied to clipboard");
+  }
+
+  const handleDeleteReview = async () => {
+    try {
+      const response = await axios.delete(`${API_BASE_URL}/delete_review/${reviewToDelete}`);
+      if (response.data.success) {
+        setReviewModel((prevReviews) => prevReviews.filter((review) => review.id !== reviewToDelete));
+        setIsDeleteConfirmationVisible(false);
+      } else {
+        alert("Failed to delete the review");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -341,7 +359,7 @@ function UserProfile() {
                     </div>
                     <p style={{marginBottom:'20px',}}>{model.sentence}</p>
 
-                    <div>
+                    <div className="review-buttons">
                       <button
                         onClick={() => handleUpvote(model.id)}
                         className={`vote-button ${model.has_upvoted ? 'voted' : ''}`}
@@ -355,7 +373,29 @@ function UserProfile() {
                       >
                         Downvote ({model.downvotes_count})
                       </button>
+
+                      {model.can_delete && (
+                      <button 
+                        className="delete-btn"
+                        onClick={() => {
+                        setReviewToDelete(model.id);
+                        setIsDeleteConfirmationVisible(!isDeleteConfirmationVisible);
+                      }}>
+                        <Delete />
+                      </button>
+                      )}
                     </div>
+
+                    {model.can_delete && 
+                    isDeleteConfirmationVisible && (
+                      <div className="delete-confirmation-modal">
+                        <p className="confirm-delete-sentence">Are you sure you want to delete this review?</p>
+                        <div className="confirm-delete-buttons">
+                          <button className="confirm-delete-btn" onClick={handleDeleteReview}>Yes</button>
+                          <button className="confirm-delete-btn" onClick={() => setIsDeleteConfirmationVisible(false)}>No</button>
+                        </div>
+                      </div>
+                    )}
 
                   </div>
                 ))}

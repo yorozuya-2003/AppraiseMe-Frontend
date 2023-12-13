@@ -5,6 +5,13 @@
     margin-top: 16px;
 }
 
+.review-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 4px;
+}
+
 .review-btn {
     display: flex;
     padding: 12px 32px;
@@ -34,4 +41,42 @@
     border-radius: 32px;
     border: 2px solid #3818FD;
     margin-right: 16px;
+}
+
+.delete-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-width: 0px;
+    background-color: #FFF;
+}
+
+.confirm-delete-buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+}
+
+.confirm-delete-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 32px;
+    background: #FFF;
+    border-color: #3818FD;
+    border-width: 1px;
+    height: 32px;
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+.confirm-delete-btn:hover {
+    background-color: #3818FD;
+    color: #FFF;
+}
+
+.confirm-delete-sentence {
+    margin-top: 10px;
+    font-size: 15px;
 }
