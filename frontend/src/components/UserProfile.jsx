@@ -20,13 +20,22 @@ function UserProfile() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user || !user.email) {
+          console.log("user not logged in");
+          return;
+        }
+        
         const userResponse = await axios.get(`${API_BASE_URL}/user/${username}/`);
         setUserData(userResponse.data);
-  
+
+        const userEmail = user.email;
+        // console.log('user-email:', userEmail)
+
         const [workModelResponse, profileModelResponse, reviewModelResponse] = await Promise.all([
           axios.get(`${API_BASE_URL}/api/addwork/?email=${userResponse.data.email}`),
           axios.get(`${API_BASE_URL}/api/addprofile/?Email=${userResponse.data.email}`),
-          axios.get(`${API_BASE_URL}/get_reviews/${userResponse.data.email}`)
+          axios.get(`${API_BASE_URL}/get_reviews/${userResponse.data.email}`, { params: { email: userEmail } })
         ]);
   
         setWorkModel(workModelResponse.data);
@@ -66,6 +75,52 @@ function UserProfile() {
   const localStorageUser = JSON.parse(localStorage.getItem("user"));
   if (localStorageUser) {
     isCurrentUserProfile = userData.username === localStorageUser.username;
+  }
+
+  const handleUpvote = async (reviewId) => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userEmail = user.email;
+      const response = await axios.post(`${API_BASE_URL}/upvote_review/${reviewId}`, { email:userEmail });
+      if (response.data.success) {
+        console.log(response.data);
+        setReviewModel((prevReviews) =>
+          prevReviews.map((review) =>
+            review.id === reviewId
+              ? { ...review, upvotes_count: response.data.upvotes_count, downvotes_count: response.data.downvotes_count,
+                has_upvoted: response.data.has_upvoted, has_downvoted: response.data.has_downvoted }
+              : review
+          )
+        );
+      } else {
+        alert("Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleDownvote = async (reviewId) => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userEmail = user.email;
+      const response = await axios.post(`${API_BASE_URL}/downvote_review/${reviewId}`, { email:userEmail });
+      if (response.data.success) {
+        console.log(response.data);
+        setReviewModel((prevReviews) =>
+          prevReviews.map((review) =>
+            review.id === reviewId
+              ? { ...review, upvotes_count: response.data.upvotes_count, downvotes_count: response.data.downvotes_count,
+                has_upvoted: response.data.has_upvoted, has_downvoted: response.data.has_downvoted }
+              : review
+          )
+        );
+      } else {
+        alert("Something went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -257,8 +312,7 @@ function UserProfile() {
                 ))}
 
                 {reviewModel.map((model, index) =>(
-                  
-                  <div>
+                  <div key={model.id}>
                     <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>
                       <img src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`} alt="" />
                       <p style={
@@ -269,6 +323,23 @@ function UserProfile() {
                       }}>{model.from_user_name}</p>
                     </div>
                     <p style={{marginBottom:'20px',}}>{model.sentence}</p>
+
+                    <div>
+                      <button
+                        onClick={() => handleUpvote(model.id)}
+                        className={`vote-button ${model.has_upvoted ? 'voted' : ''}`}
+                      >
+                        Upvote ({model.upvotes_count})
+                      </button>
+
+                      <button
+                        onClick={() => handleDownvote(model.id)}
+                        className={`vote-button ${model.has_downvoted ? 'voted' : ''}`}
+                      >
+                        Downvote ({model.downvotes_count})
+                      </button>
+                    </div>
+
                   </div>
                 ))}
 

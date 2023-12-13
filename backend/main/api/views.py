@@ -216,8 +216,6 @@ class work_exp_viewset(ModelViewSet):
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-
-
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
@@ -238,14 +236,14 @@ class ReviewViewSet(ModelViewSet):
 @api_view(['GET'])
 def get_reviews_for_user(request, to_user_email):
     try:
+        current_user_email = request.GET.get('email')
         to_user_profile = Profiles.objects.get(Email=to_user_email)
         reviews = Review.objects.filter(to_user=to_user_email)
 
         review_list = []
         for review in reviews:
-            from_user_profile = Profiles.objects.get(Email=review.from_user)
-
             review_dict = {
+                "id": review.id,
                 "from_user": review.from_user,
                 "from_user_name": review.review_giver(),
                 "acquaintance": review.acquaintance,
@@ -263,6 +261,10 @@ def get_reviews_for_user(request, to_user_email):
                 "slider9": review.slider9,
                 "sentence": review.sentence,
                 "is_anonymous": review.is_anonymous,
+                "upvotes_count": review.get_upvotes_count(),
+                "downvotes_count": review.get_downvotes_count(),
+                "has_upvoted": review.has_upvoted(current_user_email),
+                "has_downvoted": review.has_downvoted(current_user_email),
             }
             review_list.append(review_dict)
 
@@ -341,3 +343,33 @@ def update_image(request, email):
             return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
 
     return Response({'error': 'Invalid request method'}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def upvote_review(request, review_id):
+    if request.method == 'POST':
+        user_email = request.data.get('email')
+        try:
+            review = Review.objects.get(id=review_id)
+            review.upvote(user_email)
+            review.save()
+            return JsonResponse({'success': True, 'upvotes_count': review.get_upvotes_count(), 'downvotes_count': review.get_downvotes_count(),
+                'has_upvoted': review.has_upvoted(user_email), 'has_downvoted': review.has_downvoted(user_email)})
+        except Review.DoesNotExist:
+            return JsonResponse({'error': 'Review not found'}, status=404)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+@api_view(['POST'])
+def downvote_review(request, review_id):
+    if request.method == 'POST':
+        user_email = request.data.get('email')
+        try:
+            review = Review.objects.get(id=review_id)
+            review.downvote(user_email)
+            review.save()
+            return JsonResponse({'success': True, 'upvotes_count': review.get_upvotes_count(), 'downvotes_count': review.get_downvotes_count(),
+                'has_upvoted': review.has_upvoted(user_email), 'has_downvoted': review.has_downvoted(user_email)})
+        except Review.DoesNotExist:
+            return JsonResponse({'error': 'Review not found'}, status=404)
+
+    return JsonResponse({'error': 'Invalid request method'}, status=400)

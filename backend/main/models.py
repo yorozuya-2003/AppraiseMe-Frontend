@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from datetime import datetime
 
 class OTP(models.Model):
@@ -22,7 +23,7 @@ class Profiles(models.Model):
         ('Other','Other'),        
     )
 
-    Email = models.EmailField(max_length=30, default='vv@gmail.com')
+    Email = models.EmailField(max_length=30)
     First_name = models.CharField(max_length=30)
     Second_name = models.CharField(max_length=30)
     DOB = models.DateField()
@@ -107,28 +108,29 @@ class Review(models.Model):
 
     is_anonymous = models.BooleanField(default=False)
 
-    upvotes = models.ManyToManyField(Profiles, related_name='upvoted_reviews', blank=True)
-    downvotes = models.ManyToManyField(Profiles, related_name='downvoted_reviews', blank=True)
+    upvotes = models.ManyToManyField(User, related_name='upvoted_reviews', blank=True)
+    downvotes = models.ManyToManyField(User, related_name='downvoted_reviews', blank=True)
 
     class Meta:
         unique_together = ('to_user', 'from_user')
 
     def upvote(self, user_email):
-        if user_email not in self.upvotes.all():
-            self.upvotes.add(user_email)
-            if user_email in self.downvotes.all():
-                self.downvotes.remove(user_email)
-        elif user_email in self.upvotes.all():
-            self.upvotes.remove(user_email)
+        user = User.objects.get(email=user_email)
+        if user not in self.upvotes.all():
+            self.upvotes.add(user)
+            if user in self.downvotes.all():
+                self.downvotes.remove(user)
+        elif user in self.upvotes.all():
+            self.upvotes.remove(user)
 
     def downvote(self, user_email):
-        if user_email not in self.downvotes.all():
-            self.downvotes.add(user_email)
-            if user_email in self.upvotes.all():
-                self.upvotes.remove(user_email)
-
-        elif user_email in self.downvotes.all():
-            self.downvotes.remove(user_email)
+        user = User.objects.get(email=user_email) 
+        if user not in self.downvotes.all():
+            self.downvotes.add(user)
+            if user in self.upvotes.all():
+                self.upvotes.remove(user)
+        elif user in self.downvotes.all():
+            self.downvotes.remove(user)
 
     def get_upvotes_count(self):
         return self.upvotes.count()
@@ -148,10 +150,14 @@ class Review(models.Model):
         return f'{ToUser.First_name} {ToUser.Last_name}'
     
     def has_upvoted(self, user_email):
-        return user_email in self.upvotes.all()
+        upvotes = list(map(lambda x: x.id,  self.upvotes.all()))
+        user = User.objects.get(email=user_email).id
+        return user in upvotes
     
     def has_downvoted(self, user_email):
-        return user_email in self.downvotes.all()
+        downvotes = list(map(lambda x: x.id,  self.downvotes.all()))
+        user = User.objects.get(email=user_email).id
+        return user in downvotes
 
     def __str__(self):
         return f'{self.from_user} => {self.to_user}'

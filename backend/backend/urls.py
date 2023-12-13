@@ -3,6 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 from main.api.views import *
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('backend.api.urls')),
@@ -24,6 +25,9 @@ urlpatterns = [
 
     path('update_bio/<str:email>/', update_bio, name='update_bio'),
     path('update_image/<str:email>/', update_image, name='update_image'),
+
+    path('upvote_review/<int:review_id>', upvote_review, name='upvote_review'),
+    path('downvote_review/<int:review_id>', downvote_review, name='downvote_review'),
     
 ]
 
