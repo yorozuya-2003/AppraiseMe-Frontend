@@ -130,31 +130,40 @@ function HomePage() {
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    
+  
     if (file) {
+      // Validate file type
+      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+      if (!allowedTypes.includes(file.type)) {
+        // Display an alert for an invalid file type
+        alert('Please select a valid image file (png, jpg, or jpeg).');
+        return;
+      }
+  
       try {
         const formData = new FormData();
         formData.append('image', file);
-
+  
         const response = await axios.post(`${API_BASE_URL}/update_image/${userEmail}/`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-
+  
         // Assuming the API returns the updated model with the new image path
         const updatedModel = response.data;
-
+  
         setProfileModel(prevProfileModel => {
           return prevProfileModel.map(profile => (profile.Email === userEmail ? updatedModel : profile));
         });
-
+  
         window.location.reload();
       } catch (error) {
         console.error('Error updating Image:', error);
       }
     }
   };
+  
 
   const handleCopyURL = () => {
     // const url = window.location.href;
@@ -185,7 +194,7 @@ function HomePage() {
                   />
                   <label className="continue-btn" style={{ marginTop: '15px', padding: '5px', fontSize: '15px', backgroundColor: 'ButtonShadow', color: 'black' }}>
                     Change Image
-                    <input type="file" accept=".jpg, .png, application/json" name="imageinput" id="imageinput" style={{ display: 'none' }} onChange={handleImageChange} />
+                    <input type="file" accept=".jpeg, .jpg, .png, application/json" name="imageinput" id="imageinput" style={{ display: 'none' }} onChange={handleImageChange} />
                   </label>
                   </div>
                   <p>{model.First_name} {model.Second_name}</p>
