@@ -31,11 +31,15 @@ function Details() {
     }
   }, []);
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const updatedValue = name === 'First_name' || name === 'Second_name' ? capitalizeFirstLetter(value) : value;
     console.log(formData);
-    setFormData({...formData, [name]: value });
+    setFormData({...formData, [name]: updatedValue });
   };
 
   const handleSubmit = async (e) => {
@@ -100,8 +104,9 @@ function Details() {
 
               <div className='dob-gender'>
 
-                <input type="date" name='DOB' max={maxDateValue} value={formData.DOB} onChange={handleChange}/>
+                <input type="date" name='DOB' placeholder='Date Of Birth' max={maxDateValue} value={formData.DOB} onChange={handleChange}/>
 
+                
                 <select name='Gender' value={formData.Gender} onChange={handleChange}>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>

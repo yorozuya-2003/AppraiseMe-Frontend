@@ -170,7 +170,7 @@ function UserProfile() {
                 alt=""
                 style={{ width: '150px', height: '150px', borderRadius: '75px', marginRight: '35px' }}
               />
-                <p style={{textTransform:'capitalize'}}>{model.First_name} {model.Second_name}</p>
+                <p>{model.First_name} {model.Second_name}</p>
               </div>
             ))}
           
@@ -349,13 +349,14 @@ function UserProfile() {
                 {reviewModel.map((model, index) =>(
                   <div key={model.id}>
                     <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>
-                      <img src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`} alt="" />
-                      <p style={
-                        {fontSize: '18px',
-                        fontWeight: 500,
-                        marginBottom:'11px',
-                        textTransform:'capitalize'
-                      }}>{model.from_user_name}</p>
+                      <Link to={`/user/${model.from_user_name}/`}>
+                        <img src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`} alt="" />
+                        <p style={
+                          {fontSize: '18px',
+                          fontWeight: 500,
+                          marginBottom:'11px',
+                        }}>{model.from_user_name}</p>
+                      </Link>
                     </div>
                     <p style={{marginBottom:'20px',}}>{model.sentence}</p>
 

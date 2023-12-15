@@ -16,6 +16,18 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const [showPassword2, setShowPassword2] = useState(false);
+
+  const togglePasswordVisibility2 = () => {
+    setShowPassword2(!showPassword2);
+  };
+  
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordStrength, setPasswordStrength] = useState("");
   const [passwordsMatch, setPasswordsMatch] = useState(true);
@@ -143,7 +155,7 @@ function SignUp() {
       ) : (
         <>
           {registrationStep === 1 && (
-            <div className="signin-div">
+            <div className="signin-div" style={{marginTop:'130px'}}>
               <h1 className="heading">🚀 Sign up to continue</h1>
               <form onSubmit={handleEmailSubmit} className="signup-form">
                 <input
@@ -163,9 +175,11 @@ function SignUp() {
           )}
 
           {registrationStep === 2 && (
-            <div className="signin-div">
-              <h1 className="heading">Enter OTP</h1>
-              <form onSubmit={handleOtpSubmit} className="signup-form">
+            <div className="signin-div" style={{marginTop:'130px'}}>
+              <h1 className="heading" style={{textAlign:'center'}}>Enter OTP</h1>
+              <form onSubmit={handleOtpSubmit} className="signup-form" style={{width:'450px',alignItems:'center'}}>
+                <p style={{fontSize:'12px', width:'100%',border:'none',marginBottom:'20px'}}>
+                  Please check your Spam folder in case you don't see an OTP</p>
                 <input
                   type="text"
                   placeholder="OTP"
@@ -178,22 +192,62 @@ function SignUp() {
           )}
 
           {registrationStep === 3 && (
-            <div className="signin-div">
-              <h1 className="heading">Create Password</h1>
+            <div className="signin-div" style={{marginTop:'130px'}}>
+              <h1 className="heading" style={{textAlign:'center'}}>Create Password</h1>
               <form onSubmit={handlePasswordSubmit} className="signup-form">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={handlePasswordChange}
-                />
+
+                <div 
+                  style={{
+                    display: 'flex',
+                    width: '320px',
+                    height: '56px',
+                    padding: '16px',
+                    borderRadius: '16px',
+                    border: '1px solid #d9d9d9',
+                    borderColor: '#d9d9d9'
+                  }}
+                >
+                  <input
+                    style={{ border: 'none',width:'100%',outline: 'none' }}
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                  />
+                  <img
+                    style={{ width: '25px', height: '25px', color: 'white', cursor: 'pointer',display:'flex' }}
+                    src={`${API_BASE_URL}/media/eye_icon/${showPassword ? 'open eye.jpg' : 'close eye.png'}`}
+                    alt=""
+                    onClick={togglePasswordVisibility}
+                  />
+                </div>
                 <div className="password-strength">{passwordStrength}</div>
-                <input
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={confirmPassword}
-                  onChange={handleConfirmPasswordChange}
-                />
+
+                <div 
+                  style={{
+                    display: 'flex',
+                    width: '320px',
+                    height: '56px',
+                    padding: '16px',
+                    borderRadius: '16px',
+                    border: '1px solid #d9d9d9',
+                    borderColor: '#d9d9d9'
+                  }}
+                >
+                  <input
+                    style={{ border: 'none',width:'100%',outline: 'none' }}
+                    type={showPassword2 ? 'text' : 'password'}
+                    placeholder="Password"
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange}
+                  />
+                  <img
+                    style={{ width: '25px', height: '25px', color: 'white', cursor: 'pointer',display:'flex' }}
+                    src={`${API_BASE_URL}/media/eye_icon/${showPassword2 ? 'open eye.jpg' : 'close eye.png'}`}
+                    alt=""
+                    onClick={togglePasswordVisibility2}
+                  />
+                </div>
                 {password !== "" &&
                   (passwordsMatch ? (
                     <div className="password-mismatch">

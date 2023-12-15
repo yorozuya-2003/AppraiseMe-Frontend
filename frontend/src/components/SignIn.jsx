@@ -12,9 +12,16 @@ function SignIn() {
       setUser(JSON.parse(loggedInUser));
     }
   }, []);
-
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+
   const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
 
@@ -59,12 +66,32 @@ function SignIn() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+
+            <div 
+              style={{
+                display: 'flex',
+                width: '320px',
+                height: '56px',
+                padding: '16px',
+                borderRadius: '16px',
+                border: '1px solid #d9d9d9',
+                borderColor: '#d9d9d9'
+              }}
+            >
+              <input
+                style={{ border: 'none',width:'100%',outline: 'none' }}
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <img
+                style={{ width: '25px', height: '25px', color: 'white', cursor: 'pointer',display:'flex' }}
+                src={`${API_BASE_URL}/media/eye_icon/${showPassword ? 'open eye.jpg' : 'close eye.png'}`}
+                alt=""
+                onClick={togglePasswordVisibility}
+              />
+            </div>
             <button type="submit">Login</button>
             <p></p>
             <button id="linkedin" className="useaccount">

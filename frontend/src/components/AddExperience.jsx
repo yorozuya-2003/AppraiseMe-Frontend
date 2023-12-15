@@ -12,7 +12,6 @@ function AddExperience() {
 
 
     const [models, setModels] = useState([]);
-
     const fetchData = () => {
         axios.get(`http://127.0.0.1:8000/api/addwork/?email=${loggedInUserObject}`)
             .then(response => {
@@ -52,7 +51,6 @@ function AddExperience() {
         const isAnyFieldEmpty = Object.values(formData).some(field => field === '');
 
         if (isAnyFieldEmpty) {
-            
             console.error('Error: All fields must be filled');
             return;
         }
@@ -131,12 +129,25 @@ function AddExperience() {
         <form onSubmit={handleSubmit} className="addexp-form" action="">
 
             <div className="title">
-                <input type="text" name='title' value={formData.title} onChange={handleChange} placeholder="Title" />
+                <input style={{width: '220px',
+                height: '36px',
+                padding: '16px',
+                borderRadius: '16px',
+                border:'1px solid',
+                borderColor: '#d9d9d9'}}
+                type="text" name='title' value={formData.title} onChange={handleChange} placeholder="Title" />
             </div>
 
             <div className='emp_type'>
 
-                <select name='emp_type' value={formData.emp_type} onChange={handleChange}>
+                <select style={{display: 'flex',
+                width: '200px',
+                height: '36px',
+                padding: '4px',
+                gap: '10px',
+                borderRadius: '16px',
+                border: '1px solid #d9d9d9'}} 
+                name='emp_type' value={formData.emp_type} onChange={handleChange}>
                     <option value="Full-time">Full-time</option>
                     <option value="Part-time">Part-time</option>
                 </select>
@@ -144,16 +155,35 @@ function AddExperience() {
             </div>
 
             <div className="company">
-                <input type="text" name='company' value={formData.company} onChange={handleChange} placeholder="Company Name" />
+                <input style={{width: '200px',
+                height: '36px',
+                padding: '16px',
+                borderRadius: '16px',
+                border:'1px solid',
+                borderColor: '#d9d9d9'}}
+                type="text" name='company' value={formData.company} onChange={handleChange} placeholder="Company Name" />
             </div>
 
             <div className="location" >
-                <input type="text" name='location' value={formData.location} onChange={handleChange} placeholder="Location" />
+                <input style={{width: '200px',
+                height: '36px',
+                padding: '16px',
+                borderRadius: '16px',
+                border:'1px solid',
+                borderColor: '#d9d9d9'}}
+                type="text" name='location' value={formData.location} onChange={handleChange} placeholder="Location" />
             </div>
 
             <div className='location_type'>
 
-                <select name='location_type' value={formData.location_type} onChange={handleChange}>
+                <select style={{display: 'flex',
+                    width: '200px',
+                    height: '36px',
+                    padding: '4px',
+                    gap: '10px',
+                    borderRadius: '16px',
+                    border: '1px solid #d9d9d9'}} 
+                    name='location_type' value={formData.location_type} onChange={handleChange}>
                     <option value="Onsite">Onsite</option>
                     <option value="Hybrid">Hybrid</option>
                     <option value="Remote">Remote</option>
@@ -161,14 +191,27 @@ function AddExperience() {
 
             </div>
 
-            <div className="currently">
-                <input type="radio" name="currently_working" value={formData.currently_working} onChange={handleChange}/>
-                <label>I am currently working in this role</label>
+            <div style={{display:'flex',flexDirection:'column'}}>
+                <input style={{width: '200px',
+                    height: '36px',
+                    padding: '16px',
+                    borderRadius: '16px',
+                    border:'1px solid',
+                    borderColor: '#d9d9d9'}}
+                    type="date" name='start_time' value={formData.start_time} onChange={handleChange}/>
+                <label htmlFor="" style={{marginLeft:'15px'}}>Start Time</label>
             </div>
 
-            <input type="date" name='start_time' value={formData.start_time} onChange={handleChange}/>
-
-            <input type="date" name='end_time' value={formData.end_time} onChange={handleChange}/>
+            <div style={{display:'flex',flexDirection:'column'}}>
+            <input style={{width: '200px',
+                height: '36px',
+                padding: '16px',
+                borderRadius: '16px',
+                border:'1px solid',
+                borderColor: '#d9d9d9'}}
+                type="date" name='end_time' value={formData.end_time} onChange={handleChange}/>
+                <label htmlFor="" style={{marginLeft:'15px'}}>End Time</label>
+            </div>
 
             <div className="continue">
               <button className="continue-btn" type="submit">

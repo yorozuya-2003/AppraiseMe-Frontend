@@ -49,9 +49,11 @@ export default function Header() {
     <header className="header-div">
       <h2>AppraiseMe</h2>
       <button>Why AppraiseMe</button>
-      <button>Show Skills</button>
       <Link to='/editdetails'>
         <button>Edit Profile</button>
+      </Link>
+      <Link to='/myreviews'>
+        <button>MyReviews</button>
       </Link>
 
       <div className="search-container">

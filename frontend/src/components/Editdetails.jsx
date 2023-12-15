@@ -2,13 +2,23 @@ import React, {useEffect, useState } from 'react';
 import '../styles/editdetails.css';
 import axios from 'axios';
 import API_BASE_URL from './ApiConfig';
-import { Link, useHistory } from 'react-router-dom'; 
+import { useNavigate,Link } from "react-router-dom";
 
 function Details() {
-
-    const loggedInUser = localStorage.getItem("user");
-    const loggedInUserObject = 'tt@gmail.com'
+    let loggedInUser = JSON.parse(localStorage.getItem("user"));
+    let loggedInUserObject = null;
     const [models, setModels] = useState([]);
+
+    console.log(loggedInUser)
+  
+    useEffect(() => {
+      if(loggedInUser){
+        loggedInUserObject = loggedInUser.email;
+      }
+      else {
+        navigate('/');
+      }
+    }, [loggedInUser]);
 
     const fetchData = () => {
         axios.get(`http://127.0.0.1:8000/api/addprofile/?Email=${loggedInUserObject}`)
@@ -44,12 +54,18 @@ function Details() {
         fetchData();
     }, [loggedInUserObject]);
     
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        const updatedValue = name === 'First_name' || name === 'Second_name' ? capitalizeFirstLetter(value) : value;
         console.log(formData);
-        setFormData({...formData, [name]: value });
+        setFormData({...formData, [name]: updatedValue });
     };
+    
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -62,7 +78,8 @@ function Details() {
             return;
         }
 
-        try {
+        try { // Replace with the actual ID of the profile you want to update
+            console.log(formData);
             const response = await axios.post(`http://127.0.0.1:8000/api/addprofile/`, formData);
             console.log('Details added:', response.data);
             setFormData({
@@ -73,6 +90,7 @@ function Details() {
                 Gender:'',
                 Pronouns:'',
             });
+            navigate("/home");
         } catch (error) {
             console.error('Error Adding Details:', error);
         }
@@ -97,7 +115,6 @@ function Details() {
                         <option value="They/Their">They/Their</option>
                         <option value="other">other</option>
                     </select>
-
                 </div>
                 
                 <div className='names'>
@@ -119,7 +136,6 @@ function Details() {
 
                 <div className='continue'>
                     <button className="continue-btn" type="submit" >Continue</button>
-                    
                     <div className='faq-div'>
                     <h4>Have a question? See our FAQ </h4>
                     </div>

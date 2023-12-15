@@ -1,0 +1,49 @@
+.myreviews{
+    align-items: center;
+    justify-content: center ;
+    display: inline-flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.myreviews h1{
+    color: #000;
+    font-family: Inter;
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+
+.myreviews .reviewlist{
+    width: 800px;
+    display: flex;
+    padding: 28px 36px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-radius: 16px;
+    border: 1px solid #f3f3f3;
+    background: #fff;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    flex-direction: column;
+    max-height: 600px;
+    overflow-y:auto;
+
+}
+
+.reviewdiv{
+    padding: 12px 20px;
+    border-radius: 16px;
+    border: 1px solid #d9d9d9;
+}
+
+.reviewdiv button{
+    font-size: 14px;
+    width: 50px;
+    height: 30px;
+    cursor: pointer;
+}

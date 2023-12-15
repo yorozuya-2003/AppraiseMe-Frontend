@@ -35,13 +35,15 @@ function HomePage() {
         const [workModelResponse, profileModelResponse, reviewModelResponse] = await Promise.all([
           axios.get(`${API_BASE_URL}/api/addwork/?email=${userEmail}`),
           axios.get(`${API_BASE_URL}/api/addprofile/?Email=${userEmail}`),
-          axios.get(`${API_BASE_URL}/get_reviews/${userEmail}`)
+          axios.get(`${API_BASE_URL}/get_reviews/${userEmail}`, { params: { email: userEmail } })
         ]);
-  
+        // console.log(profileModelResponse.data);
         setWorkModel(workModelResponse.data);
         setProfileModel(profileModelResponse.data);
         setReviewModel(reviewModelResponse.data.reviews);
       
+        // console.log(profileModel.data);
+
       } catch (error) {
         console.error(error);
       }
@@ -65,7 +67,7 @@ function HomePage() {
   const fetchUserProfiles = (userEmails) => {
   // console.log(userEmails)
   userEmails.map(Email => {
-    console.log(Email);
+    // console.log(Email);
     // axios.get(`{$API _API_BASE_URL}/api/addprofile/?Email=${Email}`)
     //   .then(response => {
     //     setUserProfiles(prevProfiles => [...prevProfiles, response.data]);
@@ -95,7 +97,7 @@ function HomePage() {
   
   const handleSaveBio = async () => {
     try {
-      console.log(bioInput)
+      // console.log(bioInput)
       await axios.post(`${API_BASE_URL}/update_bio/${userEmail}/`, {
         bio: bioInput,
       });
@@ -183,10 +185,10 @@ function HomePage() {
                   />
                   <label className="continue-btn" style={{ marginTop: '15px', padding: '5px', fontSize: '15px', backgroundColor: 'ButtonShadow', color: 'black' }}>
                     Change Image
-                    <input type="file" name="imageinput" id="imageinput" style={{ display: 'none' }} onChange={handleImageChange} />
+                    <input type="file" accept=".jpg, .png, application/json" name="imageinput" id="imageinput" style={{ display: 'none' }} onChange={handleImageChange} />
                   </label>
                   </div>
-                  <p style={{textTransform:'capitalize'}}>{model.First_name} {model.Second_name}</p>
+                  <p>{model.First_name} {model.Second_name}</p>
                 </div>
               );
             })}
@@ -251,13 +253,14 @@ function HomePage() {
                   id="addbutton"
                   className="review-btn"
                   type="button"
+                  style={{height:'35px',width:'125px'}}
                 >
                   {buttonLabel}
                 </button>
               </div>
             </div>
               
-            <div style={{ display: !isAddDivVisible ? 'flex' : 'none', flexDirection: 'column' }}>
+            <div style={{ display: !isAddDivVisible ? 'flex' : 'none', flexDirection: 'column',marginTop:'10px',paddingTop:'10px' }}>
                 
                 {profileModel.map((model, index) =>(
                   <p style={{fontSize:'17px',marginBottom:'20px',marginLeft:'7px'}}>{model.Bio} </p>
@@ -274,7 +277,7 @@ function HomePage() {
                 <p style={{
                   fontSize: '22px',
                   fontWeight: 500,
-                  marginBottom: '0.5px',
+                  marginBottom: '25px',
                 }}>Key Attributes</p>
                 
                 {profileModel.map((model, index) =>(
@@ -394,12 +397,14 @@ function HomePage() {
                   
                   <div>
                     <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>
-                      <img src="microsoft.png" alt="" />
-                      <p style={
-                        {fontSize: '18px',
-                        fontWeight: 500,
-                        marginBottom:'11px',
-                      }}>{model.from_user_name}</p>
+                      <Link to={`/user/${model.from_user_name}/`}>
+                        <img src="microsoft.png" alt="" />
+                        <p style={
+                          {fontSize: '18px',
+                          fontWeight: 500,
+                          marginBottom:'11px',
+                        }}>{model.from_user_name}</p>
+                      </Link>
                     </div>
                     <p style={{marginBottom:'20px',}}>{model.sentence}</p>
                   </div>

@@ -112,14 +112,33 @@ function Employment() {
 
             </div>
 
-            <div className="currently">
+            {/* <div className="currently">
               <input type="radio" name="currently_working" value={formData.currently_working} onChange={handleChange}/>
               <label>I am currently working in this role</label>
+            </div> */}
+
+            <div>
+              <label htmlFor="" style={{marginRight:'20px',marginLeft:'5px'}}>Start Time</label>
+              <input style={{width: '240px',
+                height: '36px',
+                padding: '16px',
+                borderRadius: '16px',
+                border:'1px solid',
+                borderColor: '#d9d9d9'}}
+                type="date" name='start_time' value={formData.start_time} onChange={handleChange}/>
             </div>
 
-            <input type="date" name='start_time' value={formData.start_time} onChange={handleChange}/>
+            <div>
+              <label htmlFor="" style={{marginRight:'20px',marginLeft:'5px'}}>End Time</label>
+              <input style={{width: '240px',
+                height: '36px',
+                padding: '16px',
+                borderRadius: '16px',
+                border:'1px solid',
+                borderColor: '#d9d9d9'}}
+                type="date" name='end_time' value={formData.end_time} onChange={handleChange}/>
+            </div>
 
-            <input type="date" name='end_time' value={formData.end_time} onChange={handleChange}/>
 
             <div style={{marginTop:'10px'}} className="continue">
               <button className="continue-btn" type="submit">

@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.db.models import Q
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
@@ -146,22 +147,15 @@ class Profiles_viewset(ModelViewSet):
     def get_queryset(self):
         target_email = self.request.query_params.get('Email')
         return Profiles.objects.filter(Email=target_email)
+    
+    def create(self, request, *args, **kwargs):
+        target_email = request.data.get('Email')
+        existing_profile = Profiles.objects.filter(Email=target_email).first()
 
-def create_user(request):
-    if request.method == 'POST':
-        serializer = ProfileSerializer(data=request.data)
-        if serializer.is_valid():
-            profile = Profiles(
-                First_name=serializer.validated_data['First_name'],
-                Second_name=serializer.validated_data['Second_name'],
-                DOB=serializer.validated_data['DOB'],
-                Gender=serializer.validated_data['Gender'],
-                Pronouns=serializer.validated_data['Pronouns'],
-                Email=serializer.validated_data['Email'],
-            )
-            profile.save()
-            return Response({'message': 'Profile Added successfully'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if existing_profile:
+            existing_profile.delete()
+        return super().create(request, *args, **kwargs)
+
 
 class work_exp_viewset(ModelViewSet):
     queryset=work_exp.objects.all()
@@ -237,7 +231,9 @@ class ReviewViewSet(ModelViewSet):
 def get_reviews_for_user(request, to_user_email):
     try:
         current_user_email = request.GET.get('email')
+        print(current_user_email)
         to_user_profile = Profiles.objects.get(Email=to_user_email)
+        print(to_user_email)
         reviews = Review.objects.filter(to_user=to_user_email)
         current_user_review = Review.objects.filter(from_user=current_user_email, to_user=to_user_email).first()
         current_user_profile = Profiles.objects.get(Email=current_user_email)
@@ -248,7 +244,7 @@ def get_reviews_for_user(request, to_user_email):
 
         review_list = []
 
-        if current_user_email is not None:
+        if current_user_review is not None:
             review_list.append({
                 "id": current_user_review.id,
                 "from_user": current_user_review.from_user,
@@ -310,6 +306,32 @@ def get_reviews_for_user(request, to_user_email):
     except Profiles.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
 
+@api_view(['GET'])
+def get_reviews_of_user(request, user_email):
+    try:
+        # Fetch reviews for the specified user
+        reviews = Review.objects.filter(from_user=user_email)
+        print(user_email)
+        # print(reviews)
+        # Fetch profiles for the 'to_user' of each review
+        profile_data = []
+        for review in reviews:
+            to_user_email = review.to_user  # Assuming 'to_user' is a field in your Review model
+            profile = get_object_or_404(Profiles, Email=to_user_email)
+            user = User.objects.get(email=profile.Email)
+            review_dict={
+                'sentence': review.sentence,
+                'username': user.username,
+                'First_name': profile.First_name,
+                'Second_name': profile.Second_name,
+            }
+            profile_data.append(review_dict)
+        
+        # print(profile_data)
+
+        return JsonResponse({'reviews': profile_data})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
 @api_view(['GET'])
 def get_profile(request, email):
@@ -342,6 +364,7 @@ def search_suggestions(request):
                 'first_name': profile.First_name,
                 'last_name': profile.Second_name,
                 'username': user.username,
+                'img':profile.Image,
             })
         except User.DoesNotExist:
             pass
