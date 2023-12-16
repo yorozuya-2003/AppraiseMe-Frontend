@@ -2,7 +2,7 @@ import { useState, useEffect, React } from "react";
 import axios from 'axios';
 import "../styles/myreviews.css";
 import API_BASE_URL from "./ApiConfig";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function MyReviews() {
     let loggedInUser = JSON.parse(localStorage.getItem("user"));
@@ -47,13 +47,20 @@ export default function MyReviews() {
         
       {reviewModel.map((item, index) => (
             <div style={{width:'100%'}} key={index} className='reviewdiv'>
-                <div>
-                    <h3 style={{}}>To: <img src={item.img} alt="" /> {item.First_name} {item.Second_name}</h3>
-                    <p>{item.sentence}</p>
+                <div className="my-reviews-profile">
+                    <img src={item.Image ? `${item.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`} alt=""
+                        className="my-reviews-img"
+                    />
+                    <h3 className="my-reviews-name">
+                     {item.First_name} {item.Second_name}</h3>
                 </div>
+                    <p className="my-reviews-sentence">{item.sentence}</p>
                 <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
-                    <button className='continue-btn'>Edit</button>
-                    <button className='continue-btn'>Delete</button>
+                    <button className='my-reviews-btn'
+                        onClick={() => {
+                            navigate(`/user/${item.username}`);
+                        }}
+                    >View Profile</button>
                 </div>
             </div>
         ))}

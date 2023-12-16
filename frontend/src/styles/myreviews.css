@@ -12,9 +12,9 @@
 .myreviews h1{
     color: #000;
     font-family: Inter;
-    font-size: 64px;
+    font-size: 48px;
     font-style: normal;
-    font-weight: 800;
+    font-weight: 400;
     line-height: normal;
 }
 
@@ -35,15 +35,56 @@
 
 }
 
-.reviewdiv{
+.reviewdiv {
     padding: 12px 20px;
     border-radius: 16px;
     border: 1px solid #d9d9d9;
 }
 
-.reviewdiv button{
-    font-size: 14px;
-    width: 50px;
-    height: 30px;
+.my-reviews-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.my-reviews-btn {
+    display: flex;
+    padding: 15px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    border-radius: 32px;
+    background: #3818FD;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border-width: 0px;
     cursor: pointer;
+}
+
+.my-reviews-name {
+    color: #000;
+    font-family: Inter;
+    font-size: 25px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.my-reviews-sentence {
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 150%;
+}
+
+.my-reviews-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 48px;
 }

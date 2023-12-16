@@ -323,14 +323,11 @@ def get_reviews_for_user(request, to_user_email):
 @api_view(['GET'])
 def get_reviews_of_user(request, user_email):
     try:
-        # Fetch reviews for the specified user
         reviews = Review.objects.filter(from_user=user_email)
         print(user_email)
-        # print(reviews)
-        # Fetch profiles for the 'to_user' of each review
         profile_data = []
         for review in reviews:
-            to_user_email = review.to_user  # Assuming 'to_user' is a field in your Review model
+            to_user_email = review.to_user
             profile = get_object_or_404(Profiles, Email=to_user_email)
             user = User.objects.get(email=profile.Email)
             review_dict={

@@ -362,16 +362,28 @@ function UserProfile() {
 
                 {reviewModel.map((model, index) =>(
                   <div key={model.id}>
-                    <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>
-                      <Link to={`/user/${model.user_id}/`}>
+                    {!model.is_anonymous ? (
+                    <Link to={`/user/${model.from_user_name}/`} style={{textDecoration: 'none'}}>
+                      <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>
                         <img src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`} alt="" />
-                        <p style={
-                          {fontSize: '18px',
-                          fontWeight: 500,
-                          marginBottom:'11px',
-                        }}>{model.from_user_name}</p>
-                      </Link>
-                    </div>
+                          <p className="review-user-name"
+                          style={
+                            {fontSize: '18px',
+                            fontWeight: 500,
+                            marginBottom:'11px',
+                          }}>{model.from_user_name}</p>
+                      </div>
+                    </Link>) : (
+                      <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>
+                        <img src={`${API_BASE_URL}/media/profile_images/default_avatar.jpg`} alt="" />
+                          <p className="review-user-name"
+                          style={
+                            {fontSize: '18px',
+                            fontWeight: 500,
+                            marginBottom:'11px',
+                          }}>{model.from_user_name}</p>
+                      </div>
+                    )}
                     <p style={{marginBottom:'20px',}}>{model.sentence}</p>
 
                     <div className="review-buttons">
