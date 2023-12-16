@@ -349,7 +349,7 @@ function UserProfile() {
                 {reviewModel.map((model, index) =>(
                   <div key={model.id}>
                     <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>
-                      <Link to={`/user/${model.from_user_name}/`}>
+                      <Link to={`/user/${model.user_id}/`}>
                         <img src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`} alt="" />
                         <p style={
                           {fontSize: '18px',

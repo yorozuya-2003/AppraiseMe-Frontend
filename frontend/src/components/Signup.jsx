@@ -216,7 +216,7 @@ function SignUp() {
                   />
                   <img
                     style={{ width: '25px', height: '25px', color: 'white', cursor: 'pointer',display:'flex' }}
-                    src={`${API_BASE_URL}/media/eye_icon/${showPassword ? 'open eye.jpg' : 'close eye.png'}`}
+                    src={`${API_BASE_URL}/media/eye_icon/${showPassword ? 'open eye.png' : 'close eye.png'}`}
                     alt=""
                     onClick={togglePasswordVisibility}
                   />
@@ -243,7 +243,7 @@ function SignUp() {
                   />
                   <img
                     style={{ width: '25px', height: '25px', color: 'white', cursor: 'pointer',display:'flex' }}
-                    src={`${API_BASE_URL}/media/eye_icon/${showPassword2 ? 'open eye.jpg' : 'close eye.png'}`}
+                    src={`${API_BASE_URL}/media/eye_icon/${showPassword2 ? 'open eye.png' : 'close eye.png'}`}
                     alt=""
                     onClick={togglePasswordVisibility2}
                   />

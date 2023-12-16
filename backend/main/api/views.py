@@ -237,6 +237,7 @@ def get_reviews_for_user(request, to_user_email):
         reviews = Review.objects.filter(to_user=to_user_email)
         current_user_review = Review.objects.filter(from_user=current_user_email, to_user=to_user_email).first()
         current_user_profile = Profiles.objects.get(Email=current_user_email)
+        current_user_id = User.objects.get(email=current_user_email).username
         current_user_name = current_user_profile.First_name + " " + current_user_profile.Second_name
         if current_user_review is not None:
             if current_user_review.is_anonymous:
@@ -246,6 +247,7 @@ def get_reviews_for_user(request, to_user_email):
 
         if current_user_review is not None:
             review_list.append({
+                "user_id": current_user_id,
                 "id": current_user_review.id,
                 "from_user": current_user_review.from_user,
                 "from_user_name": current_user_name,
@@ -275,6 +277,7 @@ def get_reviews_for_user(request, to_user_email):
             if review.from_user == current_user_email:
                 continue
             review_dict = {
+                "user_id": User.objects.get(email=review.from_user).username,
                 "id": review.id,
                 "from_user": review.from_user,
                 "from_user_name": review.review_giver(),
@@ -297,7 +300,7 @@ def get_reviews_for_user(request, to_user_email):
                 "downvotes_count": review.get_downvotes_count(),
                 "has_upvoted": review.has_upvoted(current_user_email),
                 "has_downvoted": review.has_downvoted(current_user_email),
-                "can delete": False,
+                "can_delete": False,
             }
             review_list.append(review_dict)
 
@@ -364,7 +367,7 @@ def search_suggestions(request):
                 'first_name': profile.First_name,
                 'last_name': profile.Second_name,
                 'username': user.username,
-                'img':profile.Image,
+                'img': str(profile.Image),
             })
         except User.DoesNotExist:
             pass
