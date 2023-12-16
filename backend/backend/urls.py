@@ -30,6 +30,8 @@ urlpatterns = [
     path('downvote_review/<int:review_id>', downvote_review, name='downvote_review'),
 
     path('delete_review/<int:review_id>', delete_review, name='delete_review'),
+    path('edit_review/<int:review_id>', edit_review, name='edit_review'),
+    path('has_reviewed/<str:to_user_email>/', has_reviewed, name='has_reviewed'),
 ]
 
 if settings.DEBUG:

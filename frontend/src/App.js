@@ -11,6 +11,7 @@ import Editdetails from "./components/Editdetails";
 import AddReview from "./components/AddReview";
 import MyReviews from "./components/MyReviews";
 import UserProfile from "./components/UserProfile";
+import EditReview from "./components/EditReview";
 
 function App() {
   return (
@@ -26,8 +27,9 @@ function App() {
         <Route path="/addexp" element={<AddExperience />} />
         <Route path="/editdetails" element={<Editdetails />} />
         <Route path="/myreviews" element={<MyReviews />} />
-        <Route path="/user/:username" element={<UserProfile/ >} />
+        <Route path="/user/:username" element={<UserProfile />} />
         <Route path="/addreview/:username" element={<AddReview />} />
+        <Route path="/editreview/:username" element={<EditReview />} />
       </Routes>
     </Router>
   );

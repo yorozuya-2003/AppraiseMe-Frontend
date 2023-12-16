@@ -227,6 +227,17 @@ class ReviewViewSet(ModelViewSet):
             print(serializer.errors)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    @action(detail=False, methods=['get'])
+    def get_review(self, request):
+        to_user = self.request.query_params.get('to_user')
+        from_user = self.request.query_params.get('from_user')
+        review = Review.objects.filter(to_user=to_user, from_user=from_user).first()
+        serializer = ReviewSerializer(review)
+        data = dict(serializer.data)
+        data['id'] = review.id
+        return Response(data)
+
+
 @api_view(['GET'])
 def get_reviews_for_user(request, to_user_email):
     try:
@@ -449,3 +460,29 @@ def delete_review(request, review_id):
             return JsonResponse({'error': 'Review not found'}, status=404)
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+@api_view(['PUT'])
+def edit_review(request, review_id):
+    review = Review.objects.get(id=review_id)
+    serializer = ReviewSerializer(review, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse({'message': 'Review updated successfully.'}, status=status.HTTP_200_OK)
+    else:
+        print(serializer.errors)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def has_reviewed(request, to_user_email):
+    try:
+        current_user_email = request.GET.get('email')
+        print(current_user_email)
+        current_user_review = Review.objects.filter(from_user=current_user_email, to_user=to_user_email).first()
+        has_reviewed = False
+        if current_user_review:
+            has_reviewed = True
+        return JsonResponse({'has_reviewed': has_reviewed})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)

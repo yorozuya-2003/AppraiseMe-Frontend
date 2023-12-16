@@ -24,6 +24,8 @@ function UserProfile() {
   const [reviewToDelete, setReviewToDelete] = useState(null);
   const [isDeleteConfirmationVisible, setIsDeleteConfirmationVisible] = useState(false);
 
+  const [hasReviewed, setHasReviewed] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -39,15 +41,17 @@ function UserProfile() {
         const userEmail = user.email;
         // console.log('user-email:', userEmail)
 
-        const [workModelResponse, profileModelResponse, reviewModelResponse] = await Promise.all([
+        const [workModelResponse, profileModelResponse, reviewModelResponse, hasReviewedResponse] = await Promise.all([
           axios.get(`${API_BASE_URL}/api/addwork/?email=${userResponse.data.email}`),
           axios.get(`${API_BASE_URL}/api/addprofile/?Email=${userResponse.data.email}`),
-          axios.get(`${API_BASE_URL}/get_reviews/${userResponse.data.email}`, { params: { email: userEmail } })
+          axios.get(`${API_BASE_URL}/get_reviews/${userResponse.data.email}`, { params: { email: userEmail } }),
+          axios.get(`${API_BASE_URL}/has_reviewed/${userResponse.data.email}`, { params: { email: userEmail } }),
         ]);
   
         setWorkModel(workModelResponse.data);
         setProfileModel(profileModelResponse.data);
         setReviewModel(reviewModelResponse.data.reviews);
+        setHasReviewed(hasReviewedResponse.data.has_reviewed);
       } catch (error) {
         console.error(error);
       }
@@ -141,6 +145,7 @@ function UserProfile() {
       const response = await axios.delete(`${API_BASE_URL}/delete_review/${reviewToDelete}`);
       if (response.data.success) {
         setReviewModel((prevReviews) => prevReviews.filter((review) => review.id !== reviewToDelete));
+        setHasReviewed(false);
         setIsDeleteConfirmationVisible(false);
       } else {
         alert("Failed to delete the review");
@@ -210,14 +215,23 @@ function UserProfile() {
                     className="url-btn" type="button" onClick={handleCopyURL}>
                       <CopyURL />
                     </button>
-
-                  <Link style={{textDecoration: 'none'}} to={`/addreview/${userData.username}`}>
+                  
+                  {!hasReviewed ?
+                  (<Link style={{textDecoration: 'none'}} to={`/addreview/${userData.username}`}>
                     <button style={{padding:'15px 20px', marginTop:'0px'}} 
                     className="continue-btn review-btn" type="submit">
                       <ReviewLogo />
                       Review
                     </button>
-                  </Link>
+                  </Link>) : 
+                   (<Link style={{textDecoration: 'none'}} to={`/editreview/${userData.username}`}>
+                   <button style={{padding:'15px 15px', marginTop:'0px'}} 
+                   className="continue-btn review-btn" type="submit">
+                     <ReviewLogo />
+                     Edit Review
+                   </button>
+                 </Link>)
+                  }
                 </div>
               </div>
               
