@@ -363,7 +363,7 @@ function UserProfile() {
                 {reviewModel.map((model, index) =>(
                   <div key={model.id}>
                     {!model.is_anonymous ? (
-                    <Link to={`/user/${model.from_user_name}/`} style={{textDecoration: 'none'}}>
+                    <Link to={`/user/${model.user_id}/`} style={{textDecoration: 'none'}}>
                       <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>
                         <img src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`} alt="" />
                           <p className="review-user-name"
