@@ -171,7 +171,7 @@ function UserProfile() {
             {profileModel.map((model, index) =>(
               <div style={{display:'flex',flexDirection:'row'}}>
               <img
-                src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`}
+                src={model.Image ? `${model.Image}` : `default_avatar.jpg`}
                 alt=""
                 style={{ width: '150px', height: '150px', borderRadius: '75px', marginRight: '35px' }}
               />
@@ -365,7 +365,7 @@ function UserProfile() {
                     {!model.is_anonymous ? (
                     <Link to={`/user/${model.user_id}/`} style={{textDecoration: 'none'}}>
                       <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>
-                        <img src={model.Image ? `${model.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`} alt="" />
+                        <img src={model.Image ? `${model.Image}` : `default_avatar.jpg`} alt="" />
                           <p className="review-user-name"
                           style={
                             {fontSize: '18px',
@@ -375,7 +375,7 @@ function UserProfile() {
                       </div>
                     </Link>) : (
                       <div style={{display:'flex',flexDirection:'row',width:'187px',gap:'12px'}}>
-                        <img src={`${API_BASE_URL}/media/profile_images/default_avatar.jpg`} alt="" />
+                        <img src={`default_avatar.jpg`} alt="" />
                           <p className="review-user-name"
                           style={
                             {fontSize: '18px',

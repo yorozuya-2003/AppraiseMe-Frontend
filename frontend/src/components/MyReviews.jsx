@@ -48,7 +48,7 @@ export default function MyReviews() {
       {reviewModel.map((item, index) => (
             <div style={{width:'100%'}} key={index} className='reviewdiv'>
                 <div className="my-reviews-profile">
-                    <img src={item.Image ? `${item.Image}` : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`} alt=""
+                    <img src={item.Image ? `${item.Image}` : `default_avatar.jpg`} alt=""
                         className="my-reviews-img"
                     />
                     <h3 className="my-reviews-name">

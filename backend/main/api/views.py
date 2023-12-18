@@ -2,11 +2,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
-from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
 from django.db.models import Q
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 
 from rest_framework.decorators import api_view, action
@@ -14,7 +12,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 
-from ..models import OTP,Profiles,work_exp
+from ..models import OTP, Profiles, work_exp
 from .serializers import *
 from backend.settings import EMAIL_HOST_USER
 
@@ -110,18 +108,12 @@ def register_user(request):
 
         if email and password:
             try:
-                # validate_password(password, user=User)
                 username = f"{datetime.now().strftime('%Y%m%d%H%M%S')}"
                 user = User.objects.create_user(username=username, email=email, password=password)
                 user.save()
-                serializer = UserSerializer(user)
                 data = {'username': username, 'email': email}
                 return Response(data, status=status.HTTP_201_CREATED)
             except ValidationError as e:
-                # error_string = ''
-                # for each in e:
-                #     error_string += each
-                #     error_string += '\n'
                 return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
         
         return Response({'message': 'Email and password not found / provided.'}, status=status.HTTP_400_BAD_REQUEST)    
@@ -166,8 +158,6 @@ class work_exp_viewset(ModelViewSet):
         return work_exp.objects.filter(email=target_email)
         
     def delete(self, request, *args, **kwargs):
-        print(request.data)
-        print("hi")
         try:
             target_email = request.data.get('email')
             title_to_delete = request.data.get('title')
@@ -242,9 +232,7 @@ class ReviewViewSet(ModelViewSet):
 def get_reviews_for_user(request, to_user_email):
     try:
         current_user_email = request.GET.get('email')
-        print(current_user_email)
         to_user_profile = Profiles.objects.get(Email=to_user_email)
-        print(to_user_email)
         reviews = Review.objects.filter(to_user=to_user_email)
         current_user_review = Review.objects.filter(from_user=current_user_email, to_user=to_user_email).first()
         current_user_profile = Profiles.objects.get(Email=current_user_email)
@@ -324,7 +312,6 @@ def get_reviews_for_user(request, to_user_email):
 def get_reviews_of_user(request, user_email):
     try:
         reviews = Review.objects.filter(from_user=user_email)
-        print(user_email)
         profile_data = []
         for review in reviews:
             to_user_email = review.to_user
@@ -337,9 +324,6 @@ def get_reviews_of_user(request, user_email):
                 'Second_name': profile.Second_name,
             }
             profile_data.append(review_dict)
-        
-        # print(profile_data)
-
         return JsonResponse({'reviews': profile_data})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
@@ -386,8 +370,6 @@ def search_suggestions(request):
 @api_view(['POST'])
 def update_bio(request, email):
     if request.method == 'POST':
-        print(request.data)
-        # user_email = request.data.get('email')
         new_bio = request.data.get('bio')
 
         try:
@@ -475,7 +457,6 @@ def edit_review(request, review_id):
 def has_reviewed(request, to_user_email):
     try:
         current_user_email = request.GET.get('email')
-        print(current_user_email)
         current_user_review = Review.objects.filter(from_user=current_user_email, to_user=to_user_email).first()
         has_reviewed = False
         if current_user_review:

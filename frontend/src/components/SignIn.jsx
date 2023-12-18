@@ -87,7 +87,7 @@ function SignIn() {
               />
               <img
                 style={{ width: '25px', height: '25px', color: 'white', cursor: 'pointer',display:'flex' }}
-                src={`${API_BASE_URL}/media/eye_icon/${showPassword ? 'open eye.png' : 'close eye.png'}`}
+                src={`${showPassword ? 'open eye.png' : 'close eye.png'}`}
                 alt=""
                 onClick={togglePasswordVisibility}
               />

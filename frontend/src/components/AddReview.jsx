@@ -634,7 +634,7 @@ function AddReview() {
                 src={
                   profileModel.Image
                     ? `${profileModel.Image}`
-                    : `${API_BASE_URL}/media/profile_images/default_avatar.jpg`
+                    : `default_avatar.jpg`
                 }
                 alt=""
                 style={{

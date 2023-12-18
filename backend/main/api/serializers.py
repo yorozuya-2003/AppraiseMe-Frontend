@@ -9,12 +9,6 @@ class UserSerializer(ModelSerializer):
         fields=('email','password')
 
 
-class OTPSerializer(ModelSerializer):
-    class Meta:
-        model=OTP
-        fields=('email','otp','created_at')
-
-
 class ProfileSerializer(ModelSerializer):
     class Meta:
         model=Profiles
