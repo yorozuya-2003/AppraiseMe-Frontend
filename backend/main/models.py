@@ -12,10 +12,10 @@ class OTP(models.Model):
 
 class Profiles(models.Model):
     Pronouns_choice = (
-        ('His/Him', 'His/Him'),
-        ('Her/She', 'Her/She'),
-        ('They/Their','They/Their'),
-        ('other','other'),
+        ('He/Him', 'He/Him'),
+        ('She/Her', 'She/Her'),
+        ('They/Them','They/Them'),
+        ('Other','Other'),
     )
     Gender_choice=(
         ('Male','Male'),        
