@@ -2,18 +2,18 @@ import axios from 'axios';
 import React, {useEffect, useState } from 'react';
 import "../styles/add_experience.css";
 import API_BASE_URL from "./ApiConfig"
-import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import { ReactComponent as AddIcon } from './add.svg';
+import Select from 'react-select';
 
 function AddExperience() {
-
     let loggedInUser = JSON.parse(localStorage.getItem("user"));
     let loggedInUserObject =loggedInUser.email;
 
 
     const [models, setModels] = useState([]);
     const fetchData = () => {
-        axios.get(`http://127.0.0.1:8000/api/addwork/?email=${loggedInUserObject}`)
+        axios.get(`${API_BASE_URL}/api/addwork/?email=${loggedInUserObject}`)
             .then(response => {
             setModels(response.data);
             // console.log(response.data);
@@ -33,7 +33,7 @@ function AddExperience() {
         emp_type:'Full-time',
         company: '',
         location:'',
-        location_type:'Onsite',
+        location_type:'On-site',
         currently_working:1,
         start_time:'',
         end_time:'',
@@ -57,7 +57,7 @@ function AddExperience() {
 
         try {
             console.log(formData)
-            axios.post(`http://127.0.0.1:8000/api/addwork/`, formData)
+            axios.post(`${API_BASE_URL}/api/addwork/`, formData)
             .then(response => {
                 console.log('Experience added successfully:', response.data);
                 setFormData({
@@ -66,7 +66,7 @@ function AddExperience() {
                     emp_type:'Full-time',
                     company: '',
                     location:'',
-                    location_type:'Onsite',
+                    location_type:'On-site',
                     currently_working:1,
                     start_time:'',
                     end_time:'',
@@ -89,11 +89,12 @@ function AddExperience() {
         setIsAddDivVisible(!isAddDivVisible);
     };
 
-    const buttonLabel = isAddDivVisible ? 'Not Needed' : 'Add more work Experience ';
+    const buttonLabel1 = isAddDivVisible ? 'Not needed' : 'Add more';
+    const buttonLabel2 = isAddDivVisible ? '' : 'Work Experience';
 
     const handleDelete = (index) => {
         console.log(models[index]);
-        axios.delete('http://127.0.0.1:8000/api/addwork/', { data: models[index] })
+        axios.delete('${API_BASE_URL}/api/addwork/', { data: models[index] })
         .then(response => {
             if (response.status === 200) {
                 // Update your local state to reflect the deletion
@@ -105,6 +106,37 @@ function AddExperience() {
         .catch(error => {
             console.error('Error deleting item', error);
         });
+    };
+
+    const selectStyles = {
+        control: (provided) => ({
+          ...provided,
+          width: '320px',
+          height: '56px',
+          borderRadius: '16px',
+          border: '1px solid #d9d9d9',
+          padding: '0px',
+          paddingLeft: '16px',
+        }),
+        option: (provided, state) => ({
+          ...provided,
+          backgroundColor: state.isSelected ? '#3818fd' : 'white',
+          color: state.isSelected ? 'white' : '#4a4a4a',
+          ':hover': {
+            backgroundColor: state.isSelected ? '#3818fd' : '#f3f3f3',
+            color: state.isSelected ? 'white' : '#4a4a4a',
+          },
+        }),
+        valueContainer: (provided) => ({
+            ...provided,
+            padding: '0px',
+            margin: '0px',
+        }),
+        input: (provided) => ({
+            ...provided,
+            padding: '0px',
+            margin: '0px',
+        }),
     };
 
   return (
@@ -127,90 +159,62 @@ function AddExperience() {
       <div className="addexp-box" id="add_div" style={{ display: isAddDivVisible ? 'block' : 'none' }}>
         <div className="addexp-box-contents">
         <form onSubmit={handleSubmit} className="addexp-form" action="">
-
-            <div className="title">
-                <input style={{width: '220px',
-                height: '36px',
-                padding: '16px',
-                borderRadius: '16px',
-                border:'1px solid',
-                borderColor: '#d9d9d9'}}
-                type="text" name='title' value={formData.title} onChange={handleChange} placeholder="Title" />
+            <div className="add-exp-form-section title">
+                <input
+                type="text" name='title' value={formData.title} onChange={handleChange} placeholder="Title" autoComplete='off'/>
             </div>
 
-            <div className='emp_type'>
+            <div className="add-exp-form-section">
 
-                <select style={{display: 'flex',
-                width: '200px',
-                height: '36px',
-                padding: '4px',
-                gap: '10px',
-                borderRadius: '16px',
-                border: '1px solid #d9d9d9'}} 
-                name='emp_type' value={formData.emp_type} onChange={handleChange}>
-                    <option value="Full-time">Full-time</option>
-                    <option value="Part-time">Part-time</option>
-                </select>
+                <Select
+                    value={{ label: formData.emp_type, value: formData.emp_type }}
+                    onChange={(selectedOption) =>
+                        setFormData({ ...formData, emp_type: selectedOption.value })
+                    }
+                    options={[
+                        { label: 'Full-time', value: 'Full-time' },
+                        { label: 'Part-time', value: 'Part-time' },
+                    ]}
+                    styles={selectStyles}
+                />
 
+                <input
+                type="text" name='company' value={formData.company} onChange={handleChange} placeholder="Company Name" autoComplete='off'/>
             </div>
 
-            <div className="company">
-                <input style={{width: '200px',
-                height: '36px',
-                padding: '16px',
-                borderRadius: '16px',
-                border:'1px solid',
-                borderColor: '#d9d9d9'}}
-                type="text" name='company' value={formData.company} onChange={handleChange} placeholder="Company Name" />
+            <div className="add-exp-form-section">
+                <input
+                type="text" name='location' value={formData.location} onChange={handleChange} placeholder="Location" autoComplete='off'/>
+
+                    <Select
+                        value={{ label: formData.location_type, value: formData.location_type }}
+                        onChange={(selectedOption) =>
+                            setFormData({
+                            ...formData,
+                            location_type: selectedOption.value,
+                            })
+                        }
+                        options={[
+                            { label: 'On-site', value: 'On-site' },
+                            { label: 'Hybrid', value: 'Hybrid' },
+                            { label: 'Remote', value: 'Remote' },
+                        ]}
+                        styles={selectStyles}
+                    />
             </div>
 
-            <div className="location" >
-                <input style={{width: '200px',
-                height: '36px',
-                padding: '16px',
-                borderRadius: '16px',
-                border:'1px solid',
-                borderColor: '#d9d9d9'}}
-                type="text" name='location' value={formData.location} onChange={handleChange} placeholder="Location" />
-            </div>
+            <div className="add-exp-form-section">
+                <div style={{display:'flex',flexDirection:'column'}}>
+                    <label htmlFor="" style={{marginLeft:'15px'}}>Start Time</label>
+                    <input
+                        type="date" name='start_time' value={formData.start_time} onChange={handleChange}/>
+                </div>
 
-            <div className='location_type'>
-
-                <select style={{display: 'flex',
-                    width: '200px',
-                    height: '36px',
-                    padding: '4px',
-                    gap: '10px',
-                    borderRadius: '16px',
-                    border: '1px solid #d9d9d9'}} 
-                    name='location_type' value={formData.location_type} onChange={handleChange}>
-                    <option value="Onsite">Onsite</option>
-                    <option value="Hybrid">Hybrid</option>
-                    <option value="Remote">Remote</option>
-                </select>
-
-            </div>
-
-            <div style={{display:'flex',flexDirection:'column'}}>
-                <input style={{width: '200px',
-                    height: '36px',
-                    padding: '16px',
-                    borderRadius: '16px',
-                    border:'1px solid',
-                    borderColor: '#d9d9d9'}}
-                    type="date" name='start_time' value={formData.start_time} onChange={handleChange}/>
-                <label htmlFor="" style={{marginLeft:'15px'}}>Start Time</label>
-            </div>
-
-            <div style={{display:'flex',flexDirection:'column'}}>
-            <input style={{width: '200px',
-                height: '36px',
-                padding: '16px',
-                borderRadius: '16px',
-                border:'1px solid',
-                borderColor: '#d9d9d9'}}
-                type="date" name='end_time' value={formData.end_time} onChange={handleChange}/>
-                <label htmlFor="" style={{marginLeft:'15px'}}>End Time</label>
+                <div style={{display:'flex',flexDirection:'column'}}>
+                    <label htmlFor="" style={{marginLeft:'15px', marginDown:'20px'}}>End Time</label>
+                <input
+                    type="date" name='end_time' value={formData.end_time} onChange={handleChange}/>
+                </div>
             </div>
 
             <div className="continue">
@@ -221,12 +225,24 @@ function AddExperience() {
           </form>
         </div>
       </div>
-      <button onClick={toggleAddDiv} className='addbutton' id="addbutton">{buttonLabel}</button>
-      <Link style={{textDecoration: 'none'}} to='/home'>
-      <button className="continue-btn" type="submit">
-        Continue
-      </button>
-      </Link>
+        <button onClick={toggleAddDiv} className='addbutton' id="addbutton">
+            <div className="add-btn-text">
+                {buttonLabel1}
+                <br />
+                {buttonLabel2}
+            </div>
+            { buttonLabel1 != 'Not needed' && (
+                <div className='add-icon'>
+                    <AddIcon />
+                </div>
+            )}
+        </button>
+        
+        <Link style={{textDecoration: 'none'}} to='/home'>
+            <button className="continue-btn" type="submit">
+                Continue
+            </button>
+        </Link>
     </div>
   );
 }

@@ -42,7 +42,7 @@ class work_exp(models.Model):
         ('Part-time', 'Part-time'),
     )
     loc_type_choice=(
-        ('Onsite','Onsite'),        
+        ('On-site','On-site'),        
         ('Hybrid','Hybrid'),        
         ('Remote','Remote'),        
     )
