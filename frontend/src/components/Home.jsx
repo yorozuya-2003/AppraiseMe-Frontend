@@ -2,7 +2,7 @@ import { useState, useEffect, React } from "react";
 import axios from "axios";
 import Header from "./Header";
 import "../styles/home.css";
-import "../styles/user_profile.css";
+import "../styles/user_page.css";
 import useCheckProfileCompletion from "./checkProfileCompletion";
 import API_BASE_URL from "./ApiConfig";
 import { useNavigate, Link } from "react-router-dom";
@@ -84,28 +84,6 @@ function HomePage() {
     reviewModel.reduce((total, model) => total + model.slider9, 0) /
     reviewModel.length;
 
-  const [userProfiles, setUserProfiles] = useState([]);
-
-  const fetchUserProfiles = (userEmails) => {
-    // console.log(userEmails)
-    userEmails.map((Email) => {
-      // console.log(Email);
-      // axios.get(`{$API _API_BASE_URL}/api/addprofile/?Email=${Email}`)
-      //   .then(response => {
-      //     setUserProfiles(prevProfiles => [...prevProfiles, response.data]);
-      //   })
-      //   .catch(error => {
-      //     console.error(error);
-      //   });
-    });
-  };
-
-  useEffect(() => {
-    const userEmails = reviewModel.map((model) => model.from_user);
-    // console.log(userEmails)
-    fetchUserProfiles(userEmails);
-  }, [reviewModel]);
-
   const [isAddDivVisible, setIsAddDivVisible] = useState(false);
   const [bioInput, setBioInput] = useState(profileModel.Bio);
 
@@ -138,8 +116,6 @@ function HomePage() {
       console.error("Error updating Bio:", error);
     }
   };
-
-  const bioButtonLabel = isAddDivVisible ? "Save Bio" : "Edit Bio";
 
   const [isAddDivVisible2, setIsAddDivVisible2] = useState(false);
 
@@ -175,8 +151,6 @@ function HomePage() {
             },
           }
         );
-
-        // Assuming the API returns the updated model with the new image path
         const updatedModel = response.data;
 
         setProfileModel((prevProfileModel) => {
@@ -639,7 +613,7 @@ function HomePage() {
               </div>
 
               {reviewModel.map((model, index) => (
-                <div>
+                <div className="user-review-div">
                   {!model.is_anonymous ? (
                     <Link
                       to={`/user/${model.user_id}/`}
