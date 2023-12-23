@@ -6,6 +6,7 @@ import Header from "./Header";
 import "../styles/add_review.css";
 import useCheckProfileCompletion from "./checkProfileCompletion";
 import Carousel from "./Carousel";
+import Select from "react-select";
 
 function EditReview() {
   const carouselRef = useRef();
@@ -62,7 +63,7 @@ function EditReview() {
           ),
           axios.get(
             `${API_BASE_URL}/api/add-review/get_review/?to_user=${userResponse.data.email}&from_user=${userEmail}`
-          )
+          ),
         ]);
 
         console.log(reviewDataResponse.data);
@@ -104,10 +105,21 @@ function EditReview() {
   const localStorageUser = JSON.parse(localStorage.getItem("user"));
   const isCurrentUserProfile = userData.username === localStorageUser.username;
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const newValue = type === 'checkbox' ? checked : value;
-    setFormData({ ...formData, [name]: newValue });
+  const handleChange = (name, selectedOption) => {
+    let updatedValue = "";
+    if (
+      name === "acquaintance" ||
+      name === "acquaintance_time" ||
+      name === "relation" ||
+      name === "team_size"
+    ) {
+      updatedValue = selectedOption.value;
+    } else if (name === "is_anonymous") {
+      updatedValue = !formData.is_anonymous;
+    } else {
+      updatedValue = selectedOption;
+    }
+    setFormData({ ...formData, [name]: updatedValue });
   };
 
   const handleSubmit = (e) => {
@@ -127,8 +139,39 @@ function EditReview() {
   const handleContinue = () => {
     const nextIndex = currentIndex + 1;
     setCurrentIndex(nextIndex);
-    carouselRef.current.goToSlide(nextIndex); 
+    carouselRef.current.goToSlide(nextIndex);
     console.log(currentIndex);
+  };
+
+  const selectStyles = {
+    control: (provided) => ({
+      ...provided,
+      width: "320px",
+      height: "56px",
+      borderRadius: "16px",
+      border: "1px solid #d9d9d9",
+      padding: "0px",
+      paddingLeft: "16px",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? "#3818fd" : "white",
+      color: state.isSelected ? "white" : "#4a4a4a",
+      ":hover": {
+        backgroundColor: state.isSelected ? "#3818fd" : "#f3f3f3",
+        color: state.isSelected ? "white" : "#4a4a4a",
+      },
+    }),
+    valueContainer: (provided) => ({
+      ...provided,
+      padding: "0px",
+      margin: "0px",
+    }),
+    input: (provided) => ({
+      ...provided,
+      padding: "0px",
+      margin: "0px",
+    }),
   };
 
   const items = [
@@ -144,33 +187,44 @@ function EditReview() {
                 <p style={{ marginBottom: 0 }} className="dropdown-question">
                   Where do you know {profileModel.First_name} from?
                 </p>
-                <select
+                <Select
                   name="acquaintance"
-                  value={formData.acquaintance}
-                  onChange={handleChange}
-                  className="select"
-                >
-                  <option value="Work">Work</option>
-                  <option value="Personal">Personal</option>
-                  <option value="Other">Other</option>
-                </select>
+                  value={{
+                    label: formData.acquaintance,
+                    value: formData.acquaintance,
+                  }}
+                  onChange={(selectedOption) =>
+                    handleChange("acquaintance", selectedOption)
+                  }
+                  options={[
+                    { value: "Work", label: "Work" },
+                    { value: "Personal", label: "Personal" },
+                    { value: "Other", label: "Other" },
+                  ]}
+                  styles={selectStyles}
+                />
               </div>
 
               <div className="dropdown-section">
                 <p style={{ marginBottom: 0 }} className="dropdown-question">
                   How many years have you known {profileModel.First_name} for?
                 </p>
-                <select
-                  style={{ marginBottom: 0 }}
+                <Select
                   name="acquaintance_time"
-                  value={formData.acquaintance_time}
-                  onChange={handleChange}
-                  className="select"
-                >
-                  <option value="Less than 1 year">Less than 1 year</option>
-                  <option value="1 to 3 years">1 to 3 years</option>
-                  <option value="More than 3 years">More than 3 years</option>
-                </select>
+                  value={{
+                    label: formData.acquaintance_time,
+                    value: formData.acquaintance_time,
+                  }}
+                  onChange={(selectedOption) =>
+                    handleChange("acquaintance_time", selectedOption)
+                  }
+                  options={[
+                    { value: "Less than 1 year", label: "Less than 1 year" },
+                    { value: "1 to 3 years", label: "1 to 3 years" },
+                    { value: "More than 3 years", label: "More than 3 years" },
+                  ]}
+                  styles={selectStyles}
+                />
               </div>
             </div>
 
@@ -179,45 +233,56 @@ function EditReview() {
                 <p style={{ marginBottom: 0 }} className="dropdown-question">
                   What is your relation with {profileModel.First_name}?
                 </p>
-                <select
+                <Select
                   name="relation"
-                  value={formData.relation}
-                  onChange={handleChange}
-                  className="select"
-                >
-                  <option value="Boss">Boss</option>
-                  <option value="Employee">Employee</option>
-                  <option value="Colleague">Colleague</option>
-                  <option value="Client">Client</option>
-                  <option value="Friend">Friend</option>
-                  <option value="Family or Relative">Family or Relative</option>
-                  <option value="Other">Other</option>
-                </select>
+                  value={{ label: formData.relation, value: formData.relation }}
+                  onChange={(selectedOption) =>
+                    handleChange("relation", selectedOption)
+                  }
+                  options={[
+                    { value: "Boss", label: "Boss" },
+                    { value: "Employee", label: "Employee" },
+                    { value: "Colleague", label: "Colleague" },
+                    { value: "Client", label: "Client" },
+                    { value: "Friend", label: "Friend" },
+                    {
+                      value: "Family or Relative",
+                      label: "Family or Relative",
+                    },
+                    { value: "Other", label: "Other" },
+                  ]}
+                  styles={selectStyles}
+                />
               </div>
 
               <div className="dropdown-section">
                 <p style={{ marginBottom: 0 }} className="dropdown-question">
                   What was the team size?
                 </p>
-                <select
-                  style={{ marginBottom: 0 }}
+                <Select
                   name="team_size"
-                  value={formData.team_size}
-                  onChange={handleChange}
-                  className="select"
-                >
-                  <option value="Less than 5">Less than 5</option>
-                  <option value="5 to 20">5 to 20</option>
-                  <option value="More than 20">More than 20</option>
-                  <option value="None">None</option>
-                </select>
+                  value={{
+                    label: formData.team_size,
+                    value: formData.team_size,
+                  }}
+                  onChange={(selectedOption) =>
+                    handleChange("team_size", selectedOption)
+                  }
+                  options={[
+                    { value: "Less than 5", label: "Less than 5" },
+                    { value: "5 to 20", label: "5 to 20" },
+                    { value: "More than 20", label: "More than 20" },
+                    { value: "None", label: "None" },
+                  ]}
+                  styles={selectStyles}
+                />
               </div>
             </div>
           </div>
         </div>
         <button type="button" className="continue-btn" onClick={handleContinue}>
-            Continue to next step
-          </button>
+          Continue to next step
+        </button>
       </div>
     </>,
     <>
@@ -244,7 +309,7 @@ function EditReview() {
               max="10"
               name="slider1"
               value={formData.slider1}
-              onChange={handleChange}
+              onChange={(e) => handleChange("slider1", e.target.value)}
               className="custom-slider"
             />
             <div
@@ -282,7 +347,7 @@ function EditReview() {
               max="10"
               name="slider2"
               value={formData.slider2}
-              onChange={handleChange}
+              onChange={(e) => handleChange("slider2", e.target.value)}
               className="custom-slider"
             />
             <div
@@ -320,7 +385,7 @@ function EditReview() {
               max="10"
               name="slider3"
               value={formData.slider3}
-              onChange={handleChange}
+              onChange={(e) => handleChange("slider3", e.target.value)}
               className="custom-slider"
             />
             <div
@@ -341,8 +406,8 @@ function EditReview() {
           </div>
         </div>
         <button type="button" className="continue-btn" onClick={handleContinue}>
-            Continue to next step
-          </button>
+          Continue to next step
+        </button>
       </div>
     </>,
     <>
@@ -369,7 +434,7 @@ function EditReview() {
               max="10"
               name="slider4"
               value={formData.slider4}
-              onChange={handleChange}
+              onChange={(e) => handleChange("slider4", e.target.value)}
               className="custom-slider"
             />
             <div
@@ -407,7 +472,7 @@ function EditReview() {
               max="10"
               name="slider5"
               value={formData.slider5}
-              onChange={handleChange}
+              onChange={(e) => handleChange("slider5", e.target.value)}
               className="custom-slider"
             />
             <div
@@ -445,7 +510,7 @@ function EditReview() {
               max="10"
               name="slider6"
               value={formData.slider6}
-              onChange={handleChange}
+              onChange={(e) => handleChange("slider6", e.target.value)}
               className="custom-slider"
             />
             <div
@@ -466,8 +531,8 @@ function EditReview() {
           </div>
         </div>
         <button type="button" className="continue-btn" onClick={handleContinue}>
-            Continue to next step
-          </button>
+          Continue to next step
+        </button>
       </div>
     </>,
     <>
@@ -494,7 +559,7 @@ function EditReview() {
               max="10"
               name="slider7"
               value={formData.slider7}
-              onChange={handleChange}
+              onChange={(e) => handleChange("slider7", e.target.value)}
               className="custom-slider"
             />
             <div
@@ -532,7 +597,7 @@ function EditReview() {
               max="10"
               name="slider8"
               value={formData.slider8}
-              onChange={handleChange}
+              onChange={(e) => handleChange("slider8", e.target.value)}
               className="custom-slider"
             />
             <div
@@ -570,7 +635,7 @@ function EditReview() {
               max="10"
               name="slider9"
               value={formData.slider9}
-              onChange={handleChange}
+              onChange={(e) => handleChange("slider9", e.target.value)}
               className="custom-slider"
             />
             <div
@@ -591,7 +656,7 @@ function EditReview() {
           </div>
         </div>
         <button type="button" className="continue-btn" onClick={handleContinue}>
-            Continue to next step
+          Continue to next step
         </button>
       </div>
     </>,
@@ -606,7 +671,7 @@ function EditReview() {
             placeholder="Short Description..."
             name="sentence"
             value={formData.sentence}
-            onChange={handleChange}
+            onChange={(e) => handleChange("sentence", e.target.value)}
             className="sentence-box"
           />
 
@@ -616,7 +681,7 @@ function EditReview() {
               id="anonymous"
               name="is_anonymous"
               checked={formData.is_anonymous}
-              onChange={handleChange}
+              onChange={(e) => handleChange("is_anonymous", e.target.checked)}
             />
             <label>Review Anonymously</label>
           </div>
@@ -635,41 +700,41 @@ function EditReview() {
         <Navigate to="/home" />
       ) : (
         <>
-        <div className="Editreview-body">
-          <header>
-            <Header></Header>
-          </header>
+          <div className="Editreview-body">
+            <header>
+              <Header></Header>
+            </header>
 
-          <div className="user-profile">
-            <div className="user_profile_name">
-              <p>You are now appraising</p>
-              <p style={{ fontSize: "48px" }}>
-                {profileModel.First_name} {profileModel.Second_name}
-              </p>
+            <div className="user-profile">
+              <div className="user_profile_name">
+                <p>You are now appraising</p>
+                <p style={{ fontSize: "48px" }}>
+                  {profileModel.First_name} {profileModel.Second_name}
+                </p>
+              </div>
+
+              <div className="user-profile-image">
+                <img
+                  src={
+                    profileModel.Image
+                      ? `${profileModel.Image}`
+                      : `default_avatar.jpg`
+                  }
+                  alt=""
+                  style={{
+                    width: "150px",
+                    height: "150px",
+                    borderRadius: "75px",
+                    marginRight: "35px",
+                  }}
+                />
+              </div>
             </div>
 
-            <div className="user-profile-image">
-              <img
-                src={
-                  profileModel.Image
-                    ? `${profileModel.Image}`
-                    : `default_avatar.jpg`
-                }
-                alt=""
-                style={{
-                  width: "150px",
-                  height: "150px",
-                  borderRadius: "75px",
-                  marginRight: "35px",
-                }}
-              />
-            </div>
+            <form onSubmit={handleSubmit}>
+              <Carousel ref={carouselRef} items={items} />
+            </form>
           </div>
-
-          <form onSubmit={handleSubmit}>
-            <Carousel ref={carouselRef} items={items}/>
-          </form>
-      </div>
         </>
       )}
     </>
