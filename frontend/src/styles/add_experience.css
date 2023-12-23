@@ -17,16 +17,67 @@
 }
 
 .addexp-box {
-  width: 1000px;
   display: flex;
-  padding: 32px 40px;
+  width: 900px;
+  padding: 32px;
   justify-content: center;
   align-items: center;
-  gap: 32px;
-  border-radius: 16px;
+  gap: 96px;
   border: 1px solid #f3f3f3;
   background: #fff;
+  border-radius: 16px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #4a4a4a;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.addexp-box p.exp-num {
+  font-size: 18px;
+}
+
+.addexp-box .exp-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.addexp-box .exp-details p {
+  margin: 0px;
+}
+
+.addexp-box .edit-delete-btns {
+  display: flex;
+  padding: 0px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+}
+
+.addexp-box .edit-exp-btn {
+  display: flex;
+  padding: 16px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border-radius: 32px;
+  border: 1px solid var(--text-inactive, #4a4a4a);
+  color: var(--text-inactive, #4a4a4a);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.addexp-box .delete-exp-btn {
+  background: none;
+  border: none;
 }
 
 .addexp-box .addexp-box-contents {
@@ -41,47 +92,47 @@
 }
 
 .addexp-box .addexp-form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
 }
 
 .addexp-box .addexp-form .add-exp-form-section {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    font-family: Inter;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 }
 
-.addexp-box .addexp-form .add-exp-form-section input{
-    display: flex;
-    width: 320px;
-    height: 56px;
-    padding: 16px;
-    align-items: flex-start;
-    gap: 10px;
-    border-radius: 16px;
-    border: 1px solid #D9D9D9;
+.addexp-box .addexp-form .add-exp-form-section input {
+  display: flex;
+  width: 320px;
+  height: 56px;
+  padding: 16px;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 16px;
+  border: 1px solid #d9d9d9;
 }
 
 .addexp-box .addexp-form .add-exp-form-section.title input {
-    display: flex;
-    width: 240px;
-    height: 56px;
-    padding: 16px;
-    align-items: flex-start;
-    border-radius: 16px;
-    border: 1px solid #D9D9D9;
+  display: flex;
+  width: 240px;
+  height: 56px;
+  padding: 16px;
+  align-items: flex-start;
+  border-radius: 16px;
+  border: 1px solid #d9d9d9;
 }
 
 .addexp-box .addexp-form .add-exp-form-section input:focus {
-    outline: none;
-    /* border: 1px solid #000; */
+  outline: none;
+  /* border: 1px solid #000; */
 }
 
 .addbutton {

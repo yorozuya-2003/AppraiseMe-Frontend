@@ -301,7 +301,7 @@ function HomePage() {
                   <button 
                     className="url-btn" type="button" onClick={handleCopyURL}>
                       <CopyURL />
-                    </button>
+                  </button>
 
                 <button
                   onClick={isAddDivVisible ? handleSaveBio : toggleAddDiv}

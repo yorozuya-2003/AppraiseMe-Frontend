@@ -3,6 +3,7 @@ import React, {useEffect, useState } from 'react';
 import "../styles/add_experience.css";
 import API_BASE_URL from "./ApiConfig"
 import { Link } from 'react-router-dom';
+import { ReactComponent as DeleteIcon } from './delete.svg';
 import { ReactComponent as AddIcon } from './add.svg';
 import Select from 'react-select';
 
@@ -93,8 +94,8 @@ function AddExperience() {
     const buttonLabel2 = isAddDivVisible ? '' : 'Work Experience';
 
     const handleDelete = (index) => {
-        console.log(models[index]);
-        axios.delete('${API_BASE_URL}/api/addwork/', { data: models[index] })
+        // console.log(models[index]);
+        axios.delete(`${API_BASE_URL}/api/addwork/`, { data: models[index] })
         .then(response => {
             if (response.status === 200) {
                 // Update your local state to reflect the deletion
@@ -139,20 +140,42 @@ function AddExperience() {
         }),
     };
 
-  return (
+    function convertDateRange(startDate, endDate){
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        const startMonth = start.toLocaleString('default', { month: 'short' });
+        const endMonth = end.toLocaleString('default', { month: 'short' });
+
+        const formattedStartDate = `${startMonth} ${start.getFullYear()}`;
+        const formattedEndDate = `${endMonth} ${end.getFullYear()}`;
+
+        const diffInMonths = (end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth() + 1;
+        const years = Math.floor(diffInMonths / 12);
+        const months = diffInMonths % 12;
+
+        const durationString = `${years > 0 ? years + ' year' + (years > 1 ? 's' : '') : ''}${(years > 0 && months > 0) ? ' ' : ''}${months > 0 ? months + ' month' + (months > 1 ? 's' : '') : (years === 0 && months === 0) ? '1 month' : ''}`;
+
+        return `${formattedStartDate} - ${formattedEndDate} · ${durationString}`;
+    }
+
+    return (
     <div className="addexp">
       <h1>👔 Add any previous employment history</h1>
         
       {models.map((model, index) => (
             <div className="addexp-box">
-                <p>Work Experience: {index+1}</p>
-                <p>Title: <br /> {model.title}</p>
-                <p>Company: <br /> {model.company}</p>
-                <p>Employement type: <br /> {model.emp_type}</p>
-                <p>Location: <br /> {model.location}</p>
-                <p>Location type: <br /> {model.location_type}</p>
-                <button>Edit</button>
-                <button onClick={() => handleDelete(index)}>Delete</button>
+                <p className="exp-num">Work Experience {index+1}</p>
+                <div className='exp-details'>
+                    <p style={{fontWeight: "700"}}>{model.title}</p>
+                    <p>{model.company} · {model.emp_type}</p>
+                    <p>{convertDateRange(model.start_time, model.end_time)}</p>
+                    <p>{model.location} · {model.location_type}</p>
+                </div>
+                <div className="edit-delete-btns">
+                    <button className='edit-exp-btn'>Edit</button>
+                    <button onClick={() => handleDelete(index)} className="delete-exp-btn"><DeleteIcon /></button>
+                </div>
             </div>
       ))}
       
@@ -231,7 +254,7 @@ function AddExperience() {
                 <br />
                 {buttonLabel2}
             </div>
-            { buttonLabel1 != 'Not needed' && (
+            { buttonLabel1 !== 'Not needed' && (
                 <div className='add-icon'>
                     <AddIcon />
                 </div>
