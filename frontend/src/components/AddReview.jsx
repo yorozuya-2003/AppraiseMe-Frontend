@@ -203,9 +203,14 @@ function AddReview() {
     <>
       <div className="review_form">
         <div className="slider-section">
+          <div className="slider-question-div">
           <p className="slider-question">
-            How would you rate {profileModel.First_name}?
+            Great job! Let’s understand {profileModel.First_name} better
           </p>
+          <p className="slider-question-hint">
+            Use the sliders below to find the adjectives that best describe {profileModel.First_name}
+          </p>
+          </div>
           <div style={{ marginBottom: "50px" }}>
             <p
               style={{
@@ -328,9 +333,14 @@ function AddReview() {
     <>
       <div className="review_form">
         <div className="slider-section">
+        <div className="slider-question-div">
           <p className="slider-question">
-            How would you rate {profileModel.First_name}?
+            Great job! Let’s understand {profileModel.First_name} better
           </p>
+          <p className="slider-question-hint">
+            Use the sliders below to find the adjectives that best describe {profileModel.First_name}
+          </p>
+          </div>
           <div style={{ marginBottom: "50px" }}>
             <p
               style={{
@@ -453,9 +463,14 @@ function AddReview() {
     <>
       <div className="review_form">
         <div className="slider-section">
+        <div className="slider-question-div">
           <p className="slider-question">
-            How would you rate {profileModel.First_name}?
+            Great job! Let’s understand {profileModel.First_name} better
           </p>
+          <p className="slider-question-hint">
+            Use the sliders below to find the adjectives that best describe {profileModel.First_name}
+          </p>
+          </div>
           <div style={{ marginBottom: "50px" }}>
             <p
               style={{

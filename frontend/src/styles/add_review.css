@@ -111,6 +111,20 @@ margin-top: 0px;
     width: 100%;
     min-height: 120px;
 }
+
+.sentence-box {
+    display: flex;
+    width: 986px;
+    height: 139px;
+    padding: 16px;
+    align-items: flex-start;
+    gap: 233px;
+}
+
+.sentence-box:focus {
+    outline: none;
+}
+
 .sentence-section .continue-btn {
     display: flex;
     padding: 16px 32px;
@@ -187,6 +201,33 @@ margin-top: 0px;
     font-weight: 500;
     line-height: normal;
     letter-spacing: 1px;
+}
+
+.slider-question-div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.slider-question {
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 1px;
+}
+
+.slider-question-hint {
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.8px;
 }
 
 .anonymous-checkbox input[type="checkbox"] {

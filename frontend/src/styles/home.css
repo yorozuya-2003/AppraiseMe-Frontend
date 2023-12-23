@@ -29,8 +29,9 @@
   border-radius: 50px;
   margin: 20px;
   margin-top: 80px;
-  margin-left: 60px;
+  margin-left: 160px;
   max-height: 7000px;
+  width: 1125px;
   /* overflow:scroll; */
 }
 
@@ -41,6 +42,7 @@
   border-radius: 32px, 0px, 0px, 0px;
   gap: 32px;
   border-right: solid 1px;
+  border-width: 0px;
   border-color: #cdcdcd;
   font-family: inter;
   font-size: 20px;
@@ -59,7 +61,7 @@
 
 .about {
   padding: 12px;
-  padding-left: 50px;
+  padding-left: 16px;
   width: 800px;
   gap: 16px;
   font-family: inter;
@@ -72,12 +74,53 @@
   border-color: #cdcdcd;
 }
 
+.about-bio {
+  display: flex;
+  padding: 24px 16px;
+  padding-top: 0px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.about-bio-header {
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.bio-text {
+  color: #000;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 300;
+  margin: 0px;
+}
+
+.about-bio-header p {
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 1px;
+  margin: 0px;
+}
+
 .reviews img {
   height: 32px;
   width: 32px;
 }
 
 .attributes {
+  display: flex;
+  padding: 24px 16px;
+  flex-direction: column;
+  align-items: flex-start;
   border-bottom: solid 1px;
   border-top: solid 1px;
   border-color: #cdcdcd;
@@ -99,4 +142,131 @@
 
 .url-btn {
   background-color: #fff;
+}
+
+.bio-input {
+  font-size: 16px;
+  padding: 15px;
+  border-radius: 15px;
+  border: solid 1px;
+  border-color: #cdcdcd;
+}
+
+.bio-input:focus {
+  outline: none;
+}
+
+.key-attr {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.key-attr-heading {
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 1px;
+  margin: 0px;
+}
+
+.key-attr-subheading {
+  color: var(--text-inactive, #4a4a4a);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0px;
+}
+
+.attr-slider-box {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 32px;
+}
+
+.attr-slider-question-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.attr-slider-question {
+  color: #000;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0px;
+}
+
+.attr-slider {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+
+.attr-slider-ends {
+  color: #000;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 0px;
+  padding: 0px;
+}
+
+.attr-slider-ends p {
+  display: inline;
+  margin: 0px;
+}
+
+.top-slider {
+  margin-top: 32px;
+}
+
+.reviews-div {
+    display: flex;
+    width: 691px;
+    padding: 24px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.reviews-div-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.reviews-div-header-title {
+    color: #000;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 1px;
+    margin: 0px;
+}
+
+.reviews-div-header-subtitle {
+    color: var(--text-inactive, #4A4A4A);
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0px;
 }
