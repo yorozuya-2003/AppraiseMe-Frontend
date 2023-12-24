@@ -160,17 +160,6 @@ margin-top: 0px;
     cursor: pointer;
 }
 
-.select {
-    font-family: Inter;
-    width: 339px;
-    height: 56px;
-    padding: 16px;
-    border-radius: 20px;
-    margin-top: 0px;
-    margin-bottom: 20px;
-
-}
-
 .slider-section {
     display: flex;
     padding: 32px;
@@ -210,6 +199,13 @@ margin-top: 0px;
     gap: 16px;
 }
 
+.slider-div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
 .slider-question {
     color: #000;
     font-family: Inter;
@@ -218,6 +214,14 @@ margin-top: 0px;
     font-weight: 500;
     line-height: normal;
     letter-spacing: 1px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+
+.slider-question p {
+    margin: 0px;
 }
 
 .slider-question-hint {
@@ -228,6 +232,31 @@ margin-top: 0px;
     font-weight: 400;
     line-height: normal;
     letter-spacing: 0.8px;
+}
+
+.sliders-box {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.slider-slider {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.slider-ends {
+    width: 100%;
+    color: #000;
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 0px;
+    padding: 0px;
 }
 
 .anonymous-checkbox input[type="checkbox"] {

@@ -7,6 +7,7 @@ import "../styles/add_review.css";
 import useCheckProfileCompletion from "./checkProfileCompletion";
 import Carousel from "./Carousel";
 import Select from "react-select";
+import { ReactComponent as HelpIcon } from "./help.svg";
 
 function EditReview() {
   const carouselRef = useRef();
@@ -288,120 +289,75 @@ function EditReview() {
     <>
       <div className="review_form">
         <div className="slider-section">
-          <p className="slider-question">
-            How would you rate {profileModel.First_name}?
-          </p>
-          <div style={{ marginBottom: "50px" }}>
-            <p
-              style={{
-                marginBottom: "10px",
-                fontSize: "20px",
-                fontWeight: 400,
-              }}
-              className="slider-question"
-            >
-              Communication
+          <div className="slider-question-div">
+            <p className="slider-question">
+              Great job! Let's understand {profileModel.First_name} better
             </p>
-            <input
-              style={{ marginBottom: "0px", marginLeft: "0px" }}
-              type="range"
-              min="0"
-              max="10"
-              name="slider1"
-              value={formData.slider1}
-              onChange={(e) => handleChange("slider1", e.target.value)}
-              className="custom-slider"
-            />
-            <div
-              style={{
-                marginTop: "0px",
-                padding: "0px",
-                fontWeight: 100,
-                fontSize: "12px",
-              }}
-            >
-              <p style={{ margin: 0, display: "inline", float: "left" }}>
-                Introspective
-              </p>
-              <p style={{ margin: 0, display: "inline", float: "right" }}>
-                Greagrious
-              </p>
-            </div>
+            <p className="slider-question-hint">
+              Use the sliders below to find the adjectives that best describe{" "}
+              {profileModel.First_name}
+            </p>
           </div>
 
-          <div style={{ marginBottom: "50px" }}>
-            <p
-              style={{
-                marginBottom: "10px",
-                fontSize: "20px",
-                fontWeight: 400,
-              }}
-              className="slider-question"
-            >
-              Communication
-            </p>
-            <input
-              style={{ marginBottom: "0px", marginLeft: "0px" }}
-              type="range"
-              min="0"
-              max="10"
-              name="slider2"
-              value={formData.slider2}
-              onChange={(e) => handleChange("slider2", e.target.value)}
-              className="custom-slider"
-            />
-            <div
-              style={{
-                marginTop: "0px",
-                padding: "0px",
-                fontWeight: 100,
-                fontSize: "12px",
-              }}
-            >
-              <p style={{ margin: 0, display: "inline", float: "left" }}>
-                Introspective
-              </p>
-              <p style={{ margin: 0, display: "inline", float: "right" }}>
-                Greagrious
-              </p>
+          <div className="sliders-box">
+            <div className="slider-div">
+              <div className="slider-question">
+                <p>Communication</p>
+                <HelpIcon />
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="10"
+                name="slider1"
+                value={formData.slider1}
+                onChange={(e) => handleChange("slider1", e.target.value)}
+                className="slider-slider custom-slider"
+              />
+              <div className="slider-ends">
+                <p style={{ float: "left" }}>Introspective</p>
+                <p style={{ float: "right" }}>Greagrious</p>
+              </div>
             </div>
-          </div>
 
-          <div style={{ marginBottom: "50px" }}>
-            <p
-              style={{
-                marginBottom: "10px",
-                fontSize: "20px",
-                fontWeight: 400,
-              }}
-              className="slider-question"
-            >
-              Communication
-            </p>
-            <input
-              style={{ marginBottom: "0px", marginLeft: "0px" }}
-              type="range"
-              min="0"
-              max="10"
-              name="slider3"
-              value={formData.slider3}
-              onChange={(e) => handleChange("slider3", e.target.value)}
-              className="custom-slider"
-            />
-            <div
-              style={{
-                marginTop: "0px",
-                padding: "0px",
-                fontWeight: 100,
-                fontSize: "12px",
-              }}
-            >
-              <p style={{ margin: 0, display: "inline", float: "left" }}>
-                Introspective
-              </p>
-              <p style={{ margin: 0, display: "inline", float: "right" }}>
-                Greagrious
-              </p>
+            <div className="slider-div">
+              <div className="slider-question">
+                <p>Communication</p>
+                <HelpIcon />
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="10"
+                name="slider1"
+                value={formData.slider2}
+                onChange={(e) => handleChange("slider2", e.target.value)}
+                className="slider-slider custom-slider"
+              />
+              <div className="slider-ends">
+                <p style={{ float: "left" }}>Introspective</p>
+                <p style={{ float: "right" }}>Greagrious</p>
+              </div>
+            </div>
+
+            <div className="slider-div">
+              <div className="slider-question">
+                <p>Communication</p>
+                <HelpIcon />
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="10"
+                name="slider1"
+                value={formData.slider3}
+                onChange={(e) => handleChange("slider3", e.target.value)}
+                className="slider-slider custom-slider"
+              />
+              <div className="slider-ends">
+                <p style={{ float: "left" }}>Introspective</p>
+                <p style={{ float: "right" }}>Greagrious</p>
+              </div>
             </div>
           </div>
         </div>
@@ -413,120 +369,75 @@ function EditReview() {
     <>
       <div className="review_form">
         <div className="slider-section">
-          <p className="slider-question">
-            How would you rate {profileModel.First_name}?
-          </p>
-          <div style={{ marginBottom: "50px" }}>
-            <p
-              style={{
-                marginBottom: "10px",
-                fontSize: "20px",
-                fontWeight: 400,
-              }}
-              className="slider-question"
-            >
-              Communication
+          <div className="slider-question-div">
+            <p className="slider-question">
+              Great job! Let's understand {profileModel.First_name} better
             </p>
-            <input
-              style={{ marginBottom: "0px", marginLeft: "0px" }}
-              type="range"
-              min="0"
-              max="10"
-              name="slider4"
-              value={formData.slider4}
-              onChange={(e) => handleChange("slider4", e.target.value)}
-              className="custom-slider"
-            />
-            <div
-              style={{
-                marginTop: "0px",
-                padding: "0px",
-                fontWeight: 100,
-                fontSize: "12px",
-              }}
-            >
-              <p style={{ margin: 0, display: "inline", float: "left" }}>
-                Introspective
-              </p>
-              <p style={{ margin: 0, display: "inline", float: "right" }}>
-                Greagrious
-              </p>
-            </div>
+            <p className="slider-question-hint">
+              Use the sliders below to find the adjectives that best describe{" "}
+              {profileModel.First_name}
+            </p>
           </div>
 
-          <div style={{ marginBottom: "50px" }}>
-            <p
-              style={{
-                marginBottom: "10px",
-                fontSize: "20px",
-                fontWeight: 400,
-              }}
-              className="slider-question"
-            >
-              Communication
-            </p>
-            <input
-              style={{ marginBottom: "0px", marginLeft: "0px" }}
-              type="range"
-              min="0"
-              max="10"
-              name="slider5"
-              value={formData.slider5}
-              onChange={(e) => handleChange("slider5", e.target.value)}
-              className="custom-slider"
-            />
-            <div
-              style={{
-                marginTop: "0px",
-                padding: "0px",
-                fontWeight: 100,
-                fontSize: "12px",
-              }}
-            >
-              <p style={{ margin: 0, display: "inline", float: "left" }}>
-                Introspective
-              </p>
-              <p style={{ margin: 0, display: "inline", float: "right" }}>
-                Greagrious
-              </p>
+          <div className="sliders-box">
+            <div className="slider-div">
+              <div className="slider-question">
+                <p>Communication</p>
+                <HelpIcon />
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="10"
+                name="slider1"
+                value={formData.slider4}
+                onChange={(e) => handleChange("slider4", e.target.value)}
+                className="slider-slider custom-slider"
+              />
+              <div className="slider-ends">
+                <p style={{ float: "left" }}>Introspective</p>
+                <p style={{ float: "right" }}>Greagrious</p>
+              </div>
             </div>
-          </div>
 
-          <div style={{ marginBottom: "50px" }}>
-            <p
-              style={{
-                marginBottom: "10px",
-                fontSize: "20px",
-                fontWeight: 400,
-              }}
-              className="slider-question"
-            >
-              Communication
-            </p>
-            <input
-              style={{ marginBottom: "0px", marginLeft: "0px" }}
-              type="range"
-              min="0"
-              max="10"
-              name="slider6"
-              value={formData.slider6}
-              onChange={(e) => handleChange("slider6", e.target.value)}
-              className="custom-slider"
-            />
-            <div
-              style={{
-                marginTop: "0px",
-                padding: "0px",
-                fontWeight: 100,
-                fontSize: "12px",
-              }}
-            >
-              <p style={{ margin: 0, display: "inline", float: "left" }}>
-                Introspective
-              </p>
-              <p style={{ margin: 0, display: "inline", float: "right" }}>
-                Greagrious
-              </p>
+            <div className="slider-div">
+              <div className="slider-question">
+                <p>Communication</p>
+                <HelpIcon />
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="10"
+                name="slider1"
+                value={formData.slider5}
+                onChange={(e) => handleChange("slider5", e.target.value)}
+                className="slider-slider custom-slider"
+              />
+              <div className="slider-ends">
+                <p style={{ float: "left" }}>Introspective</p>
+                <p style={{ float: "right" }}>Greagrious</p>
+              </div>
+            </div>
+
+            <div className="slider-div">
+              <div className="slider-question">
+                <p>Communication</p>
+                <HelpIcon />
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="10"
+                name="slider6"
+                value={formData.slider6}
+                onChange={(e) => handleChange("slider6", e.target.value)}
+                className="slider-slider custom-slider"
+              />
+              <div className="slider-ends">
+                <p style={{ float: "left" }}>Introspective</p>
+                <p style={{ float: "right" }}>Greagrious</p>
+              </div>
             </div>
           </div>
         </div>
@@ -538,120 +449,75 @@ function EditReview() {
     <>
       <div className="review_form">
         <div className="slider-section">
-          <p className="slider-question">
-            How would you rate {profileModel.First_name}?
-          </p>
-          <div style={{ marginBottom: "50px" }}>
-            <p
-              style={{
-                marginBottom: "10px",
-                fontSize: "20px",
-                fontWeight: 400,
-              }}
-              className="slider-question"
-            >
-              Communication
+          <div className="slider-question-div">
+            <p className="slider-question">
+              Great job! Let's understand {profileModel.First_name} better
             </p>
-            <input
-              style={{ marginBottom: "0px", marginLeft: "0px" }}
-              type="range"
-              min="0"
-              max="10"
-              name="slider7"
-              value={formData.slider7}
-              onChange={(e) => handleChange("slider7", e.target.value)}
-              className="custom-slider"
-            />
-            <div
-              style={{
-                marginTop: "0px",
-                padding: "0px",
-                fontWeight: 100,
-                fontSize: "12px",
-              }}
-            >
-              <p style={{ margin: 0, display: "inline", float: "left" }}>
-                Introspective
-              </p>
-              <p style={{ margin: 0, display: "inline", float: "right" }}>
-                Greagrious
-              </p>
-            </div>
+            <p className="slider-question-hint">
+              Use the sliders below to find the adjectives that best describe{" "}
+              {profileModel.First_name}
+            </p>
           </div>
 
-          <div style={{ marginBottom: "50px" }}>
-            <p
-              style={{
-                marginBottom: "10px",
-                fontSize: "20px",
-                fontWeight: 400,
-              }}
-              className="slider-question"
-            >
-              Communication
-            </p>
-            <input
-              style={{ marginBottom: "0px", marginLeft: "0px" }}
-              type="range"
-              min="0"
-              max="10"
-              name="slider8"
-              value={formData.slider8}
-              onChange={(e) => handleChange("slider8", e.target.value)}
-              className="custom-slider"
-            />
-            <div
-              style={{
-                marginTop: "0px",
-                padding: "0px",
-                fontWeight: 100,
-                fontSize: "12px",
-              }}
-            >
-              <p style={{ margin: 0, display: "inline", float: "left" }}>
-                Introspective
-              </p>
-              <p style={{ margin: 0, display: "inline", float: "right" }}>
-                Greagrious
-              </p>
+          <div className="sliders-box">
+            <div className="slider-div">
+              <div className="slider-question">
+                <p>Communication</p>
+                <HelpIcon />
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="10"
+                name="slider1"
+                value={formData.slider7}
+                onChange={(e) => handleChange("slider7", e.target.value)}
+                className="slider-slider custom-slider"
+              />
+              <div className="slider-ends">
+                <p style={{ float: "left" }}>Introspective</p>
+                <p style={{ float: "right" }}>Greagrious</p>
+              </div>
             </div>
-          </div>
 
-          <div style={{ marginBottom: "50px" }}>
-            <p
-              style={{
-                marginBottom: "10px",
-                fontSize: "20px",
-                fontWeight: 400,
-              }}
-              className="slider-question"
-            >
-              Communication
-            </p>
-            <input
-              style={{ marginBottom: "0px", marginLeft: "0px" }}
-              type="range"
-              min="0"
-              max="10"
-              name="slider9"
-              value={formData.slider9}
-              onChange={(e) => handleChange("slider9", e.target.value)}
-              className="custom-slider"
-            />
-            <div
-              style={{
-                marginTop: "0px",
-                padding: "0px",
-                fontWeight: 100,
-                fontSize: "12px",
-              }}
-            >
-              <p style={{ margin: 0, display: "inline", float: "left" }}>
-                Introspective
-              </p>
-              <p style={{ margin: 0, display: "inline", float: "right" }}>
-                Greagrious
-              </p>
+            <div className="slider-div">
+              <div className="slider-question">
+                <p>Communication</p>
+                <HelpIcon />
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="10"
+                name="slider1"
+                value={formData.slider8}
+                onChange={(e) => handleChange("slider8", e.target.value)}
+                className="slider-slider custom-slider"
+              />
+              <div className="slider-ends">
+                <p style={{ float: "left" }}>Introspective</p>
+                <p style={{ float: "right" }}>Greagrious</p>
+              </div>
+            </div>
+
+            <div className="slider-div">
+              <div className="slider-question">
+                <p>Communication</p>
+                <HelpIcon />
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="10"
+                name="slider1"
+                value={formData.slider9}
+                onChange={(e) => handleChange("slider9", e.target.value)}
+                className="slider-slider custom-slider"
+              />
+              <div className="slider-ends">
+                <p style={{ float: "left" }}>Introspective</p>
+                <p style={{ float: "right" }}>Greagrious</p>
+              </div>
             </div>
           </div>
         </div>
