@@ -56,39 +56,14 @@ function HomePage() {
     fetchData();
   }, []);
 
-  const averageSlider1 =
-    reviewModel.reduce((total, model) => total + model.slider1, 0) /
-    reviewModel.length;
-  const averageSlider2 =
-    reviewModel.reduce((total, model) => total + model.slider2, 0) /
-    reviewModel.length;
-  const averageSlider3 =
-    reviewModel.reduce((total, model) => total + model.slider3, 0) /
-    reviewModel.length;
-  const averageSlider4 =
-    reviewModel.reduce((total, model) => total + model.slider4, 0) /
-    reviewModel.length;
-  const averageSlider5 =
-    reviewModel.reduce((total, model) => total + model.slider5, 0) /
-    reviewModel.length;
-  const averageSlider6 =
-    reviewModel.reduce((total, model) => total + model.slider6, 0) /
-    reviewModel.length;
-  const averageSlider7 =
-    reviewModel.reduce((total, model) => total + model.slider7, 0) /
-    reviewModel.length;
-  const averageSlider8 =
-    reviewModel.reduce((total, model) => total + model.slider8, 0) /
-    reviewModel.length;
-  const averageSlider9 =
-    reviewModel.reduce((total, model) => total + model.slider9, 0) /
-    reviewModel.length;
+  const calculateAverage = (property) =>
+  reviewModel.reduce((total, model) => total + model[property], 0) / reviewModel.length;
 
-  const [isAddDivVisible, setIsAddDivVisible] = useState(false);
+  const [isBioAddDivVisible, setIsBioAddDivVisible] = useState(false);
   const [bioInput, setBioInput] = useState(profileModel.Bio);
 
   const toggleAddDiv = () => {
-    setIsAddDivVisible(!isAddDivVisible);
+    setIsBioAddDivVisible(!isBioAddDivVisible);
   };
 
   const handleInputChange = (e) => {
@@ -111,19 +86,19 @@ function HomePage() {
         });
       });
 
-      setIsAddDivVisible(false);
+      setIsBioAddDivVisible(false);
     } catch (error) {
       console.error("Error updating Bio:", error);
     }
   };
 
-  const [isAddDivVisible2, setIsAddDivVisible2] = useState(false);
+  const [isAttributeAddDivVisible, setIsAttributeAddDivVisible] = useState(false);
 
   const toggleAddDiv2 = () => {
-    setIsAddDivVisible2(!isAddDivVisible2);
+    setIsAttributeAddDivVisible(!isAttributeAddDivVisible);
   };
 
-  const attributesButtonLabel = isAddDivVisible2 ? "Show Less" : "Click here";
+  const attributesButtonLabel = isAttributeAddDivVisible ? "Show Less" : "Click here";
   const [imageinput, setImageInput] = useState(null);
 
   const handleImageChange = async (e) => {
@@ -233,6 +208,30 @@ function HomePage() {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const renderSlider = (index) => {
+    const sliderValue = calculateAverage(`slider${index}`);
+
+    return (
+      <div className={`attr-slider-box ${index===1 && "top-slider"}`} key={index}>
+        <div className="attr-slider-question-div">
+          <p className="attr-slider-question">Communication</p>
+          <HelpIcon />
+        </div>
+        <input
+          type="range"
+          min="0"
+          max="10"
+          value={sliderValue}
+          className="attr-slider custom-slider"
+        />
+        <div className="attr-slider-ends">
+          <p style={{ float: "left" }}>Introspective</p>
+          <p style={{ float: "right"}}>Greagrious</p>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -365,18 +364,18 @@ function HomePage() {
                 </button>
 
                 <button
-                  onClick={isAddDivVisible ? handleSaveBio : toggleAddDiv}
+                  onClick={isBioAddDivVisible ? handleSaveBio : toggleAddDiv}
                   className="url-btn"
                   type="button"
                 >
-                  {isAddDivVisible ? <TickIcon /> : <EditIcon />}
+                  {isBioAddDivVisible ? <TickIcon /> : <EditIcon />}
                 </button>
               </div>
             </div>
 
             <div
               style={{
-                display: !isAddDivVisible ? "flex" : "none",
+                display: !isBioAddDivVisible ? "flex" : "none",
                 flexDirection: "column",
               }}
             >
@@ -395,7 +394,7 @@ function HomePage() {
 
             <div
               style={{
-                display: isAddDivVisible ? "flex" : "none",
+                display: isBioAddDivVisible ? "flex" : "none",
                 flexDirection: "column",
                 width: "100%",
               }}
@@ -418,169 +417,9 @@ function HomePage() {
                 </p>
               ))}
             </div>
-            <div className="attr-slider-box top-slider">
-              <div className="attr-slider-question-div">
-                <p className="attr-slider-question">Communication</p>
-                <HelpIcon />
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                value={averageSlider1}
-                className="attr-slider custom-slider"
-              />
-              <div className="attr-slider-ends">
-                <p style={{ float: "left" }}>Introspective</p>
-                <p style={{ float: "right" }}>Greagrious</p>
-              </div>
-            </div>
 
-            <div className="attr-slider-box">
-              <div className="attr-slider-question-div">
-                <p className="attr-slider-question">Thought Process</p>
-                <HelpIcon />
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                value={averageSlider2}
-                className="attr-slider custom-slider"
-              />
-              <div className="attr-slider-ends">
-                <p style={{ float: "left" }}>Introspective</p>
-                <p style={{ float: "right" }}>Greagrious</p>
-              </div>
-            </div>
-
-            <div className="attr-slider-box">
-              <div className="attr-slider-question-div">
-                <p className="attr-slider-question">Communication</p>
-                <HelpIcon />
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                value={averageSlider3}
-                className="attr-slider custom-slider"
-              />
-              <div className="attr-slider-ends">
-                <p style={{ float: "left" }}>Introspective</p>
-                <p style={{ float: "right" }}>Greagrious</p>
-              </div>
-            </div>
-
-            <div style={{ display: isAddDivVisible2 ? "block" : "none" }}>
-              <div className="attr-slider-box">
-                <div className="attr-slider-question-div">
-                  <p className="attr-slider-question">Communication</p>
-                  <HelpIcon />
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="10"
-                  value={averageSlider4}
-                  className="attr-slider custom-slider"
-                />
-                <div className="attr-slider-ends">
-                  <p style={{ float: "left" }}>Introspective</p>
-                  <p style={{ float: "right" }}>Greagrious</p>
-                </div>
-              </div>
-
-              <div className="attr-slider-box">
-                <div className="attr-slider-question-div">
-                  <p className="attr-slider-question">Communication</p>
-                  <HelpIcon />
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="10"
-                  value={averageSlider5}
-                  className="attr-slider custom-slider"
-                />
-                <div className="attr-slider-ends">
-                  <p style={{ float: "left" }}>Introspective</p>
-                  <p style={{ float: "right" }}>Greagrious</p>
-                </div>
-              </div>
-
-              <div className="attr-slider-box">
-                <div className="attr-slider-question-div">
-                  <p className="attr-slider-question">Communication</p>
-                  <HelpIcon />
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="10"
-                  value={averageSlider6}
-                  className="attr-slider custom-slider"
-                />
-                <div className="attr-slider-ends">
-                  <p style={{ float: "left" }}>Introspective</p>
-                  <p style={{ float: "right" }}>Greagrious</p>
-                </div>
-              </div>
-
-              <div className="attr-slider-box">
-                <div className="attr-slider-question-div">
-                  <p className="attr-slider-question">Communication</p>
-                  <HelpIcon />
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="10"
-                  value={averageSlider7}
-                  className="attr-slider custom-slider"
-                />
-                <div className="attr-slider-ends">
-                  <p style={{ float: "left" }}>Introspective</p>
-                  <p style={{ float: "right" }}>Greagrious</p>
-                </div>
-              </div>
-
-              <div className="attr-slider-box">
-                <div className="attr-slider-question-div">
-                  <p className="attr-slider-question">Communication</p>
-                  <HelpIcon />
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="10"
-                  value={averageSlider8}
-                  className="attr-slider custom-slider"
-                />
-                <div className="attr-slider-ends">
-                  <p style={{ float: "left" }}>Introspective</p>
-                  <p style={{ float: "right" }}>Greagrious</p>
-                </div>
-              </div>
-
-              <div className="attr-slider-box">
-                <div className="attr-slider-question-div">
-                  <p className="attr-slider-question">Communication</p>
-                  <HelpIcon />
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="10"
-                  value={averageSlider9}
-                  className="attr-slider custom-slider"
-                />
-                <div className="attr-slider-ends">
-                  <p style={{ float: "left" }}>Introspective</p>
-                  <p style={{ float: "right" }}>Greagrious</p>
-                </div>
-              </div>
-            </div>
+            {[1, 2, 3].map((index) => renderSlider(index))}
+            {isAttributeAddDivVisible && [4, 5, 6, 7, 8, 9].map((index) => renderSlider(index))}
 
             <button
               onClick={toggleAddDiv2}
@@ -593,7 +432,7 @@ function HomePage() {
               }}
             >
               {" "}
-              {!isAddDivVisible2 && (
+              {!isAttributeAddDivVisible && (
                 <span style={{ color: "black" }}>Need more details? </span>
               )}
               {attributesButtonLabel}

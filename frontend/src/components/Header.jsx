@@ -53,7 +53,7 @@ export default function Header() {
         <button>Edit Profile</button>
       </Link>
       <Link to='/myreviews'>
-        <button>MyReviews</button>
+        <button>My Reviews</button>
       </Link>
 
       <div className="search-container">
