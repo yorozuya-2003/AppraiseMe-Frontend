@@ -37,7 +37,7 @@ function HomePage() {
         const [workModelResponse, profileModelResponse, reviewModelResponse] =
           await Promise.all([
             axios.get(`${API_BASE_URL}/api/addwork/?email=${userEmail}`),
-            axios.get(`${API_BASE_URL}/api/addprofile/?Email=${userEmail}`),
+            axios.get(`${API_BASE_URL}/api/addprofile/?email=${userEmail}`),
             axios.get(`${API_BASE_URL}/get_reviews/${userEmail}`, {
               params: { email: userEmail },
             }),
@@ -61,7 +61,7 @@ function HomePage() {
     reviewModel.length;
 
   const [isBioAddDivVisible, setIsBioAddDivVisible] = useState(false);
-  const [bioInput, setBioInput] = useState(profileModel.Bio);
+  const [bioInput, setBioInput] = useState(profileModel.bio);
 
   const toggleAddDiv = () => {
     setIsBioAddDivVisible(!isBioAddDivVisible);
@@ -80,8 +80,8 @@ function HomePage() {
 
       setProfileModel((prevProfileModel) => {
         return prevProfileModel.map((profile) => {
-          if (profile.Email === userEmail) {
-            return { ...profile, Bio: bioInput };
+          if (profile.email === userEmail) {
+            return { ...profile, bio: bioInput };
           }
           return profile;
         });
@@ -134,7 +134,7 @@ function HomePage() {
 
         setProfileModel((prevProfileModel) => {
           return prevProfileModel.map((profile) =>
-            profile.Email === userEmail ? updatedModel : profile
+            profile.email === userEmail ? updatedModel : profile
           );
         });
 
@@ -252,7 +252,7 @@ function HomePage() {
         style={{ marginBottom: "160px", marginTop: "10px" }}
       >
         {profileModel.map((model, index) => {
-          console.log("Image Path:", model.Image);
+          console.log("Image Path:", model.image);
           return (
             <div style={{ display: "flex", flexDirection: "row" }}>
               <div
@@ -263,7 +263,7 @@ function HomePage() {
                 }}
               >
                 <img
-                  src={model.Image ? `${model.Image}` : `default_avatar.jpg`}
+                  src={model.image ? `${model.image}` : `default_avatar.jpg`}
                   alt=""
                   style={{
                     width: "150px",
@@ -294,7 +294,7 @@ function HomePage() {
                 </label>
               </div>
               <p>
-                {model.First_name} {model.Second_name}
+                {model.first_name} {model.second_name}
               </p>
             </div>
           );
@@ -358,7 +358,7 @@ function HomePage() {
           <div className="about-bio">
             <div className="about-bio-header">
               {profileModel.map((model, index) => (
-                <p> About {model.First_name} </p>
+                <p> About {model.first_name} </p>
               ))}
 
               <div className="buttons">
@@ -388,8 +388,8 @@ function HomePage() {
             >
               {profileModel.map((model, index) => (
                 <p className="bio-text">
-                  {model.Bio ? (
-                    model.Bio
+                  {model.bio ? (
+                    model.bio
                   ) : (
                     <span style={{ fontStyle: "italic", color: "#4A4A4A" }}>
                       (Bio not added)
@@ -420,7 +420,7 @@ function HomePage() {
               <p className="key-attr-heading">Key Attributes</p>
               {profileModel.map((model, index) => (
                 <p className="key-attr-subheading">
-                  What best describes {model.First_name}
+                  What best describes {model.first_name}
                 </p>
               ))}
             </div>
@@ -454,7 +454,7 @@ function HomePage() {
 
                 {profileModel.map((model, index) => (
                   <p className="reviews-div-header-subtitle">
-                    What other users say about {model.First_name}
+                    What other users say about {model.first_name}
                   </p>
                 ))}
               </div>
@@ -476,8 +476,8 @@ function HomePage() {
                       >
                         <img
                           src={
-                            model.Image
-                              ? `${model.Image}`
+                            model.image
+                              ? `${model.image}`
                               : `default_avatar.jpg`
                           }
                           alt=""

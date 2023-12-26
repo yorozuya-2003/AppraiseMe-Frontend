@@ -30,7 +30,7 @@ function AddReview() {
 
         const [profileModelResponse] = await Promise.all([
           axios.get(
-            `${API_BASE_URL}/api/addprofile/?Email=${userResponse.data.email}`
+            `${API_BASE_URL}/api/addprofile/?email=${userResponse.data.email}`
           ),
         ]);
 
@@ -185,13 +185,13 @@ function AddReview() {
       <div className="review_form">
         <div className="review-box">
           <p style={{ fontSize: "22px", marginBottom: "15px" }} id="tell-us">
-            Tell us a little about your history with {profileModel.First_name}
+            Tell us a little about your history with {profileModel.first_name}
           </p>
           <div className="review-dropdowns" style={{ fontWeight: 400 }}>
             <div className="dropdown-section">
               <div className="dropdown-subsection">
                 <p style={{ marginBottom: 0 }} className="dropdown-question">
-                  Where do you know {profileModel.First_name} from?
+                  Where do you know {profileModel.first_name} from?
                 </p>
                 <Select
                   name="acquaintance"
@@ -213,7 +213,7 @@ function AddReview() {
 
               <div className="dropdown-section">
                 <p style={{ marginBottom: 0 }} className="dropdown-question">
-                  How many years have you known {profileModel.First_name} for?
+                  How many years have you known {profileModel.first_name} for?
                 </p>
                 <Select
                   name="acquaintance_time"
@@ -237,7 +237,7 @@ function AddReview() {
             <div className="dropdown-section">
               <div className="dropdown-subsection">
                 <p style={{ marginBottom: 0 }} className="dropdown-question">
-                  What is your relation with {profileModel.First_name}?
+                  What is your relation with {profileModel.first_name}?
                 </p>
                 <Select
                   name="relation"
@@ -296,11 +296,11 @@ function AddReview() {
         <div className="slider-section">
           <div className="slider-question-div">
             <p className="slider-question">
-              Great job! Let's understand {profileModel.First_name} better
+              Great job! Let's understand {profileModel.first_name} better
             </p>
             <p className="slider-question-hint">
               Use the sliders below to find the adjectives that best describe{" "}
-              {profileModel.First_name}
+              {profileModel.first_name}
             </p>
           </div>
 
@@ -318,11 +318,11 @@ function AddReview() {
         <div className="slider-section">
           <div className="slider-question-div">
             <p className="slider-question">
-              Great job! Let's understand {profileModel.First_name} better
+              Great job! Let's understand {profileModel.first_name} better
             </p>
             <p className="slider-question-hint">
               Use the sliders below to find the adjectives that best describe{" "}
-              {profileModel.First_name}
+              {profileModel.first_name}
             </p>
           </div>
 
@@ -340,11 +340,11 @@ function AddReview() {
         <div className="slider-section">
           <div className="slider-question-div">
             <p className="slider-question">
-              Great job! Let's understand {profileModel.First_name} better
+              Great job! Let's understand {profileModel.first_name} better
             </p>
             <p className="slider-question-hint">
               Use the sliders below to find the adjectives that best describe{" "}
-              {profileModel.First_name}
+              {profileModel.first_name}
             </p>
           </div>
 
@@ -362,7 +362,7 @@ function AddReview() {
         <div className="sentence-section">
           <p className="sentence-question">
             Lastly, please write a single, short sentence that best describes{" "}
-            {profileModel.First_name}'s demeanoar
+            {profileModel.first_name}'s demeanoar
           </p>
           <textarea
             placeholder="Short Description..."
@@ -406,7 +406,7 @@ function AddReview() {
               <div className="user_profile_name">
                 <p>You are now appraising</p>
                 <p style={{ fontSize: "48px" }}>
-                  {profileModel.First_name} {profileModel.Second_name}
+                  {profileModel.first_name} {profileModel.second_name}
                 </p>
               </div>
 

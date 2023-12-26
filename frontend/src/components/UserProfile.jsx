@@ -55,7 +55,7 @@ function UserProfile() {
             `${API_BASE_URL}/api/addwork/?email=${userResponse.data.email}`
           ),
           axios.get(
-            `${API_BASE_URL}/api/addprofile/?Email=${userResponse.data.email}`
+            `${API_BASE_URL}/api/addprofile/?email=${userResponse.data.email}`
           ),
           axios.get(`${API_BASE_URL}/get_reviews/${userResponse.data.email}`, {
             params: { email: userEmail },
@@ -229,7 +229,7 @@ function UserProfile() {
               {profileModel.map((model, index) => (
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   <img
-                    src={model.Image ? `${model.Image}` : `default_avatar.jpg`}
+                    src={model.image ? `${model.image}` : `default_avatar.jpg`}
                     alt=""
                     style={{
                       width: "150px",
@@ -239,7 +239,7 @@ function UserProfile() {
                     }}
                   />
                   <p>
-                    {model.First_name} {model.Second_name}
+                    {model.first_name} {model.second_name}
                   </p>
                 </div>
               ))}
@@ -279,7 +279,7 @@ function UserProfile() {
                 <div className="about-bio">
                   <div className="about-bio-header">
                     {profileModel.map((model, index) => (
-                      <p> About {model.First_name} </p>
+                      <p> About {model.first_name} </p>
                     ))}
 
                     <div className="buttons">
@@ -317,8 +317,8 @@ function UserProfile() {
 
                   {profileModel.map((model, index) => (
                     <p className="bio-text">
-                      {model.Bio ? (
-                        model.Bio
+                      {model.bio ? (
+                        model.bio
                       ) : (
                         <span style={{ fontStyle: "italic", color: "#4A4A4A" }}>
                           (Bio not added)
@@ -333,7 +333,7 @@ function UserProfile() {
                     <p className="key-attr-heading">Key Attributes</p>
                     {profileModel.map((model, index) => (
                       <p className="key-attr-subheading">
-                        What best describes {model.First_name}
+                        What best describes {model.first_name}
                       </p>
                     ))}
                   </div>
@@ -368,7 +368,7 @@ function UserProfile() {
                       <p className="reviews-div-header-title">User Reviews</p>
                       {profileModel.map((model, index) => (
                         <p className="reviews-div-header-subtitle">
-                          What other users say about {model.First_name}
+                          What other users say about {model.first_name}
                         </p>
                       ))}
                     </div>
@@ -384,8 +384,8 @@ function UserProfile() {
                               <div className="user-review-div-profile">
                                 <img
                                   src={
-                                    model.Image
-                                      ? `${model.Image}`
+                                    model.image
+                                      ? `${model.image}`
                                       : `default_avatar.jpg`
                                   }
                                   alt=""

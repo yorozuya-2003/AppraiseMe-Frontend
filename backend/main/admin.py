@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import OTP, Profiles, work_exp, Review
+from .models import OTP, Profile, WorkExperience, Review
 
 admin.site.register(OTP)
-admin.site.register(work_exp)
-admin.site.register(Profiles)
+admin.site.register(Profile)
+admin.site.register(WorkExperience)
 admin.site.register(Review)

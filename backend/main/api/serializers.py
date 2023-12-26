@@ -1,23 +1,26 @@
-from rest_framework.serializers import ModelSerializer
-from ..models import *
 from django.contrib.auth.models import User
+from rest_framework.serializers import ModelSerializer
+from ..models import Profile, WorkExperience, Review
 
 
 class UserSerializer(ModelSerializer):
     class Meta:
-        model=User
-        fields=('email','password')
+        model = User
+        fields = ('email', 'password')
 
 
 class ProfileSerializer(ModelSerializer):
     class Meta:
-        model=Profiles
-        fields=('First_name','Second_name','DOB','Gender','Pronouns','Email','Image','Bio')
+        model = Profile
+        fields = ('first_name', 'second_name', 'dob',
+                  'gender', 'pronouns', 'email', 'image', 'bio')
 
-class work_exp_Serializer(ModelSerializer):
+
+class WorkExperienceSerializer(ModelSerializer):
     class Meta:
-        model=work_exp
-        fields=('email','title','company','location','location_type','emp_type','currently_working','start_time','end_time')
+        model = WorkExperience
+        fields = ('email', 'title', 'company', 'location', 'location_type',
+                  'emp_type', 'currently_working', 'start_time', 'end_time')
 
 
 class ReviewSerializer(ModelSerializer):

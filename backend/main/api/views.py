@@ -12,8 +12,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 
-from ..models import OTP, Profiles, work_exp
-from .serializers import *
+from ..models import OTP, Profile, WorkExperience, Review
+from .serializers import ProfileSerializer, \
+    WorkExperienceSerializer, ReviewSerializer
 from backend.settings import EMAIL_HOST_USER
 
 from datetime import datetime
@@ -29,16 +30,20 @@ def user_login(request):
             try:
                 user = User.objects.get(email=email)
                 username = user.username
-                user = authenticate(request, username=username, password=password)
+                user = authenticate(
+                    request, username=username, password=password)
                 if user is not None:
                     login(request, user)
                     data = {'username': username, 'email': email}
                     return Response(data, status=status.HTTP_200_OK)
                 else:
-                    return Response({'message': 'Invalid password'}, status=status.HTTP_401_UNAUTHORIZED)
+                    return Response({'message': 'Invalid password'},
+                                    status=status.HTTP_401_UNAUTHORIZED)
             except User.DoesNotExist:
-                return Response({'message': 'Email is not registered'}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({'message': 'Email and password not provided'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'message': 'Email is not registered'},
+                                status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'Email and password not provided'},
+                        status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -47,11 +52,13 @@ def send_otp(request):
         email = request.data['email']
 
         if not email:
-            return Response({'message': 'Email not provided'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': 'Email not provided'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         user = User.objects.filter(email=email)
         if user:
-            return Response({'message': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': 'Email already exists'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         if email:
             try:
@@ -59,10 +66,11 @@ def send_otp(request):
                 otp_instance.delete()
             except OTP.DoesNotExist:
                 pass
-            
+
             otp = get_random_string(length=6, allowed_chars='1234567890')
             print(otp)
-            otp_instance, created = OTP.objects.get_or_create(email=email, otp=otp)
+            otp_instance, created = \
+                OTP.objects.get_or_create(email=email, otp=otp)
             otp_instance.save()
 
             send_mail(
@@ -73,9 +81,11 @@ def send_otp(request):
                 fail_silently=False,
             )
 
-            return Response({'message': 'OTP sent successfully'}, status=status.HTTP_200_OK)
-        return Response({'message': 'Email not found / provided.'}, status=status.HTTP_404_NOT_FOUND)
-    
+            return Response({'message': 'OTP sent successfully'},
+                            status=status.HTTP_200_OK)
+        return Response({'message': 'Email not found / provided.'},
+                        status=status.HTTP_404_NOT_FOUND)
+
 
 @api_view(['POST'])
 def verify_otp(request):
@@ -90,14 +100,18 @@ def verify_otp(request):
 
                 if otp == stored_otp:
                     otp_instance.delete()
-                    return Response({'message': 'OTP verified successfully'}, status=status.HTTP_200_OK)
+                    return Response({'message': 'OTP verified successfully'},
+                                    status=status.HTTP_200_OK)
                 else:
-                    return Response({'message': 'Invalid OTP'}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({'message': 'Invalid OTP'},
+                                    status=status.HTTP_400_BAD_REQUEST)
 
             except OTP.DoesNotExist:
-                return Response({'message': 'Email not found.'}, status=status.HTTP_404_NOT_FOUND)
+                return Response({'message': 'Email not found.'},
+                                status=status.HTTP_404_NOT_FOUND)
 
-        return Response({'message': 'OTP verification failed'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'message': 'OTP verification failed'},
+                        status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -109,14 +123,19 @@ def register_user(request):
         if email and password:
             try:
                 username = f"{datetime.now().strftime('%Y%m%d%H%M%S')}"
-                user = User.objects.create_user(username=username, email=email, password=password)
+                user = User.objects.create_user(
+                    username=username, email=email, password=password)
                 user.save()
                 data = {'username': username, 'email': email}
                 return Response(data, status=status.HTTP_201_CREATED)
             except ValidationError as e:
-                return Response({'error': e}, status=status.HTTP_400_BAD_REQUEST)
-        
-        return Response({'message': 'Email and password not found / provided.'}, status=status.HTTP_400_BAD_REQUEST)    
+                return Response({'error': e},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(
+            {'message': 'Email and password not found / provided.'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 @api_view(['GET'])
@@ -129,34 +148,36 @@ def user_profile(request, username):
         }
         return Response(user_data, status=status.HTTP_200_OK)
     except User.DoesNotExist:
-        return Response({'message': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'message': 'User not found'},
+                        status=status.HTTP_404_NOT_FOUND)
 
 
-class Profiles_viewset(ModelViewSet):
-    queryset=Profiles.objects.all()
-    serializer_class=ProfileSerializer
+class ProfileViewset(ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 
     def get_queryset(self):
-        target_email = self.request.query_params.get('Email')
-        return Profiles.objects.filter(Email=target_email)
-    
+        target_email = self.request.query_params.get('email')
+        return Profile.objects.filter(email=target_email)
+
     def create(self, request, *args, **kwargs):
-        target_email = request.data.get('Email')
-        existing_profile = Profiles.objects.filter(Email=target_email).first()
+        target_email = request.data.get('email')
+        existing_profile = \
+            Profile.objects.filter(email=target_email).first()
 
         if existing_profile:
             existing_profile.delete()
         return super().create(request, *args, **kwargs)
 
 
-class work_exp_viewset(ModelViewSet):
-    queryset=work_exp.objects.all()
-    serializer_class=work_exp_Serializer
+class WorkExperienceViewset(ModelViewSet):
+    queryset = WorkExperience.objects.all()
+    serializer_class = WorkExperienceSerializer
 
     def get_queryset(self):
         target_email = self.request.query_params.get('email')
-        return work_exp.objects.filter(email=target_email)
-        
+        return WorkExperience.objects.filter(email=target_email)
+
     def delete(self, request, *args, **kwargs):
         try:
             target_email = request.data.get('email')
@@ -169,7 +190,7 @@ class work_exp_viewset(ModelViewSet):
             start_time_to_delete = request.data.get('start_time')
             end_time_to_delete = request.data.get('end_time')
 
-            item_to_delete = work_exp.objects.filter(
+            item_to_delete = WorkExperience.objects.filter(
                 email=target_email,
                 title=title_to_delete,
                 emp_type=emp_type_to_delete,
@@ -186,19 +207,20 @@ class work_exp_viewset(ModelViewSet):
                 return Response("Item deleted successfully", status=200)
             else:
                 return Response("Item not found", status=404)
-        except work_exp.DoesNotExist:
+        except WorkExperience.DoesNotExist:
             return Response("Item not found", status=404)
 
-
     def create(self, request, *args, **kwargs):
-        serializer = work_exp_Serializer(data=request.data)
+        serializer = WorkExperienceSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse({'message': 'Experience added successfully.'}, status=status.HTTP_201_CREATED)
+            return JsonResponse({'message': 'Experience added successfully.'},
+                                status=status.HTTP_201_CREATED)
         else:
             print(serializer.errors)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+        return JsonResponse(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
 
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all()
@@ -207,21 +229,24 @@ class ReviewViewSet(ModelViewSet):
     def get_queryset(self):
         target_email = self.request.query_params.get('to_user')
         return Review.objects.filter(to_user=target_email)
-    
+
     def create(self, request, *args, **kwargs):
         serializer = ReviewSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse({'message': 'Review added successfully.'}, status=status.HTTP_201_CREATED)
+            return JsonResponse({'message': 'Review added successfully.'},
+                                status=status.HTTP_201_CREATED)
         else:
             print(serializer.errors)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+        return JsonResponse(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
     @action(detail=False, methods=['get'])
     def get_review(self, request):
         to_user = self.request.query_params.get('to_user')
         from_user = self.request.query_params.get('from_user')
-        review = Review.objects.filter(to_user=to_user, from_user=from_user).first()
+        review = Review.objects.filter(
+            to_user=to_user, from_user=from_user).first()
         serializer = ReviewSerializer(review)
         data = dict(serializer.data)
         data['id'] = review.id
@@ -231,49 +256,53 @@ class ReviewViewSet(ModelViewSet):
 @api_view(['GET'])
 def get_reviews_for_user(request, to_user_email):
     try:
-        current_user_email = request.GET.get('email')
-        to_user_profile = Profiles.objects.get(Email=to_user_email)
+        user_email = request.GET.get('email')
         reviews = Review.objects.filter(to_user=to_user_email)
-        current_user_review = Review.objects.filter(from_user=current_user_email, to_user=to_user_email).first()
-        current_user_profile = Profiles.objects.get(Email=current_user_email)
-        current_user_id = User.objects.get(email=current_user_email).username
-        current_user_name = current_user_profile.First_name + " " + current_user_profile.Second_name
-        if current_user_review is not None:
-            if current_user_review.is_anonymous:
+        user_review = Review.objects.filter(
+            from_user=user_email, to_user=to_user_email).first()
+        current_user_profile = Profile.objects.get(email=user_email)
+        current_user_id = User.objects.get(email=user_email).username
+
+        current_user_name = \
+            current_user_profile.first_name + \
+            " " + current_user_profile.second_name
+
+        if user_review is not None:
+            if user_review.is_anonymous:
                 current_user_name += " (Anonymous)"
 
         review_list = []
 
-        if current_user_review is not None:
+        if user_review is not None:
             review_list.append({
                 "user_id": current_user_id,
-                "id": current_user_review.id,
-                "from_user": current_user_review.from_user,
+                "id": user_review.id,
+                "from_user": user_review.from_user,
                 "from_user_name": current_user_name,
-                "acquaintance": current_user_review.acquaintance,
-                "acquaintance_time": current_user_review.acquaintance_time,
-                "relation": current_user_review.relation,
-                "team_size": current_user_review.team_size,
-                "slider1": current_user_review.slider1,
-                "slider2": current_user_review.slider2,
-                "slider3": current_user_review.slider3,
-                "slider4": current_user_review.slider4,
-                "slider5": current_user_review.slider5,
-                "slider6": current_user_review.slider6,
-                "slider7": current_user_review.slider7,
-                "slider8": current_user_review.slider8,
-                "slider9": current_user_review.slider9,
-                "sentence": current_user_review.sentence,
-                "is_anonymous": current_user_review.is_anonymous,
-                "upvotes_count": current_user_review.get_upvotes_count(),
-                "downvotes_count": current_user_review.get_downvotes_count(),
-                "has_upvoted": current_user_review.has_upvoted(current_user_email),
-                "has_downvoted": current_user_review.has_downvoted(current_user_email),
+                "acquaintance": user_review.acquaintance,
+                "acquaintance_time": user_review.acquaintance_time,
+                "relation": user_review.relation,
+                "team_size": user_review.team_size,
+                "slider1": user_review.slider1,
+                "slider2": user_review.slider2,
+                "slider3": user_review.slider3,
+                "slider4": user_review.slider4,
+                "slider5": user_review.slider5,
+                "slider6": user_review.slider6,
+                "slider7": user_review.slider7,
+                "slider8": user_review.slider8,
+                "slider9": user_review.slider9,
+                "sentence": user_review.sentence,
+                "is_anonymous": user_review.is_anonymous,
+                "upvotes_count": user_review.get_upvotes_count(),
+                "downvotes_count": user_review.get_downvotes_count(),
+                "has_upvoted": user_review.has_upvoted(user_email),
+                "has_downvoted": user_review.has_downvoted(user_email),
                 "can_delete": True,
             })
 
         for review in reviews:
-            if review.from_user == current_user_email:
+            if review.from_user == user_email:
                 continue
             review_dict = {
                 "user_id": User.objects.get(email=review.from_user).username,
@@ -297,16 +326,17 @@ def get_reviews_for_user(request, to_user_email):
                 "is_anonymous": review.is_anonymous,
                 "upvotes_count": review.get_upvotes_count(),
                 "downvotes_count": review.get_downvotes_count(),
-                "has_upvoted": review.has_upvoted(current_user_email),
-                "has_downvoted": review.has_downvoted(current_user_email),
+                "has_upvoted": review.has_upvoted(user_email),
+                "has_downvoted": review.has_downvoted(user_email),
                 "can_delete": False,
             }
             review_list.append(review_dict)
 
         return JsonResponse({"reviews": review_list})
 
-    except Profiles.DoesNotExist:
+    except Profile.DoesNotExist:
         return JsonResponse({"error": "User not found"}, status=404)
+
 
 @api_view(['GET'])
 def get_reviews_of_user(request, user_email):
@@ -315,51 +345,56 @@ def get_reviews_of_user(request, user_email):
         profile_data = []
         for review in reviews:
             to_user_email = review.to_user
-            profile = get_object_or_404(Profiles, Email=to_user_email)
-            user = User.objects.get(email=profile.Email)
-            review_dict={
+            profile = get_object_or_404(Profile, email=to_user_email)
+            user = User.objects.get(email=profile.email)
+            review_dict = {
                 'sentence': review.sentence,
                 'username': user.username,
-                'First_name': profile.First_name,
-                'Second_name': profile.Second_name,
+                'first_name': profile.first_name,
+                'second_name': profile.second_name,
             }
             profile_data.append(review_dict)
         return JsonResponse({'reviews': profile_data})
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
+
 @api_view(['GET'])
 def get_profile(request, email):
     try:
-        profile = Profiles.objects.get(Email=email)
+        profile = Profile.objects.get(email=email)
         serializer = ProfileSerializer(profile)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
-    except Profiles.DoesNotExist:
-        return JsonResponse({'message': 'Profile not found.'}, status=status.HTTP_404_NOT_FOUND)
+    except Profile.DoesNotExist:
+        return JsonResponse({'message': 'Profile not found.'},
+                            status=status.HTTP_404_NOT_FOUND)
+
 
 @api_view(['GET'])
 def check_profile_completion(request, email):
     try:
-        profile = Profiles.objects.get(Email=email)
+        profile = Profile.objects.get(email=email)
         serializer = ProfileSerializer(profile)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK)
-    except Profiles.DoesNotExist:
-        return JsonResponse({'Email': None}, status=status.HTTP_200_OK)
-    
+    except Profile.DoesNotExist:
+        return JsonResponse({'email': None}, status=status.HTTP_200_OK)
+
+
 @api_view(['GET'])
 def search_suggestions(request):
     query = request.GET.get('q', '')
-    profiles = Profiles.objects.filter(Q(First_name__icontains=query) | Q(Second_name__icontains=query))
+    profiles = Profile.objects.filter(
+        Q(first_name__icontains=query) | Q(second_name__icontains=query))
     suggestions = []
 
     for profile in profiles:
         try:
-            user = User.objects.get(email=profile.Email)
+            user = User.objects.get(email=profile.email)
             suggestions.append({
-                'first_name': profile.First_name,
-                'last_name': profile.Second_name,
+                'first_name': profile.first_name,
+                'last_name': profile.second_name,
                 'username': user.username,
-                'img': str(profile.Image),
+                'img': str(profile.image),
             })
         except User.DoesNotExist:
             pass
@@ -373,14 +408,18 @@ def update_bio(request, email):
         new_bio = request.data.get('bio')
 
         try:
-            profile = Profiles.objects.get(Email=email)
-            profile.Bio = new_bio
+            profile = Profile.objects.get(email=email)
+            profile.bio = new_bio
             profile.save()
-            return Response({'message': 'Bio updated successfully'}, status=status.HTTP_200_OK)
-        except Profiles.DoesNotExist:
-            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'message': 'Bio updated successfully'},
+                            status=status.HTTP_200_OK)
+        except Profile.DoesNotExist:
+            return Response({'error': 'Profile not found'},
+                            status=status.HTTP_404_NOT_FOUND)
 
-    return Response({'error': 'Invalid request method'}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'error': 'Invalid request method'},
+                    status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 def update_image(request, email):
@@ -388,14 +427,18 @@ def update_image(request, email):
         new_img = request.data.get('image')
 
         try:
-            profile = Profiles.objects.get(Email=email)
-            profile.Image = new_img
+            profile = Profile.objects.get(email=email)
+            profile.image = new_img
             profile.save()
-            return Response({'message': 'Image updated successfully'}, status=status.HTTP_200_OK)
-        except Profiles.DoesNotExist:
-            return Response({'error': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'message': 'Image updated successfully'},
+                            status=status.HTTP_200_OK)
+        except Profile.DoesNotExist:
+            return Response({'error': 'Profile not found'},
+                            status=status.HTTP_404_NOT_FOUND)
 
-    return Response({'error': 'Invalid request method'}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({'error': 'Invalid request method'},
+                    status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 def upvote_review(request, review_id):
@@ -405,12 +448,17 @@ def upvote_review(request, review_id):
             review = Review.objects.get(id=review_id)
             review.upvote(user_email)
             review.save()
-            return JsonResponse({'success': True, 'upvotes_count': review.get_upvotes_count(), 'downvotes_count': review.get_downvotes_count(),
-                'has_upvoted': review.has_upvoted(user_email), 'has_downvoted': review.has_downvoted(user_email)})
+            data = {'success': True,
+                    'upvotes_count': review.get_upvotes_count(),
+                    'downvotes_count': review.get_downvotes_count(),
+                    'has_upvoted': review.has_upvoted(user_email),
+                    'has_downvoted': review.has_downvoted(user_email)}
+            return JsonResponse(data)
         except Review.DoesNotExist:
             return JsonResponse({'error': 'Review not found'}, status=404)
 
     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
 
 @api_view(['POST'])
 def downvote_review(request, review_id):
@@ -420,8 +468,12 @@ def downvote_review(request, review_id):
             review = Review.objects.get(id=review_id)
             review.downvote(user_email)
             review.save()
-            return JsonResponse({'success': True, 'upvotes_count': review.get_upvotes_count(), 'downvotes_count': review.get_downvotes_count(),
-                'has_upvoted': review.has_upvoted(user_email), 'has_downvoted': review.has_downvoted(user_email)})
+            data = {'success': True,
+                    'upvotes_count': review.get_upvotes_count(),
+                    'downvotes_count': review.get_downvotes_count(),
+                    'has_upvoted': review.has_upvoted(user_email),
+                    'has_downvoted': review.has_downvoted(user_email)}
+            return JsonResponse(data)
         except Review.DoesNotExist:
             return JsonResponse({'error': 'Review not found'}, status=404)
 
@@ -447,19 +499,22 @@ def edit_review(request, review_id):
     serializer = ReviewSerializer(review, data=request.data)
     if serializer.is_valid():
         serializer.save()
-        return JsonResponse({'message': 'Review updated successfully.'}, status=status.HTTP_200_OK)
+        return JsonResponse({'message': 'Review updated successfully.'},
+                            status=status.HTTP_200_OK)
     else:
         print(serializer.errors)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
 def has_reviewed(request, to_user_email):
     try:
         current_user_email = request.GET.get('email')
-        current_user_review = Review.objects.filter(from_user=current_user_email, to_user=to_user_email).first()
+        user_review = Review.objects.filter(
+            from_user=current_user_email, to_user=to_user_email).first()
         has_reviewed = False
-        if current_user_review:
+        if user_review:
             has_reviewed = True
         return JsonResponse({'has_reviewed': has_reviewed})
     except Exception as e:

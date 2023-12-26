@@ -4,8 +4,10 @@ import '../styles/editdetails.css';
 import axios from 'axios';
 import API_BASE_URL from './ApiConfig';
 import { useNavigate } from 'react-router-dom';
+import useCheckProfileCompletion from './checkProfileCompletion';
 
 function EditDetails() {
+    useCheckProfileCompletion();
     let loggedInUser = JSON.parse(localStorage.getItem('user'));
     let userEmail = null;
 
@@ -21,17 +23,17 @@ function EditDetails() {
 
     const fetchData = () => {
         axios
-            .get(`${API_BASE_URL}/api/addprofile/?Email=${userEmail}`)
+            .get(`${API_BASE_URL}/api/addprofile/?email=${userEmail}`)
             .then((response) => {
                 const data = response.data;
 
                 setFormData({
-                    Email: data[0].Email,
-                    First_name: data[0].First_name,
-                    Second_name: data[0].Second_name,
-                    DOB: data[0].DOB,
-                    Gender: data[0].Gender,
-                    Pronouns: data[0].Pronouns,
+                    email: data[0].email,
+                    first_name: data[0].first_name,
+                    second_name: data[0].second_name,
+                    dob: data[0].dob,
+                    gender: data[0].gender,
+                    pronouns: data[0].pronouns,
                 });
                 // console.log(data);
             })
@@ -41,12 +43,12 @@ function EditDetails() {
     };
 
     const [formData, setFormData] = useState({
-        Email: userEmail,
-        First_name: '',
-        Second_name: '',
-        DOB: '',
-        Gender: '',
-        Pronouns: '',
+        email: userEmail,
+        first_name: '',
+        second_name: '',
+        dob: '',
+        gender: '',
+        pronouns: '',
     });
 
     useEffect(() => {
@@ -59,11 +61,11 @@ function EditDetails() {
 
     const handleChange = (name, selectedOption) => {
         let updatedValue = "";
-        if (name === 'DOB') {
+        if (name === 'dob') {
             updatedValue = selectedOption
         } else {
             updatedValue =
-                name === 'First_name' || name === 'Second_name' ? capitalizeFirstLetter(selectedOption) : selectedOption.value;
+                name === 'first_name' || name === 'second_name' ? capitalizeFirstLetter(selectedOption) : selectedOption.value;
         };
             // console.log(formData);
             setFormData({ ...formData, [name]: updatedValue });
@@ -86,12 +88,12 @@ function EditDetails() {
             const response = await axios.post(`${API_BASE_URL}/api/addprofile/`, formData);
             console.log('Details added:', response.data);
             setFormData({
-                Email: userEmail,
-                First_name: '',
-                Second_name: '',
-                DOB: '',
-                Gender: '',
-                Pronouns: '',
+                email: userEmail,
+                first_name: '',
+                second_name: '',
+                dob: '',
+                gender: '',
+                pronouns: '',
             });
             navigate('/home');
         } catch (error) {
@@ -142,9 +144,9 @@ function EditDetails() {
                 <div className='editdetails-box'>
                     <div className='preferred-pronouns'>
                         <Select
-                            name='Pronouns'
-                            value={{ label: formData.Pronouns, value: formData.Pronouns }}
-                            onChange={(selectedOption) => handleChange('Pronouns', selectedOption)}
+                            name='pronouns'
+                            value={{ label: formData.pronouns, value: formData.pronouns }}
+                            onChange={(selectedOption) => handleChange('pronouns', selectedOption)}
                             options={[
                                 { value: 'He/Him', label: 'He/Him' },
                                 { value: 'She/Her', label: 'She/Her' },
@@ -156,19 +158,19 @@ function EditDetails() {
                     </div>
 
                     <div className='names'>
-                        <input type='text' placeholder='First Name' name='First_name' value={formData.First_name} onChange={(e) => handleChange('First_name', e.target.value)} autoComplete='off'/>
-                        <input type='text' placeholder='Second Name' name='Second_name' value={formData.Second_name} onChange={(e) => handleChange('Second_name', e.target.value)} autoComplete='off'/>
+                        <input type='text' placeholder='First Name' name='first_name' value={formData.first_name} onChange={(e) => handleChange('first_name', e.target.value)} autoComplete='off'/>
+                        <input type='text' placeholder='Second Name' name='second_name' value={formData.second_name} onChange={(e) => handleChange('second_name', e.target.value)} autoComplete='off'/>
                     </div>
 
                     <div className='dob-gender'>
                         <div className='dob'>
-                        <input type='date' name='DOB' max={maxDateValue} value={formData.DOB} onChange={(e) => handleChange('DOB', e.target.value)} />
+                        <input type='date' name='dob' max={maxDateValue} value={formData.dob} onChange={(e) => handleChange('dob', e.target.value)} />
                         </div>
 
                         <Select
-                            name='Gender'
-                            value={{ label: formData.Gender, value: formData.Gender }}
-                            onChange={(selectedOption) => handleChange('Gender', selectedOption)}
+                            name='gender'
+                            value={{ label: formData.gender, value: formData.gender }}
+                            onChange={(selectedOption) => handleChange('gender', selectedOption)}
                             options={[
                                 { value: 'Male', label: 'Male' },
                                 { value: 'Female', label: 'Female' },
