@@ -57,7 +57,8 @@ function HomePage() {
   }, []);
 
   const calculateAverage = (property) =>
-  reviewModel.reduce((total, model) => total + model[property], 0) / reviewModel.length;
+    reviewModel.reduce((total, model) => total + model[property], 0) /
+    reviewModel.length;
 
   const [isBioAddDivVisible, setIsBioAddDivVisible] = useState(false);
   const [bioInput, setBioInput] = useState(profileModel.Bio);
@@ -92,13 +93,16 @@ function HomePage() {
     }
   };
 
-  const [isAttributeAddDivVisible, setIsAttributeAddDivVisible] = useState(false);
+  const [isAttributeAddDivVisible, setIsAttributeAddDivVisible] =
+    useState(false);
 
   const toggleAddDiv2 = () => {
     setIsAttributeAddDivVisible(!isAttributeAddDivVisible);
   };
 
-  const attributesButtonLabel = isAttributeAddDivVisible ? "Show Less" : "Click here";
+  const attributesButtonLabel = isAttributeAddDivVisible
+    ? "Show Less"
+    : "Click here";
   const [imageinput, setImageInput] = useState(null);
 
   const handleImageChange = async (e) => {
@@ -214,7 +218,10 @@ function HomePage() {
     const sliderValue = calculateAverage(`slider${index}`);
 
     return (
-      <div className={`attr-slider-box ${index===1 && "top-slider"}`} key={index}>
+      <div
+        className={`attr-slider-box ${index === 1 && "top-slider"}`}
+        key={index}
+      >
         <div className="attr-slider-question-div">
           <p className="attr-slider-question">Communication</p>
           <HelpIcon />
@@ -228,7 +235,7 @@ function HomePage() {
         />
         <div className="attr-slider-ends">
           <p style={{ float: "left" }}>Introspective</p>
-          <p style={{ float: "right"}}>Greagrious</p>
+          <p style={{ float: "right" }}>Greagrious</p>
         </div>
       </div>
     );
@@ -419,7 +426,8 @@ function HomePage() {
             </div>
 
             {[1, 2, 3].map((index) => renderSlider(index))}
-            {isAttributeAddDivVisible && [4, 5, 6, 7, 8, 9].map((index) => renderSlider(index))}
+            {isAttributeAddDivVisible &&
+              [4, 5, 6, 7, 8, 9].map((index) => renderSlider(index))}
 
             <button
               onClick={toggleAddDiv2}

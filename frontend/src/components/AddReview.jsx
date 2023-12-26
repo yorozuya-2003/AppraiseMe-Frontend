@@ -154,6 +154,32 @@ function AddReview() {
     }),
   };
 
+  const renderSlider = (sliderNumber) => {
+    return (
+      <div className="slider-div" key={sliderNumber}>
+        <div className="slider-question">
+          <p>Communication</p>
+          <HelpIcon />
+        </div>
+        <input
+          type="range"
+          min="0"
+          max="10"
+          name={`slider${sliderNumber}`}
+          value={formData[`slider${sliderNumber}`]}
+          onChange={(e) =>
+            handleChange(`slider${sliderNumber}`, e.target.value)
+          }
+          className="slider-slider custom-slider"
+        />
+        <div className="slider-ends">
+          <p style={{ float: "left" }}>Introspective</p>
+          <p style={{ float: "right" }}>Gregarious</p>
+        </div>
+      </div>
+    );
+  };
+
   const items = [
     <>
       <div className="review_form">
@@ -279,65 +305,7 @@ function AddReview() {
           </div>
 
           <div className="sliders-box">
-            <div className="slider-div">
-              <div className="slider-question">
-                <p>Communication</p>
-                <HelpIcon />
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                name="slider1"
-                value={formData.slider1}
-                onChange={(e) => handleChange("slider1", e.target.value)}
-                className="slider-slider custom-slider"
-              />
-              <div className="slider-ends">
-                <p style={{ float: "left" }}>Introspective</p>
-                <p style={{ float: "right" }}>Greagrious</p>
-              </div>
-            </div>
-
-            <div className="slider-div">
-              <div className="slider-question">
-                <p>Communication</p>
-                <HelpIcon />
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                name="slider1"
-                value={formData.slider2}
-                onChange={(e) => handleChange("slider2", e.target.value)}
-                className="slider-slider custom-slider"
-              />
-              <div className="slider-ends">
-                <p style={{ float: "left" }}>Introspective</p>
-                <p style={{ float: "right" }}>Greagrious</p>
-              </div>
-            </div>
-
-            <div className="slider-div">
-              <div className="slider-question">
-                <p>Communication</p>
-                <HelpIcon />
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                name="slider1"
-                value={formData.slider3}
-                onChange={(e) => handleChange("slider3", e.target.value)}
-                className="slider-slider custom-slider"
-              />
-              <div className="slider-ends">
-                <p style={{ float: "left" }}>Introspective</p>
-                <p style={{ float: "right" }}>Greagrious</p>
-              </div>
-            </div>
+            {[1, 2, 3].map((sliderNumber) => renderSlider(sliderNumber))}
           </div>
         </div>
         <button type="button" className="continue-btn" onClick={handleContinue}>
@@ -359,65 +327,7 @@ function AddReview() {
           </div>
 
           <div className="sliders-box">
-            <div className="slider-div">
-              <div className="slider-question">
-                <p>Communication</p>
-                <HelpIcon />
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                name="slider1"
-                value={formData.slider4}
-                onChange={(e) => handleChange("slider4", e.target.value)}
-                className="slider-slider custom-slider"
-              />
-              <div className="slider-ends">
-                <p style={{ float: "left" }}>Introspective</p>
-                <p style={{ float: "right" }}>Greagrious</p>
-              </div>
-            </div>
-
-            <div className="slider-div">
-              <div className="slider-question">
-                <p>Communication</p>
-                <HelpIcon />
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                name="slider1"
-                value={formData.slider5}
-                onChange={(e) => handleChange("slider5", e.target.value)}
-                className="slider-slider custom-slider"
-              />
-              <div className="slider-ends">
-                <p style={{ float: "left" }}>Introspective</p>
-                <p style={{ float: "right" }}>Greagrious</p>
-              </div>
-            </div>
-
-            <div className="slider-div">
-              <div className="slider-question">
-                <p>Communication</p>
-                <HelpIcon />
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                name="slider6"
-                value={formData.slider6}
-                onChange={(e) => handleChange("slider6", e.target.value)}
-                className="slider-slider custom-slider"
-              />
-              <div className="slider-ends">
-                <p style={{ float: "left" }}>Introspective</p>
-                <p style={{ float: "right" }}>Greagrious</p>
-              </div>
-            </div>
+            {[4, 5, 6].map((sliderNumber) => renderSlider(sliderNumber))}
           </div>
         </div>
         <button type="button" className="continue-btn" onClick={handleContinue}>
@@ -439,65 +349,7 @@ function AddReview() {
           </div>
 
           <div className="sliders-box">
-            <div className="slider-div">
-              <div className="slider-question">
-                <p>Communication</p>
-                <HelpIcon />
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                name="slider1"
-                value={formData.slider7}
-                onChange={(e) => handleChange("slider7", e.target.value)}
-                className="slider-slider custom-slider"
-              />
-              <div className="slider-ends">
-                <p style={{ float: "left" }}>Introspective</p>
-                <p style={{ float: "right" }}>Greagrious</p>
-              </div>
-            </div>
-
-            <div className="slider-div">
-              <div className="slider-question">
-                <p>Communication</p>
-                <HelpIcon />
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                name="slider1"
-                value={formData.slider8}
-                onChange={(e) => handleChange("slider8", e.target.value)}
-                className="slider-slider custom-slider"
-              />
-              <div className="slider-ends">
-                <p style={{ float: "left" }}>Introspective</p>
-                <p style={{ float: "right" }}>Greagrious</p>
-              </div>
-            </div>
-
-            <div className="slider-div">
-              <div className="slider-question">
-                <p>Communication</p>
-                <HelpIcon />
-              </div>
-              <input
-                type="range"
-                min="0"
-                max="10"
-                name="slider1"
-                value={formData.slider9}
-                onChange={(e) => handleChange("slider9", e.target.value)}
-                className="slider-slider custom-slider"
-              />
-              <div className="slider-ends">
-                <p style={{ float: "left" }}>Introspective</p>
-                <p style={{ float: "right" }}>Greagrious</p>
-              </div>
-            </div>
+            {[7, 8, 9].map((sliderNumber) => renderSlider(sliderNumber))}
           </div>
         </div>
         <button type="button" className="continue-btn" onClick={handleContinue}>
