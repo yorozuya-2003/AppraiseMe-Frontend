@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./components/LandingPage";
 import Onboarding from "./components/Onboarding";
-import SignUp from "./components/Signup";
+import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import Details from "./components/Details";
 import Employment from "./components/Employment";
 import HomePage from "./components/Home";
 import AddExperience from "./components/AddExperience";
-import Editdetails from "./components/Editdetails";
+import Editdetails from "./components/EditDetails";
 import AddReview from "./components/AddReview";
 import MyReviews from "./components/MyReviews";
 import UserProfile from "./components/UserProfile";
