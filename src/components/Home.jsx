@@ -147,7 +147,8 @@ function HomePage() {
 
   const handleCopyURL = () => {
     // const url = window.location.href;
-    const url = `http://localhost:3000/user/${loggedInUser.username}`;
+    // const url = `http://localhost:3000/user/${loggedInUser.username}`;
+    const url = `https://appraise-me.vercel.app/user/${loggedInUser.username}`;
     navigator.clipboard.writeText(url);
     alert("URL copied to clipboard");
   };
